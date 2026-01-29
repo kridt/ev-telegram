@@ -100,6 +100,10 @@ async def dashboard(request: Request):
     win_rate = (len(won_bets) / len(played_bets) * 100) if played_bets else 0
     roi = (total_profit / total_staked * 100) if total_staked > 0 else 0
 
+    # Calculate average odds and edge from played bets
+    avg_odds = sum(b.get("odds", 0) for b in played_bets) / len(played_bets) if played_bets else 0
+    avg_edge = sum(b.get("edge", 0) for b in played_bets) / len(played_bets) if played_bets else 0
+
     # Build active bets table
     active_rows = ""
     for key, bet in sorted(active_bets.items(), key=lambda x: x[1].get("created_at", ""), reverse=True):
@@ -294,6 +298,14 @@ async def dashboard(request: Request):
                 <div class="stat-card">
                     <div class="stat-value">{win_rate:.0f}%</div>
                     <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{avg_odds:.2f}</div>
+                    <div class="stat-label">Avg Odds</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">{avg_edge:.1f}%</div>
+                    <div class="stat-label">Avg Edge</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value {'stat-positive' if total_profit >= 0 else 'stat-negative'}">{total_profit:+.0f}</div>
