@@ -1140,96 +1140,218 @@ async def backtest_page(request: Request):
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+            /* Animated background */
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background: #0f0f0f;
+                background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #0f0f1a, #0a1628);
+                background-size: 400% 400%;
+                animation: gradientBG 15s ease infinite;
                 color: #fff;
                 padding: 20px;
                 max-width: 1400px;
                 margin: 0 auto;
+                min-height: 100vh;
             }}
-            h1 {{ text-align: center; margin-bottom: 10px; }}
+            @keyframes gradientBG {{
+                0% {{ background-position: 0% 50%; }}
+                50% {{ background-position: 100% 50%; }}
+                100% {{ background-position: 0% 50%; }}
+            }}
+
+            h1 {{
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 32px;
+                background: linear-gradient(135deg, #fff 0%, #60a5fa 50%, #4ade80 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: titleGlow 3s ease-in-out infinite;
+            }}
+            @keyframes titleGlow {{
+                0%, 100% {{ filter: brightness(1); }}
+                50% {{ filter: brightness(1.2); }}
+            }}
+
             .subtitle {{ text-align: center; color: #888; margin-bottom: 30px; }}
-            .subtitle a {{ color: #60a5fa; text-decoration: none; }}
+            .subtitle a {{
+                color: #60a5fa;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }}
+            .subtitle a:hover {{
+                color: #93c5fd;
+                text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+            }}
 
             .form-card {{
-                background: #1a1a1a;
-                border-radius: 12px;
-                padding: 25px;
+                background: rgba(26, 26, 26, 0.8);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 30px;
                 margin-bottom: 30px;
+                animation: slideUp 0.5s ease-out;
             }}
+            @keyframes slideUp {{
+                from {{ opacity: 0; transform: translateY(20px); }}
+                to {{ opacity: 1; transform: translateY(0); }}
+            }}
+
             .form-grid {{
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 20px;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
             }}
-            .form-group {{ display: flex; flex-direction: column; gap: 8px; }}
-            .form-group label {{ color: #888; font-size: 13px; text-transform: uppercase; }}
+            .form-group {{
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }}
+            .form-group label {{
+                color: #94a3b8;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
             .form-group input, .form-group select {{
-                background: #252525;
-                border: 1px solid #333;
-                padding: 12px;
-                border-radius: 8px;
+                background: rgba(37, 37, 37, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 14px;
+                border-radius: 10px;
                 color: #fff;
                 font-size: 14px;
+                transition: all 0.3s ease;
             }}
             .form-group input:focus, .form-group select:focus {{
                 border-color: #2563eb;
                 outline: none;
+                box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
             }}
 
             .run-btn {{
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
                 color: #fff;
                 border: none;
-                padding: 15px 40px;
-                border-radius: 8px;
+                padding: 16px 50px;
+                border-radius: 12px;
                 font-size: 16px;
                 font-weight: 600;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
                 margin: 0 auto;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+                position: relative;
+                overflow: hidden;
             }}
-            .run-btn:hover {{ background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); }}
-            .run-btn:disabled {{ opacity: 0.5; cursor: not-allowed; }}
+            .run-btn::before {{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }}
+            .run-btn:hover::before {{ left: 100%; }}
+            .run-btn:hover {{
+                transform: translateY(-2px);
+                box-shadow: 0 6px 25px rgba(37, 99, 235, 0.5);
+            }}
+            .run-btn:disabled {{
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }}
             .run-btn .spinner {{
                 width: 20px;
                 height: 20px;
                 border: 2px solid #fff;
                 border-top-color: transparent;
                 border-radius: 50%;
-                animation: spin 1s linear infinite;
+                animation: spin 0.8s linear infinite;
                 display: none;
             }}
             @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
 
             .results-card {{
-                background: #1a1a1a;
-                border-radius: 12px;
-                padding: 25px;
+                background: rgba(26, 26, 26, 0.8);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                padding: 30px;
                 display: none;
+                animation: fadeIn 0.5s ease-out;
             }}
             .results-card.show {{ display: block; }}
+            @keyframes fadeIn {{
+                from {{ opacity: 0; }}
+                to {{ opacity: 1; }}
+            }}
 
             .stats-grid {{
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
                 gap: 15px;
                 margin-bottom: 25px;
             }}
             .stat {{
-                background: #252525;
+                background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(30, 30, 40, 0.9) 100%);
                 padding: 20px;
-                border-radius: 10px;
+                border-radius: 12px;
                 text-align: center;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                transition: all 0.3s ease;
+                animation: statPop 0.5s ease-out backwards;
             }}
-            .stat-value {{ font-size: 28px; font-weight: bold; }}
-            .stat-value.positive {{ color: #4ade80; }}
-            .stat-value.negative {{ color: #f87171; }}
-            .stat-label {{ color: #888; font-size: 12px; margin-top: 5px; text-transform: uppercase; }}
+            .stat:nth-child(1) {{ animation-delay: 0.1s; }}
+            .stat:nth-child(2) {{ animation-delay: 0.2s; }}
+            .stat:nth-child(3) {{ animation-delay: 0.3s; }}
+            .stat:nth-child(4) {{ animation-delay: 0.4s; }}
+            .stat:nth-child(5) {{ animation-delay: 0.5s; }}
+            .stat:nth-child(6) {{ animation-delay: 0.6s; }}
+            @keyframes statPop {{
+                from {{ opacity: 0; transform: scale(0.8); }}
+                to {{ opacity: 1; transform: scale(1); }}
+            }}
+            .stat:hover {{
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }}
+            .stat-value {{
+                font-size: 32px;
+                font-weight: bold;
+                background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }}
+            .stat-value.positive {{
+                background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-shadow: 0 0 30px rgba(74, 222, 128, 0.3);
+            }}
+            .stat-value.negative {{
+                background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }}
+            .stat-label {{
+                color: #64748b;
+                font-size: 11px;
+                margin-top: 8px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
 
             .bets-table {{
                 width: 100%;
@@ -1237,157 +1359,270 @@ async def backtest_page(request: Request):
                 font-size: 14px;
             }}
             .bets-table th {{
-                background: #252525;
-                padding: 12px;
+                background: rgba(37, 37, 37, 0.8);
+                padding: 14px;
                 text-align: left;
                 font-weight: 500;
-                color: #888;
-                font-size: 12px;
+                color: #64748b;
+                font-size: 11px;
                 text-transform: uppercase;
+                letter-spacing: 1px;
             }}
             .bets-table td {{
-                padding: 12px;
-                border-bottom: 1px solid #252525;
+                padding: 14px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             }}
-            .bets-table tr:hover {{ background: #252525; }}
+            .bets-table tr {{
+                transition: all 0.2s ease;
+                animation: rowSlide 0.3s ease-out backwards;
+            }}
+            @keyframes rowSlide {{
+                from {{ opacity: 0; transform: translateX(-10px); }}
+                to {{ opacity: 1; transform: translateX(0); }}
+            }}
+            .bets-table tbody tr:hover {{
+                background: rgba(37, 99, 235, 0.1);
+                transform: scale(1.01);
+            }}
 
             .badge {{
                 display: inline-block;
-                padding: 4px 10px;
-                border-radius: 4px;
-                font-size: 12px;
-                font-weight: 500;
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }}
-            .badge.win {{ background: #166534; color: #4ade80; }}
-            .badge.loss {{ background: #7f1d1d; color: #f87171; }}
-            .badge.push {{ background: #374151; color: #9ca3af; }}
-            .badge.pending {{ background: #1e3a5f; color: #60a5fa; }}
+            .badge.win {{
+                background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+                color: #4ade80;
+                box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+            }}
+            .badge.loss {{
+                background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+                color: #f87171;
+            }}
+            .badge.push {{
+                background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+                color: #9ca3af;
+            }}
+            .badge.pending {{
+                background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+                color: #60a5fa;
+            }}
 
-            .edge {{ font-weight: 600; color: #4ade80; }}
+            .edge {{
+                font-weight: 600;
+                color: #4ade80;
+                text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+            }}
 
             .progress-bar {{
-                background: #252525;
-                border-radius: 10px;
-                height: 12px;
+                background: rgba(37, 37, 37, 0.8);
+                border-radius: 12px;
+                height: 16px;
                 overflow: hidden;
                 margin-bottom: 15px;
                 position: relative;
+                box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
             }}
             .progress-fill {{
-                background: linear-gradient(90deg, #2563eb, #4ade80, #2563eb);
-                background-size: 200% 100%;
+                background: linear-gradient(90deg, #2563eb, #7c3aed, #4ade80, #2563eb);
+                background-size: 300% 100%;
                 height: 100%;
                 width: 0%;
-                transition: width 0.5s ease-out;
+                transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
                 animation: shimmer 2s linear infinite;
+                box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
             }}
             @keyframes shimmer {{
-                0% {{ background-position: 200% 0; }}
-                100% {{ background-position: -200% 0; }}
+                0% {{ background-position: 300% 0; }}
+                100% {{ background-position: -300% 0; }}
             }}
             .progress-bar .progress-text {{
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: bold;
                 color: #fff;
-                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+                text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+                z-index: 1;
             }}
 
             .status-text {{
                 text-align: center;
-                color: #888;
+                color: #94a3b8;
                 margin-bottom: 20px;
                 min-height: 24px;
+                font-size: 14px;
+                transition: all 0.3s ease;
             }}
 
             .live-stats {{
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
+                gap: 12px;
                 margin-bottom: 20px;
-                padding: 15px;
-                background: #252525;
-                border-radius: 10px;
+                padding: 20px;
+                background: linear-gradient(135deg, rgba(37, 37, 37, 0.9) 0%, rgba(20, 20, 30, 0.9) 100%);
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                animation: fadeIn 0.5s ease-out;
             }}
             .live-stat {{
                 text-align: center;
+                padding: 10px;
+                border-radius: 8px;
+                background: rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+            }}
+            .live-stat:hover {{
+                transform: scale(1.05);
+                background: rgba(37, 99, 235, 0.1);
             }}
             .live-stat-value {{
-                font-size: 20px;
+                font-size: 24px;
                 font-weight: bold;
                 color: #4ade80;
+                animation: countUp 0.3s ease-out;
+            }}
+            @keyframes countUp {{
+                from {{ transform: scale(1.2); opacity: 0.5; }}
+                to {{ transform: scale(1); opacity: 1; }}
             }}
             .live-stat-value.loss {{ color: #f87171; }}
             .live-stat-label {{
-                font-size: 11px;
-                color: #666;
+                font-size: 10px;
+                color: #64748b;
                 text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-top: 4px;
             }}
 
             .fixture-ticker {{
-                background: #1a1a1a;
-                border: 1px solid #333;
-                border-radius: 8px;
-                padding: 10px 15px;
+                background: linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(30, 41, 59, 0.5) 100%);
+                border: 1px solid rgba(96, 165, 250, 0.3);
+                border-radius: 12px;
+                padding: 14px 20px;
                 margin-bottom: 20px;
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
                 overflow: hidden;
+                animation: slideIn 0.3s ease-out;
+            }}
+            @keyframes slideIn {{
+                from {{ opacity: 0; transform: translateX(-20px); }}
+                to {{ opacity: 1; transform: translateX(0); }}
             }}
             .ticker-icon {{
-                font-size: 20px;
-                animation: pulse 1s ease-in-out infinite;
+                font-size: 24px;
+                animation: bounce 1s ease-in-out infinite;
             }}
-            @keyframes pulse {{
-                0%, 100% {{ opacity: 1; }}
-                50% {{ opacity: 0.5; }}
+            @keyframes bounce {{
+                0%, 100% {{ transform: translateY(0); }}
+                50% {{ transform: translateY(-5px); }}
             }}
             .ticker-text {{
                 flex: 1;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                color: #aaa;
+                color: #94a3b8;
+                font-size: 14px;
             }}
-            .ticker-text strong {{ color: #fff; }}
+            .ticker-text strong {{
+                color: #fff;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }}
 
             .warning-box {{
-                background: #422006;
-                border: 1px solid #f97316;
-                border-radius: 8px;
-                padding: 15px;
+                background: linear-gradient(135deg, rgba(66, 32, 6, 0.9) 0%, rgba(55, 28, 8, 0.9) 100%);
+                border: 1px solid rgba(249, 115, 22, 0.5);
+                border-radius: 12px;
+                padding: 18px;
                 margin-bottom: 20px;
                 display: flex;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 14px;
+                animation: pulseGlow 2s ease-in-out infinite;
             }}
-            .warning-box .icon {{ font-size: 20px; }}
-            .warning-box .text {{ color: #fed7aa; font-size: 14px; }}
+            @keyframes pulseGlow {{
+                0%, 100% {{ box-shadow: 0 0 5px rgba(249, 115, 22, 0.3); }}
+                50% {{ box-shadow: 0 0 20px rgba(249, 115, 22, 0.5); }}
+            }}
+            .warning-box .icon {{
+                font-size: 24px;
+                animation: shake 0.5s ease-in-out infinite;
+            }}
+            @keyframes shake {{
+                0%, 100% {{ transform: rotate(0deg); }}
+                25% {{ transform: rotate(-5deg); }}
+                75% {{ transform: rotate(5deg); }}
+            }}
+            .warning-box .text {{ color: #fed7aa; font-size: 14px; line-height: 1.5; }}
             .warning-box .text strong {{ color: #fff; }}
 
             .filter-row {{
                 display: flex;
-                gap: 15px;
+                gap: 12px;
                 margin-bottom: 20px;
                 flex-wrap: wrap;
+                animation: fadeIn 0.5s ease-out;
             }}
             .filter-btn {{
-                background: #252525;
-                border: 1px solid #333;
-                color: #888;
-                padding: 8px 16px;
-                border-radius: 6px;
+                background: rgba(37, 37, 37, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #94a3b8;
+                padding: 10px 20px;
+                border-radius: 8px;
                 cursor: pointer;
                 font-size: 13px;
+                font-weight: 500;
+                transition: all 0.3s ease;
             }}
-            .filter-btn:hover, .filter-btn.active {{
-                background: #2563eb;
-                border-color: #2563eb;
+            .filter-btn:hover {{
+                background: rgba(37, 99, 235, 0.2);
+                border-color: rgba(37, 99, 235, 0.5);
                 color: #fff;
+                transform: translateY(-2px);
+            }}
+            .filter-btn.active {{
+                background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+                border-color: transparent;
+                color: #fff;
+                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            }}
+
+            /* Confetti animation for wins */
+            .confetti {{
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }}
+
+            /* Scrollbar styling */
+            ::-webkit-scrollbar {{
+                width: 8px;
+                height: 8px;
+            }}
+            ::-webkit-scrollbar-track {{
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 4px;
+            }}
+            ::-webkit-scrollbar-thumb {{
+                background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+                border-radius: 4px;
+            }}
+            ::-webkit-scrollbar-thumb:hover {{
+                background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             }}
         </style>
     </head>
