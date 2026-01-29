@@ -376,7 +376,7 @@ async def dashboard(request: Request):
 
 @app.get("/settle", response_class=HTMLResponse)
 async def settle_page(request: Request):
-    """Settlement page for marking bet results."""
+    """Settlement page for marking bet results - grouped by match with auto-settle."""
     bet_history = await fetch_firebase("bet_history") or {}
 
     # Find unsettled bets (played but no result)
@@ -385,52 +385,96 @@ async def settle_page(request: Request):
         if bet.get("user_action") == "played" and not bet.get("result"):
             unsettled.append((key, bet))
 
-    # Sort by kickoff (oldest first - should be settled first)
-    unsettled.sort(key=lambda x: x[1].get("kickoff", ""))
-
-    # Build table rows
-    rows = ""
+    # Group by fixture
+    matches = {}
     for key, bet in unsettled:
-        book_icon = get_book_icon(bet.get("bookmaker", ""))
-        odds = bet.get("odds", 0)
-        stake = bet.get("stake", 10)
-        potential_win = round((odds - 1) * stake, 2)
+        fixture = bet.get("fixture", "Unknown")
+        if fixture not in matches:
+            matches[fixture] = []
+        matches[fixture].append((key, bet))
 
-        # Format kickoff
-        kickoff_str = bet.get("kickoff", "")
-        try:
-            kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
-            kickoff_cet = kickoff + timedelta(hours=1)
-            kickoff_display = kickoff_cet.strftime("%d/%m %H:%M")
-        except:
-            kickoff_display = "TBD"
+    # Sort matches by kickoff
+    sorted_matches = sorted(matches.items(), key=lambda x: x[1][0][1].get("kickoff", ""))
 
-        rows += f"""
-        <tr>
-            <td>{book_icon} {bet.get('bookmaker', 'N/A').upper()}</td>
-            <td>{bet.get('fixture', 'N/A')[:35]}</td>
-            <td><strong>{bet.get('selection', 'N/A')}</strong></td>
-            <td>{odds:.2f}</td>
-            <td>{bet.get('edge', 0):.1f}%</td>
-            <td>{kickoff_display}</td>
-            <td>
-                <button onclick="settle('{key}', 'won', {potential_win})" style="background:#22c55e;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
-                    ✅ Won (+{potential_win})
-                </button>
-                <button onclick="settle('{key}', 'lost', -{stake})" style="background:#ef4444;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
-                    ❌ Lost (-{stake})
-                </button>
-                <button onclick="settle('{key}', 'push', 0)" style="background:#3b82f6;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
-                    ➖ Push
-                </button>
-            </td>
-        </tr>
-        """
+    # Calculate totals
+    total_bets = len(unsettled)
+    total_staked = total_bets * 10
+    avg_edge = sum(bet.get("edge", 0) for _, bet in unsettled) / total_bets if total_bets > 0 else 0
 
-    if not rows:
-        rows = '<tr><td colspan="7" style="text-align:center;color:#666;padding:40px;">No unsettled bets! All caught up.</td></tr>'
+    # Build match cards
+    match_cards = ""
+    for fixture, bets in sorted_matches:
+        match_id = fixture.lower().replace(" ", "_").replace(".", "")[:20]
 
-    html = f"""
+        # Determine what input fields we need based on markets
+        markets = set(bet.get("market", "") for _, bet in bets)
+        needs_shots = any("Shot" in m for m in markets)
+        needs_sot = any("Shots On Target" in m or "SOT" in m.upper() for m in markets)
+        needs_corners = any("Corner" in m for m in markets)
+        needs_goals = any("Handicap" in m for m in markets)
+
+        # Input fields
+        inputs = ""
+        if needs_shots:
+            inputs += f'<div class="input-group"><label>Shots:</label><input type="number" id="{match_id}-shots" placeholder="0"></div>'
+        if needs_sot:
+            inputs += f'<div class="input-group"><label>SOT:</label><input type="number" id="{match_id}-sot" placeholder="0"></div>'
+        if needs_corners:
+            inputs += f'<div class="input-group"><label>Corners:</label><input type="number" id="{match_id}-corners" placeholder="0"></div>'
+        if needs_goals:
+            inputs += f'<div class="input-group"><label>Home:</label><input type="number" id="{match_id}-home" placeholder="0"></div>'
+            inputs += f'<div class="input-group"><label>Away:</label><input type="number" id="{match_id}-away" placeholder="0"></div>'
+
+        # Build bet rows
+        bet_rows = ""
+        for key, bet in bets:
+            book = bet.get("bookmaker", "").lower()
+            book_class = book if book in ["betsson", "leovegas", "unibet", "betano"] else ""
+            odds = bet.get("odds", 0)
+            edge = bet.get("edge", 0)
+            edge_class = "high" if edge >= 10 else "medium" if edge >= 7 else "low"
+            selection = bet.get("selection", "")
+            arrow = "▲" if "over" in selection.lower() else "▼" if "under" in selection.lower() else ""
+            arrow_class = "over" if "over" in selection.lower() else "under" if "under" in selection.lower() else ""
+
+            bet_rows += f'''
+            <tr data-key="{key}" data-odds="{odds}" data-market="{bet.get('market', '')}" data-selection="{selection}">
+                <td>{bet.get('market', 'N/A')}</td>
+                <td><span class="selection"><span class="arrow {arrow_class}">{arrow}</span> {selection}</span></td>
+                <td><span class="bookmaker {book_class}">{book.upper()}</span></td>
+                <td>{odds:.2f}</td>
+                <td><span class="edge {edge_class}">{edge:.1f}%</span></td>
+                <td class="result-buttons">
+                    <button class="result-btn win" onclick="setResult('{key}', 'won', {round((odds-1)*10, 2)})">Win</button>
+                    <button class="result-btn loss" onclick="setResult('{key}', 'lost', -10)">Loss</button>
+                    <button class="result-btn push" onclick="setResult('{key}', 'push', 0)">Push</button>
+                </td>
+            </tr>
+            '''
+
+        match_cards += f'''
+        <div class="match-card" data-match="{match_id}">
+            <div class="match-header">
+                <span class="match-title">⚽ {fixture}</span>
+                <span class="match-count">{len(bets)} bets</span>
+            </div>
+            <div class="input-row">
+                {inputs}
+                <button class="settle-all-btn" onclick="settleMatch('{match_id}')">Settle All</button>
+            </div>
+            <table class="bets-table">
+                <thead>
+                    <tr><th>Market</th><th>Selection</th><th>Book</th><th>Odds</th><th>Edge</th><th>Result</th></tr>
+                </thead>
+                <tbody>{bet_rows}</tbody>
+            </table>
+        </div>
+        '''
+
+    if not match_cards:
+        match_cards = '<div class="empty-state">No unsettled bets! All caught up. 🎉</div>'
+
+    html = f'''
     <!DOCTYPE html>
     <html>
     <head>
@@ -438,55 +482,138 @@ async def settle_page(request: Request):
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+            * {{ margin: 0; padding: 0; box-sizing: border-box; }}
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background: #0f172a;
-                color: #e2e8f0;
+                background: #0f0f0f;
+                color: #fff;
                 padding: 20px;
-                line-height: 1.5;
+                max-width: 1200px;
+                margin: 0 auto;
             }}
-            .container {{ max-width: 1400px; margin: 0 auto; }}
-            h1 {{ color: #f8fafc; margin-bottom: 10px; font-size: 24px; }}
-            .subtitle {{ color: #94a3b8; margin-bottom: 30px; }}
-            a {{ color: #60a5fa; text-decoration: none; }}
-            a:hover {{ text-decoration: underline; }}
+            h1 {{ text-align: center; margin-bottom: 10px; }}
+            .subtitle {{ text-align: center; color: #888; margin-bottom: 30px; }}
+            .subtitle a {{ color: #60a5fa; text-decoration: none; }}
 
-            .stats {{
+            .stats-bar {{
                 display: flex;
-                gap: 20px;
+                justify-content: center;
+                gap: 30px;
                 margin-bottom: 30px;
+                flex-wrap: wrap;
             }}
             .stat {{
-                background: #1e293b;
+                background: #1a1a1a;
                 padding: 15px 25px;
-                border-radius: 8px;
-            }}
-            .stat-num {{ font-size: 24px; font-weight: bold; }}
-            .stat-label {{ color: #94a3b8; font-size: 12px; }}
-
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                background: #1e293b;
                 border-radius: 10px;
+                text-align: center;
+            }}
+            .stat-value {{ font-size: 24px; font-weight: bold; color: #4ade80; }}
+            .stat-value.negative {{ color: #f87171; }}
+            .stat-label {{ font-size: 12px; color: #888; margin-top: 5px; }}
+
+            .match-card {{
+                background: #1a1a1a;
+                border-radius: 12px;
+                margin-bottom: 20px;
                 overflow: hidden;
+            }}
+            .match-header {{
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }}
+            .match-header.settled {{ background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }}
+            .match-title {{ font-size: 18px; font-weight: 600; }}
+            .match-count {{ background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 14px; }}
+
+            .input-row {{
+                background: #252525;
+                padding: 15px 20px;
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                flex-wrap: wrap;
+            }}
+            .input-group {{ display: flex; align-items: center; gap: 10px; }}
+            .input-group label {{ color: #888; font-size: 13px; }}
+            .input-group input {{
+                background: #1a1a1a;
+                border: 1px solid #333;
+                padding: 8px 12px;
+                border-radius: 6px;
+                color: #fff;
+                width: 70px;
                 font-size: 14px;
             }}
-            th {{
-                background: #334155;
-                color: #94a3b8;
-                padding: 12px;
+            .settle-all-btn {{
+                background: #2563eb;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 500;
+                margin-left: auto;
+            }}
+            .settle-all-btn:hover {{ background: #1d4ed8; }}
+
+            .bets-table {{ width: 100%; border-collapse: collapse; }}
+            .bets-table th {{
+                background: #252525;
+                padding: 12px 15px;
                 text-align: left;
                 font-weight: 500;
+                color: #888;
                 font-size: 12px;
                 text-transform: uppercase;
             }}
-            td {{
-                padding: 12px;
-                border-bottom: 1px solid #334155;
+            .bets-table td {{ padding: 12px 15px; border-bottom: 1px solid #252525; }}
+            .bets-table tr:hover {{ background: #252525; }}
+            .bets-table tr.settled {{ opacity: 0.5; }}
+
+            .bookmaker {{
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: 500;
             }}
-            tr:hover {{ background: #334155; }}
+            .bookmaker.betsson {{ background: #3b82f6; }}
+            .bookmaker.leovegas {{ background: #eab308; color: #000; }}
+            .bookmaker.unibet {{ background: #22c55e; }}
+            .bookmaker.betano {{ background: #f97316; }}
+
+            .edge {{ font-weight: 600; }}
+            .edge.high {{ color: #4ade80; }}
+            .edge.medium {{ color: #fbbf24; }}
+            .edge.low {{ color: #888; }}
+
+            .selection {{ display: flex; align-items: center; gap: 8px; }}
+            .arrow {{ font-size: 14px; }}
+            .arrow.over {{ color: #4ade80; }}
+            .arrow.under {{ color: #f87171; }}
+
+            .result-buttons {{ display: flex; gap: 5px; }}
+            .result-btn {{
+                padding: 6px 12px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 500;
+                transition: all 0.2s;
+            }}
+            .result-btn.win {{ background: #166534; color: #4ade80; }}
+            .result-btn.win:hover, .result-btn.win.active {{ background: #22c55e; color: #fff; }}
+            .result-btn.loss {{ background: #7f1d1d; color: #f87171; }}
+            .result-btn.loss:hover, .result-btn.loss.active {{ background: #ef4444; color: #fff; }}
+            .result-btn.push {{ background: #374151; color: #9ca3af; }}
+            .result-btn.push:hover, .result-btn.push.active {{ background: #6b7280; color: #fff; }}
+
+            .empty-state {{ text-align: center; padding: 60px; color: #888; font-size: 18px; }}
 
             .toast {{
                 position: fixed;
@@ -502,41 +629,46 @@ async def settle_page(request: Request):
         </style>
     </head>
     <body>
-        <div class="container">
-            <h1>⚖️ Settle Bets</h1>
-            <p class="subtitle"><a href="/">← Back to Dashboard</a> | {len(unsettled)} bets to settle</p>
+        <h1>⚖️ Settle Bets</h1>
+        <p class="subtitle"><a href="/">← Back to Dashboard</a></p>
 
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-num">{len(unsettled)}</div>
-                    <div class="stat-label">Pending Settlement</div>
-                </div>
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">{total_bets}</div>
+                <div class="stat-label">Total Bets</div>
             </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Book</th>
-                        <th>Match</th>
-                        <th>Pick</th>
-                        <th>Odds</th>
-                        <th>Edge</th>
-                        <th>Kickoff</th>
-                        <th>Result</th>
-                    </tr>
-                </thead>
-                <tbody id="bets-table">
-                    {rows}
-                </tbody>
-            </table>
+            <div class="stat">
+                <div class="stat-value">{avg_edge:.1f}%</div>
+                <div class="stat-label">Avg Edge</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">{total_staked} DKK</div>
+                <div class="stat-label">Total Staked</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="totalProfit">0 DKK</div>
+                <div class="stat-label">P&L</div>
+            </div>
         </div>
+
+        {match_cards}
 
         <div id="toast" class="toast"></div>
 
         <script>
-            async function settle(betKey, result, profit) {{
-                const row = event.target.closest('tr');
+            const STAKE = 10;
+            let totalProfit = 0;
+            const settledBets = new Set();
 
+            async function setResult(betKey, result, profit) {{
+                if (settledBets.has(betKey)) return;
+
+                const row = document.querySelector(`tr[data-key="${{betKey}}"]`);
+                const buttons = row.querySelectorAll('.result-btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+
+                // Update Firebase
                 try {{
                     const response = await fetch('/api/settle', {{
                         method: 'POST',
@@ -545,32 +677,87 @@ async def settle_page(request: Request):
                     }});
 
                     if (response.ok) {{
-                        // Remove row with animation
-                        row.style.background = result === 'won' ? '#22c55e33' : result === 'lost' ? '#ef444433' : '#3b82f633';
-                        setTimeout(() => {{
-                            row.remove();
-                            // Check if table is empty
-                            const tbody = document.getElementById('bets-table');
-                            if (tbody.children.length === 0) {{
-                                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#666;padding:40px;">No unsettled bets! All caught up.</td></tr>';
-                            }}
-                        }}, 300);
-
-                        // Show toast
-                        const toast = document.getElementById('toast');
-                        toast.textContent = `Bet marked as ${{result.toUpperCase()}} (${{profit >= 0 ? '+' : ''}}${{profit}} DKK)`;
-                        toast.style.background = result === 'won' ? '#22c55e' : result === 'lost' ? '#ef4444' : '#3b82f6';
-                        toast.style.display = 'block';
-                        setTimeout(() => toast.style.display = 'none', 3000);
+                        settledBets.add(betKey);
+                        row.classList.add('settled');
+                        totalProfit += profit;
+                        updateProfitDisplay();
+                        showToast(`${{result.toUpperCase()}}: ${{profit >= 0 ? '+' : ''}}${{profit}} DKK`);
                     }}
                 }} catch (e) {{
-                    alert('Error settling bet: ' + e);
+                    alert('Error: ' + e);
                 }}
+            }}
+
+            function updateProfitDisplay() {{
+                const el = document.getElementById('totalProfit');
+                el.textContent = `${{totalProfit >= 0 ? '+' : ''}}${{totalProfit.toFixed(0)}} DKK`;
+                el.className = 'stat-value ' + (totalProfit >= 0 ? '' : 'negative');
+            }}
+
+            function settleMatch(matchId) {{
+                const card = document.querySelector(`[data-match="${{matchId}}"]`);
+                const rows = card.querySelectorAll('tbody tr');
+
+                const shots = parseInt(document.getElementById(`${{matchId}}-shots`)?.value) || 0;
+                const sot = parseInt(document.getElementById(`${{matchId}}-sot`)?.value) || 0;
+                const corners = parseInt(document.getElementById(`${{matchId}}-corners`)?.value) || 0;
+                const homeGoals = parseInt(document.getElementById(`${{matchId}}-home`)?.value) || 0;
+                const awayGoals = parseInt(document.getElementById(`${{matchId}}-away`)?.value) || 0;
+
+                rows.forEach(row => {{
+                    const betKey = row.dataset.key;
+                    if (settledBets.has(betKey)) return;
+
+                    const market = row.dataset.market.toLowerCase();
+                    const selection = row.dataset.selection;
+                    const odds = parseFloat(row.dataset.odds);
+
+                    const lineMatch = selection.match(/[\\d.]+/);
+                    const line = lineMatch ? parseFloat(lineMatch[0]) : 0;
+                    const isOver = selection.toLowerCase().includes('over');
+                    const isUnder = selection.toLowerCase().includes('under');
+
+                    let result = null;
+                    let profit = 0;
+
+                    if (market.includes('shots on target') || market.includes('sot')) {{
+                        if (isOver) result = sot > line ? 'won' : 'lost';
+                        else if (isUnder) result = sot < line ? 'won' : 'lost';
+                    }} else if (market.includes('shot')) {{
+                        if (isOver) result = shots > line ? 'won' : 'lost';
+                        else if (isUnder) result = shots < line ? 'won' : 'lost';
+                    }} else if (market.includes('corner')) {{
+                        if (isOver) result = corners > line ? 'won' : 'lost';
+                        else if (isUnder) result = corners < line ? 'won' : 'lost';
+                    }} else if (market.includes('handicap')) {{
+                        if (selection.includes('+')) {{
+                            const team = selection.includes('Away') || selection.match(/[A-Z][a-z]+.*\\+/);
+                            result = (awayGoals + line) > homeGoals ? 'won' : 'lost';
+                        }} else if (selection.includes('-')) {{
+                            result = (homeGoals - line) > awayGoals ? 'won' : 'lost';
+                        }}
+                    }}
+
+                    if (result) {{
+                        profit = result === 'won' ? (odds - 1) * STAKE : -STAKE;
+                        const btn = row.querySelector(`.result-btn.${{result === 'won' ? 'win' : 'loss'}}`);
+                        if (btn) btn.click();
+                    }}
+                }});
+
+                card.querySelector('.match-header').classList.add('settled');
+            }}
+
+            function showToast(message) {{
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2000);
             }}
         </script>
     </body>
     </html>
-    """
+    '''
     return HTMLResponse(content=html)
 
 
