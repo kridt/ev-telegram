@@ -331,6 +331,7 @@ def find_value(fixture: dict, odds_list: list, now_cet: datetime, cutoff_cet: da
                 all_odds = {b: round(d[0], 2) for b, d in decimals.items()}
                 value_bets.append({
                     "fixture": f"{fixture['home_team_display']} vs {fixture['away_team_display']}",
+                    "fixture_id": fixture.get("id"),  # Store for auto-settle
                     "league": fixture["league"]["name"],
                     "kickoff": fixture["start_date"],
                     "market": parts[0],

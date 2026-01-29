@@ -236,6 +236,7 @@ class BetManager:
         # Prepare bet record
         bet_record = {
             "fixture": bet_data.get("fixture"),
+            "fixture_id": bet_data.get("fixture_id"),  # For auto-settle
             "league": bet_data.get("league"),
             "kickoff": bet_data.get("kickoff"),
             "market": bet_data.get("market"),

@@ -673,6 +673,92 @@ async def settle_page(request: Request):
                 border-color: #2563eb;
                 outline: none;
             }}
+
+            .auto-settle-section {{
+                background: linear-gradient(135deg, #1e3a5f 0%, #1a2744 100%);
+                border: 1px solid #2563eb;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 25px;
+                text-align: center;
+            }}
+            .auto-settle-section h3 {{
+                color: #60a5fa;
+                margin-bottom: 10px;
+                font-size: 16px;
+            }}
+            .auto-settle-section p {{
+                color: #94a3b8;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }}
+            .auto-settle-btn {{
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                color: #fff;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+            }}
+            .auto-settle-btn:hover {{ background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); }}
+            .auto-settle-btn:disabled {{ opacity: 0.5; cursor: not-allowed; }}
+            .auto-settle-btn .spinner {{
+                width: 18px;
+                height: 18px;
+                border: 2px solid #fff;
+                border-top-color: transparent;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                display: none;
+            }}
+            @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+
+            .auto-settle-progress {{
+                display: none;
+                margin-top: 20px;
+                text-align: left;
+            }}
+            .auto-settle-progress.show {{ display: block; }}
+            .auto-settle-progress .progress-bar {{
+                background: #1a1a1a;
+                border-radius: 6px;
+                height: 10px;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }}
+            .auto-settle-progress .progress-fill {{
+                background: linear-gradient(90deg, #2563eb, #4ade80);
+                height: 100%;
+                width: 0%;
+                transition: width 0.3s;
+            }}
+            .auto-settle-progress .status {{
+                font-size: 13px;
+                color: #94a3b8;
+            }}
+            .auto-settle-progress .results-log {{
+                background: #0f0f0f;
+                border-radius: 6px;
+                padding: 10px;
+                max-height: 200px;
+                overflow-y: auto;
+                font-family: monospace;
+                font-size: 12px;
+                margin-top: 10px;
+            }}
+            .auto-settle-progress .log-entry {{
+                padding: 4px 0;
+                border-bottom: 1px solid #222;
+            }}
+            .auto-settle-progress .log-entry.won {{ color: #4ade80; }}
+            .auto-settle-progress .log-entry.lost {{ color: #f87171; }}
+            .auto-settle-progress .log-entry.push {{ color: #60a5fa; }}
+            .auto-settle-progress .log-entry.skip {{ color: #6b7280; }}
         </style>
     </head>
     <body>
@@ -689,12 +775,26 @@ async def settle_page(request: Request):
                 <div class="stat-label">Avg Edge</div>
             </div>
             <div class="stat">
-                <div class="stat-value">{total_staked} DKK</div>
+                <div class="stat-value">{total_staked:.1f} DKK</div>
                 <div class="stat-label">Total Staked</div>
             </div>
             <div class="stat">
                 <div class="stat-value" id="totalProfit">0 DKK</div>
                 <div class="stat-label">P&L</div>
+            </div>
+        </div>
+
+        <div class="auto-settle-section">
+            <h3>🤖 Auto-Settle with Live Scores</h3>
+            <p>Automatically fetch match results from OpticOdds and settle all bets. Only works for bets with fixture_id stored.</p>
+            <button class="auto-settle-btn" onclick="runAutoSettle()">
+                <span class="spinner" id="autoSettleSpinner"></span>
+                <span id="autoSettleBtnText">⚡ Auto-Settle All</span>
+            </button>
+            <div class="auto-settle-progress" id="autoSettleProgress">
+                <div class="progress-bar"><div class="progress-fill" id="autoSettleProgressBar"></div></div>
+                <div class="status" id="autoSettleStatus">Starting...</div>
+                <div class="results-log" id="autoSettleLog"></div>
             </div>
         </div>
 
@@ -833,6 +933,101 @@ async def settle_page(request: Request):
                 toast.textContent = message;
                 toast.style.display = 'block';
                 setTimeout(() => toast.style.display = 'none', 2000);
+            }}
+
+            // Auto-settle functionality
+            let autoSettleEventSource = null;
+
+            function runAutoSettle() {{
+                const btn = document.querySelector('.auto-settle-btn');
+                const spinner = document.getElementById('autoSettleSpinner');
+                const btnText = document.getElementById('autoSettleBtnText');
+                const progressDiv = document.getElementById('autoSettleProgress');
+                const progressBar = document.getElementById('autoSettleProgressBar');
+                const status = document.getElementById('autoSettleStatus');
+                const log = document.getElementById('autoSettleLog');
+
+                // Reset and show UI
+                btn.disabled = true;
+                spinner.style.display = 'block';
+                btnText.textContent = 'Processing...';
+                progressDiv.classList.add('show');
+                progressBar.style.width = '0%';
+                log.innerHTML = '';
+                status.textContent = 'Connecting to OpticOdds...';
+
+                // Close existing connection
+                if (autoSettleEventSource) autoSettleEventSource.close();
+
+                autoSettleEventSource = new EventSource('/api/auto-settle/stream');
+
+                autoSettleEventSource.onmessage = function(event) {{
+                    const data = JSON.parse(event.data);
+
+                    switch(data.type) {{
+                        case 'init':
+                            status.textContent = `Found ${{data.total_bets}} unsettled bets to process...`;
+                            break;
+
+                        case 'progress':
+                            const pct = Math.round((data.current / data.total) * 100);
+                            progressBar.style.width = pct + '%';
+                            status.textContent = `Processing ${{data.current}}/${{data.total}}: ${{data.fixture}} (Settled: ${{data.settled}}, Skipped: ${{data.skipped}})`;
+                            break;
+
+                        case 'settled':
+                            const profitStr = data.profit >= 0 ? '+' + data.profit.toFixed(1) : data.profit.toFixed(1);
+                            log.innerHTML += `<div class="log-entry ${{data.result}}">✓ ${{data.fixture}} | ${{data.selection}} | Actual: ${{data.actual}} | ${{data.result.toUpperCase()}} ${{profitStr}} DKK</div>`;
+                            log.scrollTop = log.scrollHeight;
+
+                            // Update the row in the table if visible
+                            const row = document.querySelector(`tr[data-key="${{data.bet_key}}"]`);
+                            if (row) {{
+                                row.classList.add('settled');
+                                settledBets.add(data.bet_key);
+                                totalProfit += data.profit;
+                                updateProfitDisplay();
+                            }}
+                            break;
+
+                        case 'skip':
+                            log.innerHTML += `<div class="log-entry skip">⊘ Skipped: ${{data.reason}}</div>`;
+                            log.scrollTop = log.scrollHeight;
+                            break;
+
+                        case 'complete':
+                            autoSettleEventSource.close();
+                            progressBar.style.width = '100%';
+                            const summaryProfit = data.total_profit >= 0 ? '+' + data.total_profit.toFixed(1) : data.total_profit.toFixed(1);
+                            status.textContent = `✅ Complete! Settled: ${{data.settled}} | Won: ${{data.won}} | Lost: ${{data.lost}} | Push: ${{data.push}} | P&L: ${{summaryProfit}} DKK`;
+
+                            btn.disabled = false;
+                            spinner.style.display = 'none';
+                            btnText.textContent = '⚡ Auto-Settle All';
+
+                            if (data.settled > 0) {{
+                                showToast(`Auto-settled ${{data.settled}} bets!`);
+                            }}
+                            break;
+
+                        case 'error':
+                            autoSettleEventSource.close();
+                            status.textContent = '❌ Error: ' + data.message;
+                            btn.disabled = false;
+                            spinner.style.display = 'none';
+                            btnText.textContent = '⚡ Auto-Settle All';
+                            break;
+                    }}
+                }};
+
+                autoSettleEventSource.onerror = function(err) {{
+                    console.error('SSE Error:', err);
+                    autoSettleEventSource.close();
+                    status.textContent = '❌ Connection lost. Try again.';
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    btnText.textContent = '⚡ Auto-Settle All';
+                }};
             }}
         </script>
     </body>
@@ -1670,6 +1865,221 @@ async def api_backtest_stream(
 
             # Send complete message
             yield f"data: {json.dumps({'type': 'complete', 'total_bets': len(all_bets), 'wins': wins, 'losses': losses, 'pushes': pushes, 'total_staked': total_staked, 'total_profit': total_profit, 'roi': roi, 'win_rate': win_rate, 'avg_edge': avg_edge, 'avg_odds': avg_odds, 'bets': all_bets, 'fixtures_analyzed': total_fixtures})}\n\n"
+
+        except Exception as e:
+            import traceback
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e), 'trace': traceback.format_exc()})}\n\n"
+        finally:
+            if client:
+                await client.close()
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
+
+
+@app.get("/api/auto-settle/stream")
+async def api_auto_settle_stream():
+    """Auto-settle bets using OpticOdds match results with SSE streaming."""
+    import sys
+    import os
+
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+    async def generate():
+        try:
+            from src.api import OpticOddsClient
+        except ImportError as e:
+            yield f"data: {json.dumps({'type': 'error', 'message': f'Import error: {e}'})}\n\n"
+            return
+
+        api_key = os.environ.get("OPTICODDS_API_KEY", "")
+        if not api_key:
+            yield f"data: {json.dumps({'type': 'error', 'message': 'OPTICODDS_API_KEY not configured'})}\n\n"
+            return
+
+        # Fetch unsettled bets from Firebase
+        bet_history = await fetch_firebase("bet_history") or {}
+
+        unsettled = []
+        for key, bet in bet_history.items():
+            if bet.get("user_action") == "played" and not bet.get("result"):
+                unsettled.append((key, bet))
+
+        if not unsettled:
+            yield f"data: {json.dumps({'type': 'complete', 'message': 'No unsettled bets found', 'settled': 0})}\n\n"
+            return
+
+        yield f"data: {json.dumps({'type': 'init', 'total_bets': len(unsettled)})}\n\n"
+
+        client = None
+        try:
+            client = OpticOddsClient(api_key, timeout=60.0)
+
+            # Risk management stake function
+            def calc_stake(odds):
+                if odds <= 2.00: return 10.0
+                elif odds <= 2.75: return 7.5
+                elif odds <= 4.00: return 5.0
+                elif odds <= 7.00: return 2.5
+                else: return 1.0
+
+            settled_count = 0
+            skipped_count = 0
+            results_summary = {"won": 0, "lost": 0, "push": 0}
+            total_profit = 0
+
+            for i, (bet_key, bet) in enumerate(unsettled):
+                fixture_id = bet.get("fixture_id")
+                fixture_name = bet.get("fixture", "Unknown")
+                market = bet.get("market", "")
+                selection = bet.get("selection", "")
+                odds = bet.get("odds", 2.0)
+                stake = bet.get("stake", calc_stake(odds))
+
+                yield f"data: {json.dumps({'type': 'progress', 'current': i + 1, 'total': len(unsettled), 'fixture': fixture_name, 'settled': settled_count, 'skipped': skipped_count})}\n\n"
+
+                if not fixture_id:
+                    skipped_count += 1
+                    yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': 'No fixture_id stored'})}\n\n"
+                    continue
+
+                try:
+                    # Fetch match results from OpticOdds
+                    response = await client._request('GET', '/fixtures/results', params={
+                        'fixture_id': fixture_id
+                    })
+
+                    if not response or not response.get('data'):
+                        skipped_count += 1
+                        yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': 'No results available yet'})}\n\n"
+                        continue
+
+                    data = response['data'][0]
+                    stats = data.get('stats', {})
+
+                    # Extract home and away stats
+                    home_stats = {}
+                    away_stats = {}
+
+                    for entry in stats.get('home', []):
+                        if entry.get('period') == 'all':
+                            home_stats = entry.get('stats', {})
+                            break
+
+                    for entry in stats.get('away', []):
+                        if entry.get('period') == 'all':
+                            away_stats = entry.get('stats', {})
+                            break
+
+                    # Determine actual stat value based on market
+                    actual_value = None
+                    market_lower = market.lower()
+
+                    if 'shots on target' in market_lower or 'sot' in market_lower:
+                        home = home_stats.get('ontarget_scoring_att', 0) or 0
+                        away = away_stats.get('ontarget_scoring_att', 0) or 0
+                        actual_value = home + away
+
+                    elif 'shot' in market_lower:
+                        home = home_stats.get('total_scoring_att', 0) or 0
+                        away = away_stats.get('total_scoring_att', 0) or 0
+                        actual_value = home + away
+
+                    elif 'corner' in market_lower:
+                        home = home_stats.get('won_corners', 0) or 0
+                        away = away_stats.get('won_corners', 0) or 0
+                        actual_value = home + away
+
+                    elif 'card' in market_lower:
+                        home = home_stats.get('total_yellow_card', 0) or 0
+                        away = away_stats.get('total_yellow_card', 0) or 0
+                        actual_value = home + away
+
+                    elif 'goal' in market_lower or 'handicap' in market_lower:
+                        home = home_stats.get('goals', 0) or 0
+                        away = away_stats.get('goals', 0) or 0
+                        actual_value = home + away
+
+                    if actual_value is None:
+                        skipped_count += 1
+                        yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': f'Unknown market type: {market}'})}\n\n"
+                        continue
+
+                    # Extract line from selection (e.g., "Over 24.5" -> 24.5)
+                    import re
+                    line_match = re.search(r'[\d.]+', selection)
+                    if not line_match:
+                        skipped_count += 1
+                        yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': f'Could not parse line from: {selection}'})}\n\n"
+                        continue
+
+                    line = float(line_match.group())
+                    selection_lower = selection.lower()
+
+                    # Determine result
+                    result = None
+                    profit = 0
+
+                    if 'over' in selection_lower:
+                        if actual_value > line:
+                            result = 'won'
+                            profit = (odds - 1) * stake
+                        elif actual_value < line:
+                            result = 'lost'
+                            profit = -stake
+                        else:
+                            result = 'push'
+                            profit = 0
+
+                    elif 'under' in selection_lower:
+                        if actual_value < line:
+                            result = 'won'
+                            profit = (odds - 1) * stake
+                        elif actual_value > line:
+                            result = 'lost'
+                            profit = -stake
+                        else:
+                            result = 'push'
+                            profit = 0
+
+                    if result is None:
+                        skipped_count += 1
+                        yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': f'Could not determine over/under from: {selection}'})}\n\n"
+                        continue
+
+                    # Update Firebase
+                    profit = round(profit, 2)
+                    update_data = {
+                        "result": result,
+                        "status": result,
+                        "profit": profit,
+                        "actual_value": actual_value,
+                        "settled_at": datetime.now(timezone.utc).isoformat(),
+                        "auto_settled": True
+                    }
+
+                    async with httpx.AsyncClient(timeout=30) as http_client:
+                        r = await http_client.patch(
+                            f"{RTDB_URL}/bet_history/{bet_key}.json",
+                            json=update_data
+                        )
+                        if r.status_code == 200:
+                            settled_count += 1
+                            results_summary[result] += 1
+                            total_profit += profit
+
+                            yield f"data: {json.dumps({'type': 'settled', 'bet_key': bet_key, 'fixture': fixture_name, 'selection': selection, 'line': line, 'actual': actual_value, 'result': result, 'profit': profit})}\n\n"
+                        else:
+                            skipped_count += 1
+                            yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': 'Failed to update Firebase'})}\n\n"
+
+                except Exception as bet_error:
+                    skipped_count += 1
+                    yield f"data: {json.dumps({'type': 'skip', 'bet_key': bet_key, 'reason': str(bet_error)})}\n\n"
+
+                await asyncio.sleep(0.2)  # Rate limiting
+
+            # Send completion
+            yield f"data: {json.dumps({'type': 'complete', 'settled': settled_count, 'skipped': skipped_count, 'won': results_summary['won'], 'lost': results_summary['lost'], 'push': results_summary['push'], 'total_profit': round(total_profit, 2)})}\n\n"
 
         except Exception as e:
             import traceback
