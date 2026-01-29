@@ -26,6 +26,33 @@ BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 if not BOT_TOKEN:
     print("[WARNING] TELEGRAM_BOT_TOKEN not set in bet_manager - some features will fail")
 
+# Base unit size in DKK
+BASE_UNIT = 10.0
+
+def calculate_stake(odds: float, base_unit: float = BASE_UNIT) -> float:
+    """
+    Calculate stake based on odds using Kelly-inspired risk management.
+
+    Odds range → Unit multiplier:
+    - 2.00 and below → 1.00 unit
+    - 2.00 – 2.75 → 0.75 units
+    - 2.75 – 4.00 → 0.50 units
+    - 4.00 – 7.00 → 0.25 units
+    - 7.00 and above → 0.10 units
+    """
+    if odds <= 2.00:
+        multiplier = 1.00
+    elif odds <= 2.75:
+        multiplier = 0.75
+    elif odds <= 4.00:
+        multiplier = 0.50
+    elif odds <= 7.00:
+        multiplier = 0.25
+    else:
+        multiplier = 0.10
+
+    return round(base_unit * multiplier, 2)
+
 
 class RealtimeDB:
     """Realtime Database for active bets."""
@@ -202,6 +229,10 @@ class BetManager:
         """
         now = datetime.now(timezone.utc)
 
+        # Calculate stake based on odds (risk management)
+        odds = round(bet_data.get("odds", 0), 2)
+        stake = calculate_stake(odds)
+
         # Prepare bet record
         bet_record = {
             "fixture": bet_data.get("fixture"),
@@ -210,10 +241,10 @@ class BetManager:
             "market": bet_data.get("market"),
             "selection": bet_data.get("selection"),
             "bookmaker": bet_data.get("book"),
-            "odds": round(bet_data.get("odds", 0), 2),
+            "odds": odds,
             "fair_odds": round(bet_data.get("fair", 0), 3),
             "edge": round(bet_data.get("edge", 0), 2),
-            "stake": 10.0,
+            "stake": stake,
             "status": "pending",
             "created_at": now.isoformat(),
             "chat_id": chat_id,
@@ -471,6 +502,10 @@ class BetManager:
         else:
             arrow = "➡️"
 
+        # Calculate stake for display
+        odds = bet.get('odds', 0)
+        stake = calculate_stake(odds)
+
         return f"""⚠️ <b>EV BET FUNDET</b> ⚠️
 {bar} <b>{edge:.1f}%</b>
 
@@ -481,7 +516,8 @@ class BetManager:
 
 Marked: <b>{bet.get('market', '')}</b>
 Spil: {arrow} <b>{selection}</b>
-Odds: <b>{bet.get('odds', 0):.2f}</b>"""
+Odds: <b>{odds:.2f}</b>
+💰 Indsats: <b>{stake:.2f} DKK</b>"""
 
 
 # Background cleanup task

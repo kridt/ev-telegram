@@ -95,7 +95,14 @@ async def dashboard(request: Request):
     lost_bets = [b for b in bet_history.values() if b.get("result") == "lost"]
 
     total_profit = sum(b.get("profit", 0) or 0 for b in bet_history.values())
-    total_staked = len(played_bets) * 10  # Assuming 10 DKK stake
+    # Calculate total staked from actual stake values (with fallback to calculated stake)
+    def calc_stake(odds):
+        if odds <= 2.00: return 10.0
+        elif odds <= 2.75: return 7.5
+        elif odds <= 4.00: return 5.0
+        elif odds <= 7.00: return 2.5
+        else: return 1.0
+    total_staked = sum(b.get("stake", calc_stake(b.get("odds", 2.0))) for b in played_bets)
 
     win_rate = (len(won_bets) / len(played_bets) * 100) if played_bets else 0
     roi = (total_profit / total_staked * 100) if total_staked > 0 else 0
@@ -408,9 +415,17 @@ async def settle_page(request: Request):
     # Sort matches by kickoff
     sorted_matches = sorted(matches.items(), key=lambda x: x[1][0][1].get("kickoff", ""))
 
+    # Stake calculation based on odds (risk management)
+    def calc_stake(odds):
+        if odds <= 2.00: return 10.0
+        elif odds <= 2.75: return 7.5
+        elif odds <= 4.00: return 5.0
+        elif odds <= 7.00: return 2.5
+        else: return 1.0
+
     # Calculate totals
     total_bets = len(unsettled)
-    total_staked = total_bets * 10
+    total_staked = sum(bet.get("stake", calc_stake(bet.get("odds", 2.0))) for _, bet in unsettled)
     avg_edge = sum(bet.get("edge", 0) for _, bet in unsettled) / total_bets if total_bets > 0 else 0
 
     # Build match cards
@@ -448,18 +463,20 @@ async def settle_page(request: Request):
             selection = bet.get("selection", "")
             arrow = "▲" if "over" in selection.lower() else "▼" if "under" in selection.lower() else ""
             arrow_class = "over" if "over" in selection.lower() else "under" if "under" in selection.lower() else ""
+            stake = bet.get("stake", calc_stake(odds))
 
             bet_rows += f'''
-            <tr data-key="{key}" data-odds="{odds}" data-market="{bet.get('market', '')}" data-selection="{selection}">
+            <tr data-key="{key}" data-odds="{odds}" data-stake="{stake}" data-market="{bet.get('market', '')}" data-selection="{selection}">
                 <td>{bet.get('market', 'N/A')}</td>
                 <td><span class="selection"><span class="arrow {arrow_class}">{arrow}</span> {selection}</span></td>
                 <td><span class="bookmaker {book_class}">{book.upper()}</span></td>
                 <td>{odds:.2f}</td>
                 <td><span class="edge {edge_class}">{edge:.1f}%</span></td>
+                <td><input type="number" class="stake-input" id="stake-{key}" value="{stake}" step="0.5" min="0.5" max="50"></td>
                 <td class="result-buttons">
-                    <button class="result-btn win" onclick="setResult('{key}', 'won', {round((odds-1)*10, 2)})">Win</button>
-                    <button class="result-btn loss" onclick="setResult('{key}', 'lost', -10)">Loss</button>
-                    <button class="result-btn push" onclick="setResult('{key}', 'push', 0)">Push</button>
+                    <button class="result-btn win" onclick="setResultWithStake('{key}', 'won')">Win</button>
+                    <button class="result-btn loss" onclick="setResultWithStake('{key}', 'lost')">Loss</button>
+                    <button class="result-btn push" onclick="setResultWithStake('{key}', 'push')">Push</button>
                 </td>
             </tr>
             '''
@@ -476,7 +493,7 @@ async def settle_page(request: Request):
             </div>
             <table class="bets-table">
                 <thead>
-                    <tr><th>Market</th><th>Selection</th><th>Book</th><th>Odds</th><th>Edge</th><th>Result</th></tr>
+                    <tr><th>Market</th><th>Selection</th><th>Book</th><th>Odds</th><th>Edge</th><th>Stake</th><th>Result</th></tr>
                 </thead>
                 <tbody>{bet_rows}</tbody>
             </table>
@@ -638,6 +655,21 @@ async def settle_page(request: Request):
                 display: none;
                 z-index: 1000;
             }}
+
+            .stake-input {{
+                background: #1a1a1a;
+                border: 1px solid #333;
+                padding: 6px 8px;
+                border-radius: 4px;
+                color: #fff;
+                width: 60px;
+                font-size: 13px;
+                text-align: center;
+            }}
+            .stake-input:focus {{
+                border-color: #2563eb;
+                outline: none;
+            }}
         </style>
     </head>
     <body>
@@ -700,6 +732,32 @@ async def settle_page(request: Request):
                 }}
             }}
 
+            function setResultWithStake(betKey, result) {{
+                // Read stake from input field
+                const stakeInput = document.getElementById(`stake-${{betKey}}`);
+                const stake = parseFloat(stakeInput?.value) || 10;
+
+                // Get odds from row data
+                const row = document.querySelector(`tr[data-key="${{betKey}}"]`);
+                const odds = parseFloat(row.dataset.odds) || 2.0;
+
+                // Calculate profit based on result
+                let profit = 0;
+                if (result === 'won') {{
+                    profit = (odds - 1) * stake;
+                }} else if (result === 'lost') {{
+                    profit = -stake;
+                }} else if (result === 'push') {{
+                    profit = 0;
+                }}
+
+                // Round to 2 decimals
+                profit = Math.round(profit * 100) / 100;
+
+                // Call the main setResult function
+                setResult(betKey, result, profit);
+            }}
+
             function updateProfitDisplay() {{
                 const el = document.getElementById('totalProfit');
                 el.textContent = `${{totalProfit >= 0 ? '+' : ''}}${{totalProfit.toFixed(0)}} DKK`;
@@ -751,9 +809,16 @@ async def settle_page(request: Request):
                     }}
 
                     if (result) {{
-                        profit = result === 'won' ? (odds - 1) * STAKE : -STAKE;
+                        // Get stake from input field
+                        const stakeInput = document.getElementById(`stake-${{betKey}}`);
+                        const stake = parseFloat(stakeInput?.value) || 10;
+                        profit = result === 'won' ? (odds - 1) * stake : -stake;
+                        profit = Math.round(profit * 100) / 100;
+
+                        // Call setResult directly instead of simulating click
+                        setResult(betKey, result, profit);
                         const btn = row.querySelector(`.result-btn.${{result === 'won' ? 'win' : 'loss'}}`);
-                        if (btn) btn.click();
+                        if (btn) btn.classList.add('active');
                     }}
                 }});
 
