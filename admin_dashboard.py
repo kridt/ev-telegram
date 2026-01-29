@@ -276,6 +276,7 @@ async def dashboard(request: Request):
     <body>
         <div class="container">
             <h1>⚽ EV Telegram Bot Dashboard</h1>
+            <p style="margin-bottom:20px;"><a href="/settle" style="color:#60a5fa;text-decoration:none;">⚖️ Settle Bets →</a></p>
 
             <div class="stats-grid">
                 <div class="stat-card">
@@ -371,6 +372,239 @@ async def dashboard(request: Request):
     """
 
     return HTMLResponse(content=html)
+
+
+@app.get("/settle", response_class=HTMLResponse)
+async def settle_page(request: Request):
+    """Settlement page for marking bet results."""
+    bet_history = await fetch_firebase("bet_history") or {}
+
+    # Find unsettled bets (played but no result)
+    unsettled = []
+    for key, bet in bet_history.items():
+        if bet.get("user_action") == "played" and not bet.get("result"):
+            unsettled.append((key, bet))
+
+    # Sort by kickoff (oldest first - should be settled first)
+    unsettled.sort(key=lambda x: x[1].get("kickoff", ""))
+
+    # Build table rows
+    rows = ""
+    for key, bet in unsettled:
+        book_icon = get_book_icon(bet.get("bookmaker", ""))
+        odds = bet.get("odds", 0)
+        stake = bet.get("stake", 10)
+        potential_win = round((odds - 1) * stake, 2)
+
+        # Format kickoff
+        kickoff_str = bet.get("kickoff", "")
+        try:
+            kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
+            kickoff_cet = kickoff + timedelta(hours=1)
+            kickoff_display = kickoff_cet.strftime("%d/%m %H:%M")
+        except:
+            kickoff_display = "TBD"
+
+        rows += f"""
+        <tr>
+            <td>{book_icon} {bet.get('bookmaker', 'N/A').upper()}</td>
+            <td>{bet.get('fixture', 'N/A')[:35]}</td>
+            <td><strong>{bet.get('selection', 'N/A')}</strong></td>
+            <td>{odds:.2f}</td>
+            <td>{bet.get('edge', 0):.1f}%</td>
+            <td>{kickoff_display}</td>
+            <td>
+                <button onclick="settle('{key}', 'won', {potential_win})" style="background:#22c55e;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
+                    ✅ Won (+{potential_win})
+                </button>
+                <button onclick="settle('{key}', 'lost', -{stake})" style="background:#ef4444;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
+                    ❌ Lost (-{stake})
+                </button>
+                <button onclick="settle('{key}', 'push', 0)" style="background:#3b82f6;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin:2px;">
+                    ➖ Push
+                </button>
+            </td>
+        </tr>
+        """
+
+    if not rows:
+        rows = '<tr><td colspan="7" style="text-align:center;color:#666;padding:40px;">No unsettled bets! All caught up.</td></tr>'
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Settle Bets - EV Bot</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: #0f172a;
+                color: #e2e8f0;
+                padding: 20px;
+                line-height: 1.5;
+            }}
+            .container {{ max-width: 1400px; margin: 0 auto; }}
+            h1 {{ color: #f8fafc; margin-bottom: 10px; font-size: 24px; }}
+            .subtitle {{ color: #94a3b8; margin-bottom: 30px; }}
+            a {{ color: #60a5fa; text-decoration: none; }}
+            a:hover {{ text-decoration: underline; }}
+
+            .stats {{
+                display: flex;
+                gap: 20px;
+                margin-bottom: 30px;
+            }}
+            .stat {{
+                background: #1e293b;
+                padding: 15px 25px;
+                border-radius: 8px;
+            }}
+            .stat-num {{ font-size: 24px; font-weight: bold; }}
+            .stat-label {{ color: #94a3b8; font-size: 12px; }}
+
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                background: #1e293b;
+                border-radius: 10px;
+                overflow: hidden;
+                font-size: 14px;
+            }}
+            th {{
+                background: #334155;
+                color: #94a3b8;
+                padding: 12px;
+                text-align: left;
+                font-weight: 500;
+                font-size: 12px;
+                text-transform: uppercase;
+            }}
+            td {{
+                padding: 12px;
+                border-bottom: 1px solid #334155;
+            }}
+            tr:hover {{ background: #334155; }}
+
+            .toast {{
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #22c55e;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                display: none;
+                z-index: 1000;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>⚖️ Settle Bets</h1>
+            <p class="subtitle"><a href="/">← Back to Dashboard</a> | {len(unsettled)} bets to settle</p>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-num">{len(unsettled)}</div>
+                    <div class="stat-label">Pending Settlement</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Match</th>
+                        <th>Pick</th>
+                        <th>Odds</th>
+                        <th>Edge</th>
+                        <th>Kickoff</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="bets-table">
+                    {rows}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="toast" class="toast"></div>
+
+        <script>
+            async function settle(betKey, result, profit) {{
+                const row = event.target.closest('tr');
+
+                try {{
+                    const response = await fetch('/api/settle', {{
+                        method: 'POST',
+                        headers: {{ 'Content-Type': 'application/json' }},
+                        body: JSON.stringify({{ bet_key: betKey, result: result, profit: profit }})
+                    }});
+
+                    if (response.ok) {{
+                        // Remove row with animation
+                        row.style.background = result === 'won' ? '#22c55e33' : result === 'lost' ? '#ef444433' : '#3b82f633';
+                        setTimeout(() => {{
+                            row.remove();
+                            // Check if table is empty
+                            const tbody = document.getElementById('bets-table');
+                            if (tbody.children.length === 0) {{
+                                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#666;padding:40px;">No unsettled bets! All caught up.</td></tr>';
+                            }}
+                        }}, 300);
+
+                        // Show toast
+                        const toast = document.getElementById('toast');
+                        toast.textContent = `Bet marked as ${{result.toUpperCase()}} (${{profit >= 0 ? '+' : ''}}${{profit}} DKK)`;
+                        toast.style.background = result === 'won' ? '#22c55e' : result === 'lost' ? '#ef4444' : '#3b82f6';
+                        toast.style.display = 'block';
+                        setTimeout(() => toast.style.display = 'none', 3000);
+                    }}
+                }} catch (e) {{
+                    alert('Error settling bet: ' + e);
+                }}
+            }}
+        </script>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html)
+
+
+@app.post("/api/settle")
+async def api_settle(request: Request):
+    """API endpoint to settle a bet."""
+    data = await request.json()
+    bet_key = data.get("bet_key")
+    result = data.get("result")  # won, lost, push
+    profit = data.get("profit", 0)
+
+    if not bet_key or not result:
+        return {"error": "Missing bet_key or result"}
+
+    # Update bet in Firebase
+    update_data = {
+        "result": result,
+        "status": result,
+        "profit": profit,
+        "settled_at": datetime.now(timezone.utc).isoformat()
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=30) as client:
+            r = await client.patch(
+                f"{RTDB_URL}/bet_history/{bet_key}.json",
+                json=update_data
+            )
+            if r.status_code == 200:
+                return {"success": True, "bet_key": bet_key, "result": result, "profit": profit}
+    except Exception as e:
+        return {"error": str(e)}
+
+    return {"error": "Failed to update Firebase"}
 
 
 @app.get("/health")
