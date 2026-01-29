@@ -25,5 +25,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
-# Run health server, telegram handler, and scanner
-CMD ["sh", "-c", "python health_server.py & python telegram_handler.py & python auto_scanner.py"]
+# Run dashboard, telegram handler, and scanner
+CMD ["sh", "-c", "uvicorn admin_dashboard:app --host 0.0.0.0 --port ${PORT:-8000} & python telegram_handler.py & python auto_scanner.py"]
