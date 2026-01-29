@@ -911,6 +911,12 @@ async def api_stats():
     }
 
 
+from fastapi.responses import StreamingResponse
+import uuid
+
+# Store for backtest jobs
+backtest_jobs = {}
+
 @app.get("/backtest", response_class=HTMLResponse)
 async def backtest_page(request: Request):
     """Backtesting page to analyze historical EV opportunities."""
@@ -1067,22 +1073,106 @@ async def backtest_page(request: Request):
             .progress-bar {{
                 background: #252525;
                 border-radius: 10px;
-                height: 8px;
+                height: 12px;
                 overflow: hidden;
                 margin-bottom: 15px;
+                position: relative;
             }}
             .progress-fill {{
-                background: linear-gradient(90deg, #2563eb, #4ade80);
+                background: linear-gradient(90deg, #2563eb, #4ade80, #2563eb);
+                background-size: 200% 100%;
                 height: 100%;
                 width: 0%;
-                transition: width 0.3s;
+                transition: width 0.5s ease-out;
+                animation: shimmer 2s linear infinite;
+            }}
+            @keyframes shimmer {{
+                0% {{ background-position: 200% 0; }}
+                100% {{ background-position: -200% 0; }}
+            }}
+            .progress-bar .progress-text {{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 10px;
+                font-weight: bold;
+                color: #fff;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
             }}
 
             .status-text {{
                 text-align: center;
                 color: #888;
                 margin-bottom: 20px;
+                min-height: 24px;
             }}
+
+            .live-stats {{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #252525;
+                border-radius: 10px;
+            }}
+            .live-stat {{
+                text-align: center;
+            }}
+            .live-stat-value {{
+                font-size: 20px;
+                font-weight: bold;
+                color: #4ade80;
+            }}
+            .live-stat-value.loss {{ color: #f87171; }}
+            .live-stat-label {{
+                font-size: 11px;
+                color: #666;
+                text-transform: uppercase;
+            }}
+
+            .fixture-ticker {{
+                background: #1a1a1a;
+                border: 1px solid #333;
+                border-radius: 8px;
+                padding: 10px 15px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                overflow: hidden;
+            }}
+            .ticker-icon {{
+                font-size: 20px;
+                animation: pulse 1s ease-in-out infinite;
+            }}
+            @keyframes pulse {{
+                0%, 100% {{ opacity: 1; }}
+                50% {{ opacity: 0.5; }}
+            }}
+            .ticker-text {{
+                flex: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #aaa;
+            }}
+            .ticker-text strong {{ color: #fff; }}
+
+            .warning-box {{
+                background: #422006;
+                border: 1px solid #f97316;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+            }}
+            .warning-box .icon {{ font-size: 20px; }}
+            .warning-box .text {{ color: #fed7aa; font-size: 14px; }}
+            .warning-box .text strong {{ color: #fff; }}
 
             .filter-row {{
                 display: flex;
@@ -1146,8 +1236,44 @@ async def backtest_page(request: Request):
         </div>
 
         <div class="results-card" id="results">
-            <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-            <p class="status-text" id="status">Initializing...</p>
+            <div class="warning-box" id="warningBox" style="display:none;">
+                <span class="icon">⚠️</span>
+                <div class="text">
+                    <strong>Large backtest running</strong><br>
+                    Processing up to 100 fixtures. This may take 2-5 minutes.
+                    Do not close this tab. Progress is saved as we go.
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+            <p class="status-text" id="status">Ready to run backtest...</p>
+
+            <div class="fixture-ticker" id="ticker" style="display:none;">
+                <span class="ticker-icon">⚽</span>
+                <span class="ticker-text" id="tickerText">Analyzing fixture...</span>
+            </div>
+
+            <div class="live-stats" id="liveStats" style="display:none;">
+                <div class="live-stat">
+                    <div class="live-stat-value" id="liveFixtures">0</div>
+                    <div class="live-stat-label">Fixtures</div>
+                </div>
+                <div class="live-stat">
+                    <div class="live-stat-value" id="liveBets">0</div>
+                    <div class="live-stat-label">Bets Found</div>
+                </div>
+                <div class="live-stat">
+                    <div class="live-stat-value" id="liveWins">0</div>
+                    <div class="live-stat-label">Wins</div>
+                </div>
+                <div class="live-stat">
+                    <div class="live-stat-value loss" id="liveLosses">0</div>
+                    <div class="live-stat-label">Losses</div>
+                </div>
+            </div>
 
             <div class="stats-grid" id="statsGrid" style="display:none;">
                 <div class="stat">
@@ -1202,30 +1328,43 @@ async def backtest_page(request: Request):
         </div>
 
         <script>
-            // Set default dates (last 7 days)
+            // Set default dates (last 30 days for more data)
             const today = new Date();
-            const weekAgo = new Date(today - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(today - 30 * 24 * 60 * 60 * 1000);
             document.getElementById('endDate').value = today.toISOString().split('T')[0];
-            document.getElementById('startDate').value = weekAgo.toISOString().split('T')[0];
+            document.getElementById('startDate').value = monthAgo.toISOString().split('T')[0];
 
             let allBets = [];
+            let eventSource = null;
+
+            function resetUI() {{
+                document.getElementById('warningBox').style.display = 'none';
+                document.getElementById('ticker').style.display = 'none';
+                document.getElementById('liveStats').style.display = 'none';
+                document.getElementById('statsGrid').style.display = 'none';
+                document.getElementById('filterRow').style.display = 'none';
+                document.getElementById('betsTable').style.display = 'none';
+                document.getElementById('progress').style.width = '0%';
+                document.getElementById('progressText').textContent = '0%';
+                document.getElementById('liveFixtures').textContent = '0';
+                document.getElementById('liveBets').textContent = '0';
+                document.getElementById('liveWins').textContent = '0';
+                document.getElementById('liveLosses').textContent = '0';
+                allBets = [];
+            }}
 
             async function runBacktest() {{
                 const btn = document.querySelector('.run-btn');
                 const spinner = btn.querySelector('.spinner');
                 const btnText = btn.querySelector('.btn-text');
                 const results = document.getElementById('results');
-                const progress = document.getElementById('progress');
-                const status = document.getElementById('status');
 
-                // Show loading
+                // Reset and show UI
+                resetUI();
                 btn.disabled = true;
                 spinner.style.display = 'block';
                 btnText.textContent = 'Running...';
                 results.classList.add('show');
-                document.getElementById('statsGrid').style.display = 'none';
-                document.getElementById('filterRow').style.display = 'none';
-                document.getElementById('betsTable').style.display = 'none';
 
                 // Get form values
                 const params = new URLSearchParams({{
@@ -1237,55 +1376,111 @@ async def backtest_page(request: Request):
                     max_odds: document.getElementById('maxOdds').value
                 }});
 
-                try {{
-                    // Start backtest
-                    progress.style.width = '10%';
-                    status.textContent = 'Fetching fixtures...';
+                document.getElementById('status').textContent = 'Connecting to backtest server...';
 
-                    const response = await fetch(`/api/backtest?${{params}}`);
+                // Use SSE for streaming progress
+                if (eventSource) eventSource.close();
 
-                    progress.style.width = '50%';
-                    status.textContent = 'Analyzing odds...';
+                eventSource = new EventSource(`/api/backtest/stream?${{params}}`);
 
-                    const data = await response.json();
+                eventSource.onmessage = function(event) {{
+                    const data = JSON.parse(event.data);
+                    handleBacktestUpdate(data);
+                }};
 
-                    progress.style.width = '100%';
-
-                    if (data.error) {{
-                        status.textContent = '❌ Error: ' + data.error;
-                        return;
-                    }}
-
-                    // Display results
-                    status.textContent = `✅ Found ${{data.total_bets}} value bets`;
-
-                    document.getElementById('totalBets').textContent = data.total_bets;
-                    document.getElementById('winRate').textContent = data.win_rate.toFixed(1) + '%';
-                    document.getElementById('avgEdge').textContent = data.avg_edge.toFixed(1) + '%';
-                    document.getElementById('avgOdds').textContent = data.avg_odds.toFixed(2);
-
-                    const profitEl = document.getElementById('totalProfit');
-                    profitEl.textContent = (data.total_profit >= 0 ? '+' : '') + data.total_profit.toFixed(0) + ' DKK';
-                    profitEl.className = 'stat-value ' + (data.total_profit >= 0 ? 'positive' : 'negative');
-
-                    const roiEl = document.getElementById('roi');
-                    roiEl.textContent = (data.roi >= 0 ? '+' : '') + data.roi.toFixed(1) + '%';
-                    roiEl.className = 'stat-value ' + (data.roi >= 0 ? 'positive' : 'negative');
-
-                    // Store bets for filtering
-                    allBets = data.bets || [];
-                    renderBets(allBets);
-
-                    document.getElementById('statsGrid').style.display = 'grid';
-                    document.getElementById('filterRow').style.display = 'flex';
-                    document.getElementById('betsTable').style.display = 'table';
-
-                }} catch (e) {{
-                    status.textContent = '❌ Error: ' + e.message;
-                }} finally {{
+                eventSource.onerror = function(err) {{
+                    console.error('SSE Error:', err);
+                    eventSource.close();
                     btn.disabled = false;
                     spinner.style.display = 'none';
                     btnText.textContent = '🚀 Run Backtest';
+
+                    const status = document.getElementById('status');
+                    if (!status.textContent.includes('✅')) {{
+                        status.textContent = '❌ Connection lost. Try again.';
+                    }}
+                }};
+            }}
+
+            function handleBacktestUpdate(data) {{
+                const progress = document.getElementById('progress');
+                const progressText = document.getElementById('progressText');
+                const status = document.getElementById('status');
+
+                switch(data.type) {{
+                    case 'init':
+                        // Show warning for large backtests
+                        if (data.total_fixtures > 20) {{
+                            document.getElementById('warningBox').style.display = 'flex';
+                        }}
+                        document.getElementById('ticker').style.display = 'flex';
+                        document.getElementById('liveStats').style.display = 'grid';
+                        status.textContent = `Found ${{data.total_fixtures}} fixtures to analyze...`;
+                        break;
+
+                    case 'progress':
+                        const pct = Math.round((data.current / data.total) * 100);
+                        progress.style.width = pct + '%';
+                        progressText.textContent = pct + '%';
+                        document.getElementById('tickerText').innerHTML = `Analyzing: <strong>${{data.fixture_name}}</strong>`;
+                        document.getElementById('liveFixtures').textContent = data.current;
+                        document.getElementById('liveBets').textContent = data.bets_found;
+                        document.getElementById('liveWins').textContent = data.wins;
+                        document.getElementById('liveLosses').textContent = data.losses;
+                        status.textContent = `Processing fixture ${{data.current}} of ${{data.total}}...`;
+                        break;
+
+                    case 'bet':
+                        // Add bet to list in real-time
+                        allBets.push(data.bet);
+                        break;
+
+                    case 'complete':
+                        eventSource.close();
+                        progress.style.width = '100%';
+                        progressText.textContent = '100%';
+                        document.getElementById('warningBox').style.display = 'none';
+                        document.getElementById('ticker').style.display = 'none';
+
+                        status.textContent = `✅ Complete! Found ${{data.total_bets}} value bets across ${{data.fixtures_analyzed}} fixtures`;
+
+                        // Update final stats
+                        document.getElementById('totalBets').textContent = data.total_bets;
+                        document.getElementById('winRate').textContent = data.win_rate.toFixed(1) + '%';
+                        document.getElementById('avgEdge').textContent = data.avg_edge.toFixed(1) + '%';
+                        document.getElementById('avgOdds').textContent = data.avg_odds.toFixed(2);
+
+                        const profitEl = document.getElementById('totalProfit');
+                        profitEl.textContent = (data.total_profit >= 0 ? '+' : '') + data.total_profit.toFixed(0) + ' DKK';
+                        profitEl.className = 'stat-value ' + (data.total_profit >= 0 ? 'positive' : 'negative');
+
+                        const roiEl = document.getElementById('roi');
+                        roiEl.textContent = (data.roi >= 0 ? '+' : '') + data.roi.toFixed(1) + '%';
+                        roiEl.className = 'stat-value ' + (data.roi >= 0 ? 'positive' : 'negative');
+
+                        allBets = data.bets || allBets;
+                        renderBets(allBets);
+
+                        document.getElementById('liveStats').style.display = 'none';
+                        document.getElementById('statsGrid').style.display = 'grid';
+                        document.getElementById('filterRow').style.display = 'flex';
+                        document.getElementById('betsTable').style.display = 'table';
+
+                        // Reset button
+                        const btn = document.querySelector('.run-btn');
+                        btn.disabled = false;
+                        btn.querySelector('.spinner').style.display = 'none';
+                        btn.querySelector('.btn-text').textContent = '🚀 Run Backtest';
+                        break;
+
+                    case 'error':
+                        eventSource.close();
+                        status.textContent = '❌ Error: ' + data.message;
+                        const errBtn = document.querySelector('.run-btn');
+                        errBtn.disabled = false;
+                        errBtn.querySelector('.spinner').style.display = 'none';
+                        errBtn.querySelector('.btn-text').textContent = '🚀 Run Backtest';
+                        break;
                 }}
             }}
 
@@ -1335,8 +1530,8 @@ async def backtest_page(request: Request):
     return HTMLResponse(content=html)
 
 
-@app.get("/api/backtest")
-async def api_backtest(
+@app.get("/api/backtest/stream")
+async def api_backtest_stream(
     start_date: str,
     end_date: str,
     league: str = "england_-_premier_league",
@@ -1344,121 +1539,143 @@ async def api_backtest(
     min_odds: float = 1.5,
     max_odds: float = 5.0
 ):
-    """Run backtest on historical data."""
+    """Run backtest with SSE streaming for progress updates."""
     import sys
     import os
 
     # Add src to path for imports
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
-    try:
-        from src.api import OpticOddsClient
-        from src.backtesting.backtest import Backtester, BacktestBet
-    except ImportError as e:
-        return {"error": f"Import error: {e}"}
+    async def generate():
+        try:
+            from src.api import OpticOddsClient
+            from src.backtesting.backtest import Backtester
+        except ImportError as e:
+            yield f"data: {json.dumps({'type': 'error', 'message': f'Import error: {e}'})}\n\n"
+            return
 
-    api_key = os.environ.get("OPTICODDS_API_KEY", "")
-    if not api_key:
-        return {"error": "OPTICODDS_API_KEY not configured"}
+        api_key = os.environ.get("OPTICODDS_API_KEY", "")
+        if not api_key:
+            yield f"data: {json.dumps({'type': 'error', 'message': 'OPTICODDS_API_KEY not configured'})}\n\n"
+            return
 
-    try:
-        client = OpticOddsClient(api_key)
-        backtester = Backtester(client)
+        client = None
+        try:
+            client = OpticOddsClient(api_key, timeout=120.0)
 
-        # Fetch completed fixtures in date range
-        response = await client._request('GET', '/fixtures', params={
-            'sport': 'soccer',
-            'league': league,
-            'status': 'completed',
-            'start_date': start_date,
-            'end_date': end_date
-        })
-
-        fixtures = response.get('data', [])
-
-        if not fixtures:
-            await client.close()
-            return {
-                "total_bets": 0,
-                "wins": 0,
-                "losses": 0,
-                "pushes": 0,
-                "total_staked": 0,
-                "total_profit": 0,
-                "roi": 0,
-                "win_rate": 0,
-                "avg_edge": 0,
-                "avg_odds": 0,
-                "bets": [],
-                "message": f"No completed fixtures found for {league} between {start_date} and {end_date}"
-            }
-
-        # Use risk management stake
-        def calc_stake(odds):
-            if odds <= 2.00: return 10.0
-            elif odds <= 2.75: return 7.5
-            elif odds <= 4.00: return 5.0
-            elif odds <= 7.00: return 2.5
-            else: return 1.0
-
-        # Run backtest
-        results = await backtester.run_backtest(
-            fixtures=fixtures[:20],  # Limit to 20 fixtures to avoid timeout
-            min_edge=min_edge,
-            min_odds=min_odds,
-            max_odds=max_odds,
-            stake=10.0  # Base stake, will recalculate per bet
-        )
-
-        await client.close()
-
-        # Recalculate with risk management stakes
-        total_staked = 0
-        total_profit = 0
-        for bet in results.bets:
-            stake = calc_stake(bet.book_odds)
-            if bet.won is True:
-                bet.profit = (bet.book_odds - 1) * stake
-            elif bet.won is False:
-                bet.profit = -stake
-            else:
-                bet.profit = 0
-            total_staked += stake
-            total_profit += bet.profit or 0
-
-        # Convert bets to dict for JSON
-        bets_list = []
-        for bet in results.bets:
-            bets_list.append({
-                "fixture_id": bet.fixture_id,
-                "fixture_name": bet.fixture_name,
-                "market": bet.market,
-                "selection": bet.selection,
-                "line": bet.line,
-                "book_odds": bet.book_odds,
-                "book_name": bet.book_name,
-                "fair_odds": bet.fair_odds,
-                "edge_percent": bet.edge_percent,
-                "actual_result": bet.actual_result,
-                "won": bet.won,
-                "profit": bet.profit
+            # Fetch completed fixtures in date range
+            response = await client._request('GET', '/fixtures', params={
+                'sport': 'soccer',
+                'league': league,
+                'status': 'completed',
+                'start_date': start_date,
+                'end_date': end_date
             })
 
-        return {
-            "total_bets": results.total_bets,
-            "wins": results.wins,
-            "losses": results.losses,
-            "pushes": results.pushes,
-            "total_staked": total_staked,
-            "total_profit": total_profit,
-            "roi": (total_profit / total_staked * 100) if total_staked > 0 else 0,
-            "win_rate": results.win_rate,
-            "avg_edge": results.avg_edge,
-            "avg_odds": results.avg_odds,
-            "bets": bets_list,
-            "fixtures_analyzed": len(fixtures[:20])
-        }
+            fixtures = response.get('data', [])
 
-    except Exception as e:
-        import traceback
-        return {"error": str(e), "trace": traceback.format_exc()}
+            if not fixtures:
+                yield f"data: {json.dumps({'type': 'error', 'message': f'No completed fixtures found for {league} between {start_date} and {end_date}'})}\n\n"
+                return
+
+            # Limit to 100 fixtures max
+            fixtures = fixtures[:100]
+            total_fixtures = len(fixtures)
+
+            # Send init message
+            yield f"data: {json.dumps({'type': 'init', 'total_fixtures': total_fixtures})}\n\n"
+
+            # Risk management stake function
+            def calc_stake(odds):
+                if odds <= 2.00: return 10.0
+                elif odds <= 2.75: return 7.5
+                elif odds <= 4.00: return 5.0
+                elif odds <= 7.00: return 2.5
+                else: return 1.0
+
+            backtester = Backtester(client)
+            all_bets = []
+            wins = 0
+            losses = 0
+            pushes = 0
+            total_staked = 0
+            total_profit = 0
+
+            # Process fixtures one by one
+            for i, fixture in enumerate(fixtures):
+                fixture_id = fixture.get('id')
+                fixture_name = f"{fixture.get('home_team_display', 'Home')} vs {fixture.get('away_team_display', 'Away')}"
+
+                # Send progress update
+                yield f"data: {json.dumps({'type': 'progress', 'current': i + 1, 'total': total_fixtures, 'fixture_name': fixture_name, 'bets_found': len(all_bets), 'wins': wins, 'losses': losses})}\n\n"
+
+                # Process this fixture
+                try:
+                    results = await backtester.run_backtest(
+                        fixtures=[fixture],
+                        min_edge=min_edge,
+                        min_odds=min_odds,
+                        max_odds=max_odds,
+                        stake=10.0
+                    )
+
+                    # Process bets from this fixture
+                    for bet in results.bets:
+                        stake = calc_stake(bet.book_odds)
+                        if bet.won is True:
+                            bet.profit = (bet.book_odds - 1) * stake
+                            wins += 1
+                        elif bet.won is False:
+                            bet.profit = -stake
+                            losses += 1
+                        else:
+                            bet.profit = 0
+                            pushes += 1
+                        total_staked += stake
+                        total_profit += bet.profit or 0
+
+                        bet_dict = {
+                            "fixture_id": bet.fixture_id,
+                            "fixture_name": bet.fixture_name,
+                            "market": bet.market,
+                            "selection": bet.selection,
+                            "line": bet.line,
+                            "book_odds": bet.book_odds,
+                            "book_name": bet.book_name,
+                            "fair_odds": bet.fair_odds,
+                            "edge_percent": bet.edge_percent,
+                            "actual_result": bet.actual_result,
+                            "won": bet.won,
+                            "profit": bet.profit
+                        }
+                        all_bets.append(bet_dict)
+
+                        # Send bet found
+                        yield f"data: {json.dumps({'type': 'bet', 'bet': bet_dict})}\n\n"
+
+                except Exception as fixture_error:
+                    # Log but continue with other fixtures
+                    print(f"[BACKTEST] Error on fixture {fixture_id}: {fixture_error}")
+                    continue
+
+                # Small delay to prevent overwhelming the API
+                await asyncio.sleep(0.1)
+
+            # Calculate final stats
+            settled_bets = [b for b in all_bets if b['won'] is not None]
+            avg_edge = sum(b['edge_percent'] for b in all_bets) / len(all_bets) if all_bets else 0
+            avg_odds = sum(b['book_odds'] for b in all_bets) / len(all_bets) if all_bets else 0
+            win_rate = (wins / len(settled_bets) * 100) if settled_bets else 0
+            roi = (total_profit / total_staked * 100) if total_staked > 0 else 0
+
+            # Send complete message
+            yield f"data: {json.dumps({'type': 'complete', 'total_bets': len(all_bets), 'wins': wins, 'losses': losses, 'pushes': pushes, 'total_staked': total_staked, 'total_profit': total_profit, 'roi': roi, 'win_rate': win_rate, 'avg_edge': avg_edge, 'avg_odds': avg_odds, 'bets': all_bets, 'fixtures_analyzed': total_fixtures})}\n\n"
+
+        except Exception as e:
+            import traceback
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e), 'trace': traceback.format_exc()})}\n\n"
+        finally:
+            if client:
+                await client.close()
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
