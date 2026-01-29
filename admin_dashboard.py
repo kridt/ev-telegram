@@ -287,7 +287,10 @@ async def dashboard(request: Request):
     <body>
         <div class="container">
             <h1>⚽ EV Telegram Bot Dashboard</h1>
-            <p style="margin-bottom:20px;"><a href="/settle" style="color:#60a5fa;text-decoration:none;">⚖️ Settle Bets →</a></p>
+            <p style="margin-bottom:20px;">
+                <a href="/settle" style="color:#60a5fa;text-decoration:none;margin-right:20px;">⚖️ Settle Bets</a>
+                <a href="/backtest" style="color:#60a5fa;text-decoration:none;">📊 Backtest</a>
+            </p>
 
             <div class="stats-grid">
                 <div class="stat-card">
@@ -906,3 +909,556 @@ async def api_stats():
         "total_profit": total_profit,
         "roi": (total_profit / (len(played) * 10) * 100) if played else 0
     }
+
+
+@app.get("/backtest", response_class=HTMLResponse)
+async def backtest_page(request: Request):
+    """Backtesting page to analyze historical EV opportunities."""
+
+    # Get available leagues from OpticOdds
+    leagues = [
+        ("england_-_premier_league", "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League"),
+        ("spain_-_la_liga", "🇪🇸 La Liga"),
+        ("germany_-_bundesliga", "🇩🇪 Bundesliga"),
+        ("italy_-_serie_a", "🇮🇹 Serie A"),
+        ("france_-_ligue_1", "🇫🇷 Ligue 1"),
+        ("uefa_-_champions_league", "🏆 Champions League"),
+        ("uefa_-_europa_league", "🏆 Europa League"),
+    ]
+
+    league_options = "".join([
+        f'<option value="{lid}">{name}</option>' for lid, name in leagues
+    ])
+
+    html = f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Backtest - EV Bot</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: #0f0f0f;
+                color: #fff;
+                padding: 20px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }}
+            h1 {{ text-align: center; margin-bottom: 10px; }}
+            .subtitle {{ text-align: center; color: #888; margin-bottom: 30px; }}
+            .subtitle a {{ color: #60a5fa; text-decoration: none; }}
+
+            .form-card {{
+                background: #1a1a1a;
+                border-radius: 12px;
+                padding: 25px;
+                margin-bottom: 30px;
+            }}
+            .form-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 20px;
+            }}
+            .form-group {{ display: flex; flex-direction: column; gap: 8px; }}
+            .form-group label {{ color: #888; font-size: 13px; text-transform: uppercase; }}
+            .form-group input, .form-group select {{
+                background: #252525;
+                border: 1px solid #333;
+                padding: 12px;
+                border-radius: 8px;
+                color: #fff;
+                font-size: 14px;
+            }}
+            .form-group input:focus, .form-group select:focus {{
+                border-color: #2563eb;
+                outline: none;
+            }}
+
+            .run-btn {{
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                color: #fff;
+                border: none;
+                padding: 15px 40px;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 0 auto;
+            }}
+            .run-btn:hover {{ background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); }}
+            .run-btn:disabled {{ opacity: 0.5; cursor: not-allowed; }}
+            .run-btn .spinner {{
+                width: 20px;
+                height: 20px;
+                border: 2px solid #fff;
+                border-top-color: transparent;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                display: none;
+            }}
+            @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+
+            .results-card {{
+                background: #1a1a1a;
+                border-radius: 12px;
+                padding: 25px;
+                display: none;
+            }}
+            .results-card.show {{ display: block; }}
+
+            .stats-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 15px;
+                margin-bottom: 25px;
+            }}
+            .stat {{
+                background: #252525;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+            }}
+            .stat-value {{ font-size: 28px; font-weight: bold; }}
+            .stat-value.positive {{ color: #4ade80; }}
+            .stat-value.negative {{ color: #f87171; }}
+            .stat-label {{ color: #888; font-size: 12px; margin-top: 5px; text-transform: uppercase; }}
+
+            .bets-table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+            }}
+            .bets-table th {{
+                background: #252525;
+                padding: 12px;
+                text-align: left;
+                font-weight: 500;
+                color: #888;
+                font-size: 12px;
+                text-transform: uppercase;
+            }}
+            .bets-table td {{
+                padding: 12px;
+                border-bottom: 1px solid #252525;
+            }}
+            .bets-table tr:hover {{ background: #252525; }}
+
+            .badge {{
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: 500;
+            }}
+            .badge.win {{ background: #166534; color: #4ade80; }}
+            .badge.loss {{ background: #7f1d1d; color: #f87171; }}
+            .badge.push {{ background: #374151; color: #9ca3af; }}
+            .badge.pending {{ background: #1e3a5f; color: #60a5fa; }}
+
+            .edge {{ font-weight: 600; color: #4ade80; }}
+
+            .progress-bar {{
+                background: #252525;
+                border-radius: 10px;
+                height: 8px;
+                overflow: hidden;
+                margin-bottom: 15px;
+            }}
+            .progress-fill {{
+                background: linear-gradient(90deg, #2563eb, #4ade80);
+                height: 100%;
+                width: 0%;
+                transition: width 0.3s;
+            }}
+
+            .status-text {{
+                text-align: center;
+                color: #888;
+                margin-bottom: 20px;
+            }}
+
+            .filter-row {{
+                display: flex;
+                gap: 15px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }}
+            .filter-btn {{
+                background: #252525;
+                border: 1px solid #333;
+                color: #888;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 13px;
+            }}
+            .filter-btn:hover, .filter-btn.active {{
+                background: #2563eb;
+                border-color: #2563eb;
+                color: #fff;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>📊 Backtest EV Strategy</h1>
+        <p class="subtitle"><a href="/">← Back to Dashboard</a></p>
+
+        <div class="form-card">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" id="startDate" value="">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" id="endDate" value="">
+                </div>
+                <div class="form-group">
+                    <label>League</label>
+                    <select id="league">
+                        {league_options}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Min Edge %</label>
+                    <input type="number" id="minEdge" value="5" min="1" max="50" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>Min Odds</label>
+                    <input type="number" id="minOdds" value="1.50" min="1.01" max="10" step="0.05">
+                </div>
+                <div class="form-group">
+                    <label>Max Odds</label>
+                    <input type="number" id="maxOdds" value="5.00" min="1.5" max="20" step="0.1">
+                </div>
+            </div>
+            <button class="run-btn" onclick="runBacktest()">
+                <span class="spinner"></span>
+                <span class="btn-text">🚀 Run Backtest</span>
+            </button>
+        </div>
+
+        <div class="results-card" id="results">
+            <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+            <p class="status-text" id="status">Initializing...</p>
+
+            <div class="stats-grid" id="statsGrid" style="display:none;">
+                <div class="stat">
+                    <div class="stat-value" id="totalBets">0</div>
+                    <div class="stat-label">Total Bets</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="winRate">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="avgEdge">0%</div>
+                    <div class="stat-label">Avg Edge</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="avgOdds">0</div>
+                    <div class="stat-label">Avg Odds</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="totalProfit">0</div>
+                    <div class="stat-label">Profit (DKK)</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="roi">0%</div>
+                    <div class="stat-label">ROI</div>
+                </div>
+            </div>
+
+            <div class="filter-row" id="filterRow" style="display:none;">
+                <button class="filter-btn active" onclick="filterBets('all')">All</button>
+                <button class="filter-btn" onclick="filterBets('won')">Wins</button>
+                <button class="filter-btn" onclick="filterBets('lost')">Losses</button>
+                <button class="filter-btn" onclick="filterBets('push')">Push</button>
+            </div>
+
+            <table class="bets-table" id="betsTable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Match</th>
+                        <th>Market</th>
+                        <th>Selection</th>
+                        <th>Book</th>
+                        <th>Odds</th>
+                        <th>Edge</th>
+                        <th>Result</th>
+                        <th>Actual</th>
+                        <th>P&L</th>
+                    </tr>
+                </thead>
+                <tbody id="betsBody"></tbody>
+            </table>
+        </div>
+
+        <script>
+            // Set default dates (last 7 days)
+            const today = new Date();
+            const weekAgo = new Date(today - 7 * 24 * 60 * 60 * 1000);
+            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+            document.getElementById('startDate').value = weekAgo.toISOString().split('T')[0];
+
+            let allBets = [];
+
+            async function runBacktest() {{
+                const btn = document.querySelector('.run-btn');
+                const spinner = btn.querySelector('.spinner');
+                const btnText = btn.querySelector('.btn-text');
+                const results = document.getElementById('results');
+                const progress = document.getElementById('progress');
+                const status = document.getElementById('status');
+
+                // Show loading
+                btn.disabled = true;
+                spinner.style.display = 'block';
+                btnText.textContent = 'Running...';
+                results.classList.add('show');
+                document.getElementById('statsGrid').style.display = 'none';
+                document.getElementById('filterRow').style.display = 'none';
+                document.getElementById('betsTable').style.display = 'none';
+
+                // Get form values
+                const params = new URLSearchParams({{
+                    start_date: document.getElementById('startDate').value,
+                    end_date: document.getElementById('endDate').value,
+                    league: document.getElementById('league').value,
+                    min_edge: document.getElementById('minEdge').value,
+                    min_odds: document.getElementById('minOdds').value,
+                    max_odds: document.getElementById('maxOdds').value
+                }});
+
+                try {{
+                    // Start backtest
+                    progress.style.width = '10%';
+                    status.textContent = 'Fetching fixtures...';
+
+                    const response = await fetch(`/api/backtest?${{params}}`);
+
+                    progress.style.width = '50%';
+                    status.textContent = 'Analyzing odds...';
+
+                    const data = await response.json();
+
+                    progress.style.width = '100%';
+
+                    if (data.error) {{
+                        status.textContent = '❌ Error: ' + data.error;
+                        return;
+                    }}
+
+                    // Display results
+                    status.textContent = `✅ Found ${{data.total_bets}} value bets`;
+
+                    document.getElementById('totalBets').textContent = data.total_bets;
+                    document.getElementById('winRate').textContent = data.win_rate.toFixed(1) + '%';
+                    document.getElementById('avgEdge').textContent = data.avg_edge.toFixed(1) + '%';
+                    document.getElementById('avgOdds').textContent = data.avg_odds.toFixed(2);
+
+                    const profitEl = document.getElementById('totalProfit');
+                    profitEl.textContent = (data.total_profit >= 0 ? '+' : '') + data.total_profit.toFixed(0) + ' DKK';
+                    profitEl.className = 'stat-value ' + (data.total_profit >= 0 ? 'positive' : 'negative');
+
+                    const roiEl = document.getElementById('roi');
+                    roiEl.textContent = (data.roi >= 0 ? '+' : '') + data.roi.toFixed(1) + '%';
+                    roiEl.className = 'stat-value ' + (data.roi >= 0 ? 'positive' : 'negative');
+
+                    // Store bets for filtering
+                    allBets = data.bets || [];
+                    renderBets(allBets);
+
+                    document.getElementById('statsGrid').style.display = 'grid';
+                    document.getElementById('filterRow').style.display = 'flex';
+                    document.getElementById('betsTable').style.display = 'table';
+
+                }} catch (e) {{
+                    status.textContent = '❌ Error: ' + e.message;
+                }} finally {{
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    btnText.textContent = '🚀 Run Backtest';
+                }}
+            }}
+
+            function renderBets(bets) {{
+                const tbody = document.getElementById('betsBody');
+                tbody.innerHTML = '';
+
+                bets.forEach(bet => {{
+                    const resultClass = bet.won === true ? 'win' : bet.won === false ? 'loss' : 'push';
+                    const resultText = bet.won === true ? 'WIN' : bet.won === false ? 'LOSS' : 'PUSH';
+                    const profitText = bet.profit !== null ? (bet.profit >= 0 ? '+' : '') + bet.profit.toFixed(1) : '-';
+                    const profitColor = bet.profit > 0 ? '#4ade80' : bet.profit < 0 ? '#f87171' : '#888';
+
+                    tbody.innerHTML += `
+                        <tr data-result="${{resultClass}}">
+                            <td>${{bet.fixture_name || 'N/A'}}</td>
+                            <td>${{bet.market || 'N/A'}}</td>
+                            <td>${{bet.selection || 'N/A'}}</td>
+                            <td>${{bet.book_name || 'N/A'}}</td>
+                            <td>${{bet.book_odds?.toFixed(2) || 'N/A'}}</td>
+                            <td class="edge">${{bet.edge_percent?.toFixed(1) || 0}}%</td>
+                            <td><span class="badge ${{resultClass}}">${{resultText}}</span></td>
+                            <td>${{bet.actual_result !== null ? bet.actual_result : '-'}}</td>
+                            <td style="color:${{profitColor}};font-weight:bold;">${{profitText}}</td>
+                        </tr>
+                    `;
+                }});
+            }}
+
+            function filterBets(filter) {{
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+
+                // Filter bets
+                let filtered = allBets;
+                if (filter === 'won') filtered = allBets.filter(b => b.won === true);
+                else if (filter === 'lost') filtered = allBets.filter(b => b.won === false);
+                else if (filter === 'push') filtered = allBets.filter(b => b.won === null && b.profit === 0);
+
+                renderBets(filtered);
+            }}
+        </script>
+    </body>
+    </html>
+    '''
+    return HTMLResponse(content=html)
+
+
+@app.get("/api/backtest")
+async def api_backtest(
+    start_date: str,
+    end_date: str,
+    league: str = "england_-_premier_league",
+    min_edge: float = 5.0,
+    min_odds: float = 1.5,
+    max_odds: float = 5.0
+):
+    """Run backtest on historical data."""
+    import sys
+    import os
+
+    # Add src to path for imports
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+    try:
+        from src.api import OpticOddsClient
+        from src.backtesting.backtest import Backtester, BacktestBet
+    except ImportError as e:
+        return {"error": f"Import error: {e}"}
+
+    api_key = os.environ.get("OPTICODDS_API_KEY", "")
+    if not api_key:
+        return {"error": "OPTICODDS_API_KEY not configured"}
+
+    try:
+        client = OpticOddsClient(api_key)
+        backtester = Backtester(client)
+
+        # Fetch completed fixtures in date range
+        response = await client._request('GET', '/fixtures', params={
+            'sport': 'soccer',
+            'league': league,
+            'status': 'completed',
+            'start_date': start_date,
+            'end_date': end_date
+        })
+
+        fixtures = response.get('data', [])
+
+        if not fixtures:
+            await client.close()
+            return {
+                "total_bets": 0,
+                "wins": 0,
+                "losses": 0,
+                "pushes": 0,
+                "total_staked": 0,
+                "total_profit": 0,
+                "roi": 0,
+                "win_rate": 0,
+                "avg_edge": 0,
+                "avg_odds": 0,
+                "bets": [],
+                "message": f"No completed fixtures found for {league} between {start_date} and {end_date}"
+            }
+
+        # Use risk management stake
+        def calc_stake(odds):
+            if odds <= 2.00: return 10.0
+            elif odds <= 2.75: return 7.5
+            elif odds <= 4.00: return 5.0
+            elif odds <= 7.00: return 2.5
+            else: return 1.0
+
+        # Run backtest
+        results = await backtester.run_backtest(
+            fixtures=fixtures[:20],  # Limit to 20 fixtures to avoid timeout
+            min_edge=min_edge,
+            min_odds=min_odds,
+            max_odds=max_odds,
+            stake=10.0  # Base stake, will recalculate per bet
+        )
+
+        await client.close()
+
+        # Recalculate with risk management stakes
+        total_staked = 0
+        total_profit = 0
+        for bet in results.bets:
+            stake = calc_stake(bet.book_odds)
+            if bet.won is True:
+                bet.profit = (bet.book_odds - 1) * stake
+            elif bet.won is False:
+                bet.profit = -stake
+            else:
+                bet.profit = 0
+            total_staked += stake
+            total_profit += bet.profit or 0
+
+        # Convert bets to dict for JSON
+        bets_list = []
+        for bet in results.bets:
+            bets_list.append({
+                "fixture_id": bet.fixture_id,
+                "fixture_name": bet.fixture_name,
+                "market": bet.market,
+                "selection": bet.selection,
+                "line": bet.line,
+                "book_odds": bet.book_odds,
+                "book_name": bet.book_name,
+                "fair_odds": bet.fair_odds,
+                "edge_percent": bet.edge_percent,
+                "actual_result": bet.actual_result,
+                "won": bet.won,
+                "profit": bet.profit
+            })
+
+        return {
+            "total_bets": results.total_bets,
+            "wins": results.wins,
+            "losses": results.losses,
+            "pushes": results.pushes,
+            "total_staked": total_staked,
+            "total_profit": total_profit,
+            "roi": (total_profit / total_staked * 100) if total_staked > 0 else 0,
+            "win_rate": results.win_rate,
+            "avg_edge": results.avg_edge,
+            "avg_odds": results.avg_odds,
+            "bets": bets_list,
+            "fixtures_analyzed": len(fixtures[:20])
+        }
+
+    except Exception as e:
+        import traceback
+        return {"error": str(e), "trace": traceback.format_exc()}
