@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Config with secrets (use settings.example.json as template)
+config/settings.json
+
+# Data files (contain bet history)
+bet_history.json
+bet_responses.json
+sent_alerts.json
+pending_queue.json
+value_bets.json
+
+# Generated pages
+settle_pages/
+settle_bets.html
+
+# Logs
+*.log
+logs/
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db

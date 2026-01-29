@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "bets": {
+      ".read": true,
+      ".write": true
+    },
+    "user_actions": {
+      ".read": true,
+      ".write": true
+    },
+    "settings": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

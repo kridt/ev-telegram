@@ -1,0 +1,108 @@
+
+============================================================
+Processing spain_-_la_liga
+============================================================
+Found 9 completed fixtures
+  [1/9] Levante UD vs Elche CF... 0 bets (0W/0L)
+  [2/9] Rayo Vallecano vs CA Osasuna... 0 bets (0W/0L)
+  [3/9] Valencia CF vs Reial Club Deportiu Espanyol... 0 bets (0W/0L)
+  [4/9] Sevilla FC vs Athletic Club Bilbao... 0 bets (0W/0L)
+  [5/9] Villarreal CF vs Real Madrid CF... 2 bets (1W/1L)
+  [6/9] Club Atlético de Madrid vs Real Club Deportivo Mal... 1 bets (1W/0L)
+  [7/9] FC Barcelona vs Real Oviedo... 0 bets (0W/0L)
+  [8/9] Real Sociedad de Fútbol vs Real Club Celta de Vigo... 1 bets (0W/1L)
+  [9/9] Deportivo Alavés vs Real Betis Balompié... 0 bets (0W/0L)
+
+============================================================
+Processing germany_-_bundesliga
+============================================================
+Found 9 completed fixtures
+  [1/9] FC St. Pauli vs Hamburger SV... 1 bets (0W/1L)
+  [2/9] FC Bayern München vs FC Augsburg... 0 bets (0W/0L)
+  [3/9] Eintracht Frankfurt vs TSG 1899 Hoffenheim... 0 bets (0W/0L)
+  [4/9] Bayer 04 Leverkusen vs SV Werder Bremen... 0 bets (0W/0L)
+  [5/9] 1. FC Heidenheim 1846 vs RasenBallsport Leipzig... 0 bets (0W/0L)
+  [6/9] 1. FSV Mainz 05 vs VfL Wolfsburg... 0 bets (0W/0L)
+  [7/9] 1. FC Union Berlin vs BV Borussia 09 Dortmund... 0 bets (0W/0L)
+  [8/9] Borussia VfL Mönchengladbach vs VfB Stuttgart 1893... 1 bets (1W/0L)
+  [9/9] SC Freiburg vs 1. FC Köln... 0 bets (0W/0L)
+
+============================================================
+Processing italy_-_serie_a
+============================================================
+Found 9 completed fixtures
+  [1/9] FC Internazionale Milano vs Pisa Sporting Club... 4 bets (4W/0L)
+  [2/9] Calcio Como 1907 vs Torino FC... 0 bets (0W/0L)
+  [3/9] ACF Fiorentina vs Cagliari Calcio... 0 bets (0W/0L)
+  [4/9] US Lecce vs SS Lazio... 0 bets (0W/0L)
+  [5/9] US Sassuolo Calcio vs US Cremonese... 1 bets (0W/1L)
+  [6/9] Atalanta Bergamasca Calcio vs Parma Calcio 1913... 1 bets (1W/0L)
+  [7/9] Genoa CFC vs Bologna FC 1909... 0 bets (0W/0L)
+  [8/9] Juventus FC vs SSC Napoli... 0 bets (0W/0L)
+  [9/9] AS Roma vs AC Milan... 5 bets (0W/5L)
+
+============================================================
+Processing france_-_ligue_1
+============================================================
+Found 9 completed fixtures
+  [1/9] Association Jeunesse Auxerroise vs Paris Saint-Ger... 0 bets (0W/0L)
+  [2/9] Stade Rennais FC vs FC Lorient... 0 bets (0W/0L)
+  [3/9] Le Havre AC vs AS Monaco FC... 8 bets (2W/6L)
+  [4/9] Olympique de Marseille vs Racing Club de Lens... 3 bets (1W/2L)
+  [5/9] FC Nantes vs OGC Nice Côte d'Azur... 0 bets (0W/0L)
+  [6/9] FC Metz vs Olympique Lyonnais... 1 bets (1W/0L)
+  [7/9] Stade Brestois 29 vs Toulouse FC... 3 bets (2W/1L)
+  [8/9] Paris FC vs Angers Sporting Club de l'Ouest... 1 bets (0W/1L)
+  [9/9] Lille OSC vs RC Strasbourg Alsace... 0 bets (0W/0L)
+
+======================================================================
+BACKTEST RESULTS
+======================================================================
+
+Total Bets: 33
+Settled: 33
+Wins: 14 | Losses: 19 | Pushes: 0
+Win Rate: 42.4%
+Avg Edge: 8.8%
+Avg Odds: 2.98
+
+Total Staked: $330.00
+Total Profit: $59.35
+ROI: 18.0%
+
+======================================================================
+ALL BETS
+======================================================================
+[WIN ]   7.4% | 4.20 @ Betway     | Over 11.5       | Total Shots On Target     | Actual: 17.0 | +$32.00
+[WIN ]   6.3% | 3.80 @ Betway     | Over 29.5       | Total Shots               | Actual: 36.0 | +$28.00
+[WIN ]   8.1% | 3.23 @ Betsson    | Over 27.5       | Total Shots               | Actual: 28.0 | +$22.30
+[WIN ]   7.8% | 3.10 @ Betway     | Over 10.5       | Total Shots On Target     | Actual: 17.0 | +$21.00
+[WIN ]  10.7% | 3.02 @ Betsson    | Under 24.5      | Total Shots               | Actual: 17.0 | +$20.20
+[WIN ]  13.6% | 3.02 @ Betsson    | Under 21.5      | Total Shots               | Actual: 21.0 | +$20.20
+[WIN ]   8.6% | 2.99 @ Betsson    | Over 29.5       | Total Shots               | Actual: 42.0 | +$19.90
+[WIN ]  14.1% | 2.95 @ Unibet     | Over 8.5        | Total Shots On Target     | Actual: 10.0 | +$19.50
+[WIN ]   5.7% | 2.87 @ Betsson    | Under 24.5      | Total Shots               | Actual: 17.0 | +$18.70
+[WIN ]   5.9% | 2.30 @ Betway     | Over 9.5        | Total Shots On Target     | Actual: 17.0 | +$13.00
+[WIN ]   6.9% | 2.00 @ Betsson    | Over 9.0        | Total Corners             | Actual: 11.0 | +$10.00
+[WIN ]  10.5% | 1.94 @ Betsson    | Under 10.0      | Total Corners             | Actual: 5.0 | +$9.43
+[WIN ]   6.3% | 1.84 @ Betsson    | Under 31.5      | Total Shots               | Actual: 22.0 | +$8.40
+[WIN ]   7.8% | 1.67 @ Betsson    | Over 9.0        | Total Corners             | Actual: 13.0 | +$6.71
+[LOSS]  14.1% | 2.70 @ Betway     | Over 31.5       | Total Shots               | Actual: 22.0 | -$10.00
+[LOSS]   6.4% | 4.00 @ Betway     | Over 28.5       | Total Shots               | Actual: 27.0 | -$10.00
+[LOSS]   6.7% | 3.45 @ Betsson    | Over 10.5       | Total Corners             | Actual: 9.0 | -$10.00
+[LOSS]   9.0% | 3.38 @ Betsson    | Under 21.5      | Total Shots               | Actual: 23.0 | -$10.00
+[LOSS]   8.5% | 2.85 @ Unibet     | Under 8.5       | Total Shots On Target     | Actual: 9.0 | -$10.00
+[LOSS]  13.3% | 4.30 @ Unibet     | Under 7.5       | Total Shots On Target     | Actual: 9.0 | -$10.00
+[LOSS]  11.1% | 2.87 @ Betsson    | Over 10.5       | Total Shots On Target     | Actual: 9.0 | -$10.00
+[LOSS]  11.7% | 3.40 @ Betway     | Over 11.5       | Total Shots On Target     | Actual: 9.0 | -$10.00
+[LOSS]   9.8% | 4.50 @ Betway     | Over 12.5       | Total Shots On Target     | Actual: 9.0 | -$10.00
+[LOSS]   5.3% | 2.18 @ Unibet     | Over 26.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]   5.3% | 1.67 @ Unibet     | Over 24.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]  12.1% | 2.55 @ Unibet     | Over 27.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]   9.0% | 3.02 @ Betsson    | Over 28.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]   5.9% | 3.02 @ Betsson    | Over 29.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]   5.3% | 3.29 @ Betsson    | Over 30.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]  12.2% | 2.50 @ Unibet     | Over 27.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]  11.5% | 2.87 @ Betsson    | Over 28.5       | Total Shots               | Actual: 17.0 | -$10.00
+[LOSS]   8.0% | 2.40 @ Unibet     | Over 24.5       | Total Shots               | Actual: 21.0 | -$10.00
+[LOSS]   6.2% | 4.50 @ Betway     | Over 10.5       | Total Shots On Target     | Actual: 2.0 | -$10.00

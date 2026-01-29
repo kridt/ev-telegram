@@ -1,0 +1,52 @@
+{
+  "markets": {
+    "Total Shots": {
+      "default": "Antal skud",
+      "betsson": "Skud",
+      "leovegas": "Antal skud",
+      "unibet": "Antal afslutninger",
+      "betano": "Antal skud"
+    },
+    "Total Shots On Target": {
+      "default": "Skud på mål",
+      "betsson": "Skud indenfor målrammen",
+      "leovegas": "Antal skud på mål",
+      "unibet": "Skud indenfor målrammen",
+      "betano": "Skud på mål"
+    },
+    "Total Corners": {
+      "default": "Hjørnespark",
+      "betsson": "Antal Hjørnespark",
+      "leovegas": "Antal Hjørnespark",
+      "unibet": "Antal Hjørnespark",
+      "betano": "Hjørnespark"
+    },
+    "Asian Handicap": {
+      "default": "Asiatisk Handicap",
+      "betsson": "Asiatisk Handicap",
+      "leovegas": "Asiatisk Handicap",
+      "unibet": "Asiatisk Handicap",
+      "betano": "Asiatisk Handicap"
+    },
+    "Asian Handicap Corners": {
+      "default": "Asiatisk Handicap Hjørnespark",
+      "betsson": "Asiatisk Handicap Hjørnespark",
+      "leovegas": "Asiatisk Handicap Hjørnespark",
+      "unibet": "Asiatisk Handicap Hjørnespark",
+      "betano": "Asiatisk Handicap Hjørnespark"
+    }
+  },
+  "selections": {
+    "Over": "Over",
+    "Under": "Under"
+  },
+  "ui": {
+    "value_alert": "EV bet fundet",
+    "market": "Marked",
+    "pick": "Spil",
+    "odds": "Odds",
+    "kickoff": "Kampstart",
+    "placed": "Spillet",
+    "skipped": "Droppet"
+  }
+}

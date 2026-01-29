@@ -1,0 +1,39 @@
+{
+  "opticodds_api_key": "",
+  "telegram": {
+    "bot_token": "",
+    "chat_id": ""
+  },
+  "sportsbooks": [
+    "betsson",
+    "leovegas",
+    "unibet",
+    "betano"
+  ],
+  "leagues": [
+    "england_-_premier_league",
+    "spain_-_la_liga",
+    "germany_-_bundesliga",
+    "italy_-_serie_a",
+    "france_-_ligue_1",
+    "netherlands_-_eredivisie",
+    "portugal_-_primeira_liga",
+    "uefa_-_champions_league",
+    "uefa_-_europa_league",
+    "usa_-_mls"
+  ],
+  "target_markets": [
+    "Total Shots",
+    "Total Shots On Target",
+    "Total Corners",
+    "Asian Handicap",
+    "Asian Handicap Corners"
+  ],
+  "min_edge_percent": 5.0,
+  "max_edge_percent": 25.0,
+  "min_odds": 1.5,
+  "max_odds": 3.0,
+  "min_books": 4,
+  "refresh_interval_minutes": 5,
+  "hours_ahead": 6
+}

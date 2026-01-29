@@ -1,0 +1,36 @@
+{
+  "bookmakers": {
+    "betsson": {
+      "name": "Betsson",
+      "priority": 1,
+      "enabled": true
+    },
+    "leovegas": {
+      "name": "LeoVegas",
+      "priority": 2,
+      "enabled": true
+    },
+    "unibet": {
+      "name": "Unibet",
+      "priority": 3,
+      "enabled": true
+    },
+    "betway": {
+      "name": "Betway",
+      "priority": 4,
+      "enabled": true
+    },
+    "pinnacle": {
+      "name": "Pinnacle",
+      "priority": 5,
+      "enabled": false,
+      "note": "Limited player prop coverage"
+    }
+  },
+  "default_sportsbooks": [
+    "betsson",
+    "leovegas",
+    "unibet",
+    "betway"
+  ]
+}

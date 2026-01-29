@@ -1,0 +1,843 @@
+{
+  "scan_time": "2026-01-28 01:41 CET",
+  "scan_date": "2026-01-29",
+  "fixtures_count": 18,
+  "fixtures": [
+    {
+      "match": "KRC Genk vs Malmö FF",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Lille OSC vs SC Freiburg",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Panathinaikos FC vs AS Roma",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Olympique Lyonnais vs PAOK Thessaloniki FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "FC Midtjylland vs GNK Dinamo Zagreb",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Aston Villa FC vs FC Salzburg",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Nottingham Forest FC vs Ferencvárosi TC",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Go Ahead Eagles vs Sporting Braga",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Maccabi Tel Aviv FC vs Bologna FC 1909",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Real Betis Balompié vs Feyenoord Rotterdam",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "PFK Ludogorets 1945 Razgrad vs OGC Nice Côte d'Azur",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "SC Fotbal Club FCSB SA vs Fenerbahçe Spor Kulübü",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "FC Porto vs Rangers FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "FC Basel 1893 vs FC Viktoria Plzeň",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "VfB Stuttgart 1893 vs BSC Young Boys",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "SK Sturm Graz vs SK Brann",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "Celtic FC vs FC Utrecht",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    },
+    {
+      "match": "FK Crvena zvezda Beograd vs Real Club Celta de Vigo",
+      "league": "UEFA - Europa League",
+      "kickoff": "21:00"
+    }
+  ],
+  "value_bets_count": 37,
+  "value_bets": [
+    {
+      "fixture": "SK Sturm Graz vs SK Brann",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 7.5",
+      "book": "Betsson",
+      "odds": 2.67,
+      "fair": 2.237,
+      "edge": 19.3,
+      "all_odds": {
+        "Betsson": 2.67,
+        "LeoVegas": 2.14,
+        "Unibet": 2.14,
+        "Betano": 2.0
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Celtic FC vs FC Utrecht",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Over 10.5",
+      "book": "Betsson",
+      "odds": 2.73,
+      "fair": 2.388,
+      "edge": 14.3,
+      "all_odds": {
+        "Betsson": 2.73,
+        "LeoVegas": 2.28,
+        "Unibet": 2.28,
+        "Betano": 2.4,
+        "William Hill": 2.25
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "FK Crvena zvezda Beograd vs Real Club Celta de Vigo",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 25.5",
+      "book": "Betano",
+      "odds": 2.57,
+      "fair": 2.256,
+      "edge": 13.9,
+      "all_odds": {
+        "Betsson": 1.96,
+        "LeoVegas": 2.35,
+        "Unibet": 2.35,
+        "Betano": 2.57,
+        "Betway": 2.05
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "Aston Villa FC vs FC Salzburg",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Over 9.5",
+      "book": "LeoVegas",
+      "odds": 2.18,
+      "fair": 1.927,
+      "edge": 13.1,
+      "all_odds": {
+        "Betsson": 1.83,
+        "LeoVegas": 2.18,
+        "Unibet": 2.18,
+        "Betano": 1.82,
+        "Betway": 1.83,
+        "William Hill": 1.71
+      },
+      "books_in_avg": 6
+    },
+    {
+      "fixture": "Go Ahead Eagles vs Sporting Braga",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 26.5",
+      "book": "Betano",
+      "odds": 2.57,
+      "fair": 2.29,
+      "edge": 12.2,
+      "all_odds": {
+        "LeoVegas": 2.14,
+        "Unibet": 2.14,
+        "Betano": 2.57,
+        "Betway": 2.5,
+        "William Hill": 2.1
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "Olympique Lyonnais vs PAOK Thessaloniki FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 26.5",
+      "book": "Betano",
+      "odds": 2.45,
+      "fair": 2.195,
+      "edge": 11.6,
+      "all_odds": {
+        "LeoVegas": 2.14,
+        "Unibet": 2.14,
+        "Betano": 2.45,
+        "William Hill": 2.05
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "FC Porto vs Rangers FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 27.5",
+      "book": "Betsson",
+      "odds": 2.9,
+      "fair": 2.598,
+      "edge": 11.6,
+      "all_odds": {
+        "Betsson": 2.9,
+        "LeoVegas": 2.4,
+        "Unibet": 2.4,
+        "Betano": 2.42,
+        "Betway": 2.87
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "Panathinaikos FC vs AS Roma",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Over 8.5",
+      "book": "LeoVegas",
+      "odds": 2.32,
+      "fair": 2.08,
+      "edge": 11.5,
+      "all_odds": {
+        "Betsson": 1.96,
+        "LeoVegas": 2.32,
+        "Unibet": 2.32,
+        "Betano": 2.0,
+        "William Hill": 1.8
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "FC Midtjylland vs GNK Dinamo Zagreb",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 7.5",
+      "book": "Betsson",
+      "odds": 2.67,
+      "fair": 2.4,
+      "edge": 11.3,
+      "all_odds": {
+        "Betsson": 2.67,
+        "LeoVegas": 2.14,
+        "Unibet": 2.14,
+        "Betano": 2.65
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Maccabi Tel Aviv FC vs Bologna FC 1909",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 7.5",
+      "book": "Betano",
+      "odds": 2.75,
+      "fair": 2.48,
+      "edge": 10.9,
+      "all_odds": {
+        "Betsson": 2.61,
+        "LeoVegas": 2.28,
+        "Unibet": 2.28,
+        "Betano": 2.75
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "FC Basel 1893 vs FC Viktoria Plzeň",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 7.5",
+      "book": "Betsson",
+      "odds": 2.7,
+      "fair": 2.44,
+      "edge": 10.7,
+      "all_odds": {
+        "Betsson": 2.7,
+        "LeoVegas": 2.28,
+        "Unibet": 2.28,
+        "Betano": 2.5
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Panathinaikos FC vs AS Roma",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 25.5",
+      "book": "LeoVegas",
+      "odds": 2.35,
+      "fair": 2.142,
+      "edge": 9.7,
+      "all_odds": {
+        "Betsson": 1.92,
+        "LeoVegas": 2.35,
+        "Unibet": 2.35,
+        "Betano": 1.95
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Lille OSC vs SC Freiburg",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 8.5",
+      "book": "Betsson",
+      "odds": 1.8,
+      "fair": 1.644,
+      "edge": 9.5,
+      "all_odds": {
+        "Betsson": 1.8,
+        "LeoVegas": 1.51,
+        "Unibet": 1.51,
+        "Betano": 1.75
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Aston Villa FC vs FC Salzburg",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 27.5",
+      "book": "LeoVegas",
+      "odds": 2.3,
+      "fair": 2.102,
+      "edge": 9.4,
+      "all_odds": {
+        "Betsson": 1.95,
+        "LeoVegas": 2.3,
+        "Unibet": 2.3,
+        "Betano": 1.91,
+        "Betway": 2.05
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "Real Betis Balompié vs Feyenoord Rotterdam",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 9.5",
+      "book": "Betsson",
+      "odds": 1.77,
+      "fair": 1.617,
+      "edge": 9.4,
+      "all_odds": {
+        "Betsson": 1.77,
+        "LeoVegas": 1.51,
+        "Unibet": 1.51,
+        "Betano": 1.67
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Nottingham Forest FC vs Ferencvárosi TC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 25.5",
+      "book": "LeoVegas",
+      "odds": 2.25,
+      "fair": 2.058,
+      "edge": 9.3,
+      "all_odds": {
+        "Betsson": 1.86,
+        "LeoVegas": 2.25,
+        "Unibet": 2.25,
+        "Betway": 1.87
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "FC Midtjylland vs GNK Dinamo Zagreb",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 26.5",
+      "book": "Betano",
+      "odds": 2.67,
+      "fair": 2.446,
+      "edge": 9.2,
+      "all_odds": {
+        "LeoVegas": 2.38,
+        "Unibet": 2.38,
+        "Betano": 2.67,
+        "Betway": 2.5,
+        "William Hill": 2.3
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "SC Fotbal Club FCSB SA vs Fenerbahçe Spor Kulübü",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 2.25,
+      "fair": 2.067,
+      "edge": 8.8,
+      "all_odds": {
+        "Betsson": 2.02,
+        "LeoVegas": 2.0,
+        "Unibet": 2.0,
+        "Betano": 2.25
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "PFK Ludogorets 1945 Razgrad vs OGC Nice Côte d'Azur",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Under 25.5",
+      "book": "Betano",
+      "odds": 1.95,
+      "fair": 1.801,
+      "edge": 8.4,
+      "all_odds": {
+        "Betsson": 1.92,
+        "LeoVegas": 1.67,
+        "Unibet": 1.67,
+        "Betano": 1.95
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "VfB Stuttgart 1893 vs BSC Young Boys",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Asian Handicap",
+      "selection": "VfB Stuttgart 1893 -2",
+      "book": "Betsson",
+      "odds": 2.6,
+      "fair": 2.4,
+      "edge": 8.3,
+      "all_odds": {
+        "Betsson": 2.6,
+        "LeoVegas": 2.23,
+        "Unibet": 2.23,
+        "Betano": 2.52,
+        "Pinnacle": 2.45,
+        "Coolbet": 2.37
+      },
+      "books_in_avg": 6
+    },
+    {
+      "fixture": "KRC Genk vs Malmö FF",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Asian Handicap",
+      "selection": "Malmö FF +0.75",
+      "book": "Betano",
+      "odds": 2.95,
+      "fair": 2.732,
+      "edge": 8.0,
+      "all_odds": {
+        "LeoVegas": 2.55,
+        "Unibet": 2.55,
+        "Betano": 2.95,
+        "Pinnacle": 2.88
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "VfB Stuttgart 1893 vs BSC Young Boys",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 9.5",
+      "book": "Betsson",
+      "odds": 1.88,
+      "fair": 1.738,
+      "edge": 8.0,
+      "all_odds": {
+        "Betsson": 1.88,
+        "LeoVegas": 1.64,
+        "Unibet": 1.64,
+        "Betano": 1.8
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Nottingham Forest FC vs Ferencvárosi TC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 1.8,
+      "fair": 1.67,
+      "edge": 7.8,
+      "all_odds": {
+        "Betsson": 1.78,
+        "LeoVegas": 1.55,
+        "Unibet": 1.55,
+        "Betano": 1.8
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "SK Sturm Graz vs SK Brann",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 22.5",
+      "book": "Betano",
+      "odds": 1.85,
+      "fair": 1.714,
+      "edge": 7.8,
+      "all_odds": {
+        "Betsson": 1.75,
+        "LeoVegas": 1.63,
+        "Unibet": 1.63,
+        "Betano": 1.85
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "KRC Genk vs Malmö FF",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Over 9.5",
+      "book": "LeoVegas",
+      "odds": 2.3,
+      "fair": 2.135,
+      "edge": 7.7,
+      "all_odds": {
+        "Betsson": 2.0,
+        "LeoVegas": 2.3,
+        "Unibet": 2.3,
+        "Betano": 2.05,
+        "Betway": 2.25,
+        "William Hill": 1.91
+      },
+      "books_in_avg": 6
+    },
+    {
+      "fixture": "FC Porto vs Rangers FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 2.07,
+      "fair": 1.928,
+      "edge": 7.4,
+      "all_odds": {
+        "Betsson": 1.9,
+        "LeoVegas": 1.87,
+        "Unibet": 1.87,
+        "Betano": 2.07
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Olympique Lyonnais vs PAOK Thessaloniki FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Under 9.5",
+      "book": "Betano",
+      "odds": 1.8,
+      "fair": 1.682,
+      "edge": 7.0,
+      "all_odds": {
+        "Betsson": 1.73,
+        "LeoVegas": 1.6,
+        "Unibet": 1.6,
+        "Betano": 1.8
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Go Ahead Eagles vs Sporting Braga",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 2.45,
+      "fair": 2.296,
+      "edge": 6.7,
+      "all_odds": {
+        "Betsson": 2.32,
+        "LeoVegas": 2.18,
+        "Unibet": 2.18,
+        "Betano": 2.45,
+        "Pinnacle": 2.34,
+        "888sport": 2.25,
+        "Betway": 2.25,
+        "bwin": 2.4
+      },
+      "books_in_avg": 8
+    },
+    {
+      "fixture": "PFK Ludogorets 1945 Razgrad vs OGC Nice Côte d'Azur",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 2.45,
+      "fair": 2.297,
+      "edge": 6.6,
+      "all_odds": {
+        "Betsson": 2.3,
+        "LeoVegas": 2.23,
+        "Unibet": 2.23,
+        "Betano": 2.45,
+        "Pinnacle": 2.22,
+        "888sport": 2.25,
+        "Betway": 2.25,
+        "bwin": 2.45
+      },
+      "books_in_avg": 8
+    },
+    {
+      "fixture": "Panathinaikos FC vs AS Roma",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Over 10.5",
+      "book": "Betano",
+      "odds": 2.92,
+      "fair": 2.745,
+      "edge": 6.4,
+      "all_odds": {
+        "Betsson": 2.88,
+        "LeoVegas": 2.6,
+        "Unibet": 2.6,
+        "Betano": 2.92,
+        "Betway": 2.62,
+        "bwin": 2.85
+      },
+      "books_in_avg": 6
+    },
+    {
+      "fixture": "SK Sturm Graz vs SK Brann",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Under 8.5",
+      "book": "Betano",
+      "odds": 2.65,
+      "fair": 2.49,
+      "edge": 6.4,
+      "all_odds": {
+        "Betsson": 2.55,
+        "LeoVegas": 2.43,
+        "Unibet": 2.43,
+        "Betano": 2.65,
+        "Pinnacle": 2.56,
+        "888sport": 2.4,
+        "Betway": 2.4,
+        "bwin": 2.5
+      },
+      "books_in_avg": 8
+    },
+    {
+      "fixture": "Nottingham Forest FC vs Ferencvárosi TC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Under 10.5",
+      "book": "LeoVegas",
+      "odds": 1.68,
+      "fair": 1.579,
+      "edge": 6.1,
+      "all_odds": {
+        "Betsson": 1.52,
+        "LeoVegas": 1.68,
+        "Unibet": 1.68,
+        "Betano": 1.55,
+        "Pinnacle": 1.58,
+        "888sport": 1.53,
+        "Betway": 1.6,
+        "bwin": 1.5
+      },
+      "books_in_avg": 8
+    },
+    {
+      "fixture": "PFK Ludogorets 1945 Razgrad vs OGC Nice Côte d'Azur",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots On Target",
+      "selection": "Over 9.5",
+      "book": "Betano",
+      "odds": 2.35,
+      "fair": 2.215,
+      "edge": 6.1,
+      "all_odds": {
+        "LeoVegas": 2.18,
+        "Unibet": 2.18,
+        "Betano": 2.35,
+        "William Hill": 2.15
+      },
+      "books_in_avg": 4
+    },
+    {
+      "fixture": "Nottingham Forest FC vs Ferencvárosi TC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Asian Handicap",
+      "selection": "Ferencvárosi TC +0.5",
+      "book": "Betsson",
+      "odds": 2.4,
+      "fair": 2.276,
+      "edge": 5.5,
+      "all_odds": {
+        "Betsson": 2.4,
+        "LeoVegas": 2.17,
+        "Unibet": 2.17,
+        "Betano": 2.37,
+        "Pinnacle": 2.37,
+        "bwin": 2.2,
+        "William Hill": 2.25
+      },
+      "books_in_avg": 7
+    },
+    {
+      "fixture": "FC Basel 1893 vs FC Viktoria Plzeň",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Corners",
+      "selection": "Under 9.5",
+      "book": "Betano",
+      "odds": 1.95,
+      "fair": 1.851,
+      "edge": 5.5,
+      "all_odds": {
+        "Betsson": 1.78,
+        "LeoVegas": 1.88,
+        "Unibet": 1.88,
+        "Betano": 1.95,
+        "Pinnacle": 1.83,
+        "888sport": 1.75,
+        "Betway": 1.9,
+        "bwin": 1.83
+      },
+      "books_in_avg": 8
+    },
+    {
+      "fixture": "Olympique Lyonnais vs PAOK Thessaloniki FC",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Asian Handicap",
+      "selection": "Olympique Lyonnais -1.25",
+      "book": "Betsson",
+      "odds": 2.6,
+      "fair": 2.466,
+      "edge": 5.4,
+      "all_odds": {
+        "Betsson": 2.6,
+        "LeoVegas": 2.3,
+        "Unibet": 2.3,
+        "Betano": 2.6,
+        "Pinnacle": 2.53
+      },
+      "books_in_avg": 5
+    },
+    {
+      "fixture": "VfB Stuttgart 1893 vs BSC Young Boys",
+      "league": "UEFA - Europa League",
+      "kickoff": "2026-01-29T20:00:00Z",
+      "kickoff_cet": "2026-01-29 21:00",
+      "market": "Total Shots",
+      "selection": "Over 26.5",
+      "book": "Betsson",
+      "odds": 1.83,
+      "fair": 1.743,
+      "edge": 5.2,
+      "all_odds": {
+        "Betsson": 1.83,
+        "LeoVegas": 1.75,
+        "Unibet": 1.75,
+        "Betway": 1.65,
+        "William Hill": 1.74
+      },
+      "books_in_avg": 5
+    }
+  ]
+}

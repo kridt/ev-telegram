@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ Value Bets Admin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e94560;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .live-dot {
+            width: 10px; height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .admin-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .admin-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .admin-btn:hover { transform: scale(1.05); }
+        .admin-btn.broadcast { background: #4ecca3; color: #1a1a2e; }
+        .admin-btn.message { background: #3498db; color: #fff; }
+        .admin-btn.auto-settle { background: #ff9900; color: #1a1a2e; }
+        .admin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .settle-results {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .settle-results.show { display: block; }
+
+        .settle-section {
+            margin-bottom: 10px;
+        }
+
+        .settle-section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .settle-item {
+            font-size: 0.85em;
+            padding: 3px 0;
+            color: #aaa;
+        }
+
+        .settle-item.win { color: #4ecca3; }
+        .settle-item.loss { color: #e94560; }
+        .settle-item.manual { color: #ff9900; }
+
+        .message-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 1em;
+        }
+
+        .message-input input::placeholder { color: #888; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ecca3;
+        }
+
+        .stat-label { color: #888; font-size: 0.85em; margin-top: 3px; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active { background: #4ecca3; color: #1a1a2e; }
+        .tab:hover { background: rgba(255,255,255,0.2); }
+        .tab.active:hover { background: #4ecca3; }
+
+        /* Bets Container */
+        .bets-container { display: grid; gap: 15px; }
+
+        .bet-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid #4ecca3;
+            transition: all 0.2s;
+        }
+
+        .bet-card:hover { transform: translateX(3px); }
+        .bet-card.win { border-left-color: #4ecca3; background: rgba(78, 204, 163, 0.1); }
+        .bet-card.loss { border-left-color: #e94560; background: rgba(233, 69, 96, 0.1); }
+        .bet-card.pending { border-left-color: #ff9900; }
+
+        .bet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bet-id {
+            background: #4ecca3;
+            color: #1a1a2e;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+
+        .bet-edge {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #4ecca3;
+        }
+
+        .bet-result {
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .bet-result.win { background: #4ecca3; color: #1a1a2e; }
+        .bet-result.loss { background: #e94560; color: #fff; }
+        .bet-result.push { background: #888; color: #fff; }
+        .bet-result.pending { background: #ff9900; color: #1a1a2e; }
+
+        .bookmaker {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+
+        .bookmaker.betsson { background: #0066cc; }
+        .bookmaker.unibet { background: #4ecca3; color: #1a1a2e; }
+        .bookmaker.leovegas { background: #ff9900; color: #1a1a2e; }
+
+        .bet-fixture { font-size: 1.1em; margin-bottom: 3px; }
+        .bet-league { color: #888; font-size: 0.85em; margin-bottom: 10px; }
+
+        .bet-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .detail-item { text-align: center; }
+        .detail-label { color: #888; font-size: 0.75em; }
+        .detail-value { font-weight: bold; font-size: 0.95em; }
+
+        /* Result Buttons */
+        .result-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .result-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .result-btn:hover { transform: scale(1.05); }
+        .result-btn.win { background: #4ecca3; color: #1a1a2e; }
+        .result-btn.loss { background: #e94560; color: #fff; }
+        .result-btn.push { background: #888; color: #fff; }
+        .result-btn.void { background: #333; color: #fff; border: 1px solid #666; }
+        .result-btn.clear { background: transparent; color: #888; border: 1px solid #444; }
+        .result-btn.auto-check { background: #ff9900; color: #1a1a2e; }
+        .result-btn.auto-check:disabled { opacity: 0.6; cursor: wait; }
+
+        /* Responses */
+        .responses {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .response-group { flex: 1; min-width: 120px; }
+        .response-title { font-size: 0.85em; margin-bottom: 5px; color: #888; }
+        .response-users { display: flex; flex-wrap: wrap; gap: 5px; }
+
+        .user-tag {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .user-tag.placed { background: rgba(78, 204, 163, 0.3); border: 1px solid #4ecca3; }
+        .user-tag.skipped { background: rgba(233, 69, 96, 0.3); border: 1px solid #e94560; }
+        .no-users { color: #555; font-style: italic; font-size: 0.8em; }
+
+        .last-update {
+            text-align: center;
+            color: #555;
+            margin-top: 20px;
+            font-size: 0.85em;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #4ecca3;
+            color: #1a1a2e;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: slideUp 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profit-display {
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .profit-display.positive { color: #4ecca3; }
+        .profit-display.negative { color: #e94560; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚽ Value Bets Admin</h1>
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            LIVE
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel">
+        <div class="admin-title">🎛️ Admin Controls</div>
+        <div class="admin-buttons">
+            <button class="admin-btn auto-settle" id="auto-settle-btn" onclick="autoSettle()">🔄 Auto Settle Bets</button>
+            <button class="admin-btn broadcast" onclick="broadcastStats()">📊 Broadcast Stats</button>
+        </div>
+        <div class="settle-results" id="settle-results"></div>
+        <div class="message-input">
+            <input type="text" id="custom-message" placeholder="Type a custom message to send to Telegram...">
+            <button class="admin-btn message" onclick="sendCustomMessage()">📤 Send</button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="total-bets">0</div>
+            <div class="stat-label">Total Bets</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="wins" style="color: #4ecca3;">0</div>
+            <div class="stat-label">✅ Wins</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="losses" style="color: #e94560;">0</div>
+            <div class="stat-label">❌ Losses</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="win-rate">0%</div>
+            <div class="stat-label">Win Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="profit">$0</div>
+            <div class="stat-label">💰 Profit</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="roi">0%</div>
+            <div class="stat-label">📈 ROI</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('all')">All Bets</button>
+        <button class="tab" onclick="showTab('pending')">⏳ Pending</button>
+        <button class="tab" onclick="showTab('settled')">✅ Settled</button>
+    </div>
+
+    <!-- Bets -->
+    <div class="bets-container" id="bets-container"></div>
+
+    <div class="last-update">Last updated: <span id="last-update">-</span></div>
+
+    <script>
+        let allBets = [];
+        let responses = {};
+        let currentTab = 'all';
+
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/data');
+                const data = await response.json();
+                allBets = data.bets || [];
+                responses = data.responses || {};
+                updateStats(data.stats);
+                renderBets();
+            } catch (error) {
+                console.error('Failed to fetch:', error);
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('total-bets').textContent = stats.total_bets;
+            document.getElementById('wins').textContent = stats.wins;
+            document.getElementById('losses').textContent = stats.losses;
+            document.getElementById('win-rate').textContent = stats.win_rate + '%';
+
+            const profitEl = document.getElementById('profit');
+            profitEl.textContent = '$' + stats.total_profit.toFixed(2);
+            profitEl.style.color = stats.total_profit >= 0 ? '#4ecca3' : '#e94560';
+
+            document.getElementById('roi').textContent = stats.roi + '%';
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+        }
+
+        function showTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderBets();
+        }
+
+        function renderBets() {
+            const container = document.getElementById('bets-container');
+            let bets = [...allBets].reverse();
+
+            if (currentTab === 'pending') {
+                bets = bets.filter(b => !b.result);
+            } else if (currentTab === 'settled') {
+                bets = bets.filter(b => b.result);
+            }
+
+            if (bets.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#666;padding:40px;">No bets in this category</div>';
+                return;
+            }
+
+            container.innerHTML = bets.map(bet => {
+                const betResponses = responses[bet.id] || { placed: [], skipped: [] };
+                const placed = betResponses.placed || [];
+                const skipped = betResponses.skipped || [];
+
+                const resultClass = bet.result || 'pending';
+                const resultLabel = bet.result ? bet.result.toUpperCase() : 'PENDING';
+
+                const profitStr = bet.profit != null
+                    ? `<span class="profit-display ${bet.profit >= 0 ? 'positive' : 'negative'}">${bet.profit >= 0 ? '+' : ''}$${bet.profit.toFixed(2)}</span>`
+                    : '';
+
+                return `
+                    <div class="bet-card ${resultClass}">
+                        <div class="bet-header">
+                            <div>
+                                <span class="bet-id">#${bet.id}</span>
+                                <span class="bookmaker ${bet.bookmaker.toLowerCase()}">${bet.bookmaker}</span>
+                                <span class="bet-result ${resultClass}">${resultLabel}</span>
+                                ${profitStr}
+                            </div>
+                            <div class="bet-edge">+${bet.edge.toFixed(1)}%</div>
+                        </div>
+
+                        <div class="bet-fixture">⚽ ${bet.fixture}</div>
+                        <div class="bet-league">🏆 ${bet.league} | 🕐 ${formatTime(bet.kickoff)}</div>
+
+                        <div class="bet-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Market</div>
+                                <div class="detail-value">${bet.market}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Pick</div>
+                                <div class="detail-value">${bet.selection}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Odds</div>
+                                <div class="detail-value" style="color:#4ecca3">${bet.odds.toFixed(2)}</div>
+                            </div>
+                        </div>
+
+                        <div class="result-buttons">
+                            ${!bet.result ? `<button class="result-btn auto-check" id="auto-btn-${bet.id}" onclick="autoSettleSingle(${bet.id})">🔍 Auto Check</button>` : ''}
+                            <button class="result-btn win" onclick="setResult(${bet.id}, 'win')">✅ Win</button>
+                            <button class="result-btn loss" onclick="setResult(${bet.id}, 'loss')">❌ Loss</button>
+                            <button class="result-btn push" onclick="setResult(${bet.id}, 'push')">🔄 Push</button>
+                            <button class="result-btn void" onclick="setResult(${bet.id}, 'void')">⚪ Void</button>
+                            ${bet.result ? `<button class="result-btn clear" onclick="setResult(${bet.id}, null)">Clear</button>` : ''}
+                        </div>
+
+                        <div class="responses">
+                            <div class="response-group">
+                                <div class="response-title">✅ Placed (${placed.length})</div>
+                                <div class="response-users">
+                                    ${placed.length > 0 ? placed.map(u => `<span class="user-tag placed">${u}</span>`).join('') : '<span class="no-users">-</span>'}
+                                </div>
+                            </div>
+                            <div class="response-group">
+                                <div class="response-title">❌ Skipped (${skipped.length})</div>
+                                <div class="response-users">
+                                    ${skipped.length > 0 ? skipped.map(u => `<span class="user-tag skipped">${u}</span>`).join('') : '<span class="no-users">-</span>'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatTime(isoString) {
+            if (!isoString) return 'TBD';
+            const date = new Date(isoString);
+            return date.toLocaleString('da-DK', {
+                day: '2-digit', month: '2-digit',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        async function setResult(betId, result) {
+            try {
+                const response = await fetch('/api/result', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bet_id: betId, result: result })
+                });
+                const data = await response.json();
+                if (data.ok) {
+                    showToast(result ? `Bet #${betId} marked as ${result.toUpperCase()}` : `Bet #${betId} cleared`);
+                    fetchData();
+                }
+            } catch (error) {
+                console.error('Failed to set result:', error);
+            }
+        }
+
+        async function autoSettleSingle(betId) {
+            const btn = document.getElementById(`auto-btn-${betId}`);
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = '⏳ Checking...';
+            }
+
+            try {
+                const response = await fetch('/api/auto-settle-single', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bet_id: betId })
+                });
+                const data = await response.json();
+
+                if (data.ok) {
+                    showToast(`Bet #${betId}: ${data.result.toUpperCase()}`);
+                    fetchData();
+                } else {
+                    showToast(`Bet #${betId}: ${data.error || 'Manual settle needed'}`);
+                    if (btn) {
+                        if (data.not_finished) {
+                            btn.textContent = '⏳ Not finished';
+                        } else {
+                            btn.textContent = '❓ Manual';
+                        }
+                        btn.disabled = false;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to auto-settle:', error);
+                showToast('Auto-settle failed');
+                if (btn) {
+                    btn.textContent = '🔍 Auto Check';
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        async function broadcastStats() {
+            try {
+                const response = await fetch('/api/broadcast', { method: 'POST' });
+                const data = await response.json();
+                if (data.ok) showToast('Stats broadcasted to Telegram!');
+            } catch (error) {
+                console.error('Failed to broadcast:', error);
+            }
+        }
+
+        async function sendCustomMessage() {
+            const input = document.getElementById('custom-message');
+            const text = input.value.trim();
+            if (!text) return;
+
+            try {
+                const response = await fetch('/api/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text })
+                });
+                const data = await response.json();
+                if (data.ok) {
+                    showToast('Message sent!');
+                    input.value = '';
+                }
+            } catch (error) {
+                console.error('Failed to send message:', error);
+            }
+        }
+
+        async function autoSettle() {
+            const btn = document.getElementById('auto-settle-btn');
+            const resultsDiv = document.getElementById('settle-results');
+
+            btn.disabled = true;
+            btn.textContent = '🔄 Checking...';
+            resultsDiv.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/auto-settle', { method: 'POST' });
+                const data = await response.json();
+
+                if (data.ok) {
+                    let html = '';
+
+                    // Settled bets
+                    if (data.settled && data.settled.length > 0) {
+                        html += `<div class="settle-section">
+                            <div class="settle-section-title">✅ Auto-Settled (${data.settled.length})</div>`;
+                        data.settled.forEach(bet => {
+                            const cls = bet.result === 'win' ? 'win' : bet.result === 'loss' ? 'loss' : '';
+                            html += `<div class="settle-item ${cls}">#${bet.id} ${bet.fixture} - ${bet.result.toUpperCase()}</div>`;
+                        });
+                        html += '</div>';
+                    }
+
+                    // Not finished yet
+                    if (data.not_finished && data.not_finished.length > 0) {
+                        html += `<div class="settle-section">
+                            <div class="settle-section-title">⏳ Not Finished Yet (${data.not_finished.length})</div>`;
+                        data.not_finished.forEach(bet => {
+                            html += `<div class="settle-item">#${bet.id} ${bet.fixture}</div>`;
+                        });
+                        html += '</div>';
+                    }
+
+                    // Manual needed
+                    if (data.manual_needed && data.manual_needed.length > 0) {
+                        html += `<div class="settle-section">
+                            <div class="settle-section-title">⚠️ Manual Settlement Needed (${data.manual_needed.length})</div>`;
+                        data.manual_needed.forEach(bet => {
+                            html += `<div class="settle-item manual">#${bet.id} ${bet.fixture} - ${bet.reason}</div>`;
+                        });
+                        html += '</div>';
+                    }
+
+                    if (!html) {
+                        html = '<div class="settle-item">No pending bets to settle.</div>';
+                    }
+
+                    resultsDiv.innerHTML = html;
+                    resultsDiv.classList.add('show');
+
+                    const settledCount = data.settled ? data.settled.length : 0;
+                    showToast(`Auto-settle complete: ${settledCount} bets settled`);
+                    fetchData();
+                }
+            } catch (error) {
+                console.error('Failed to auto-settle:', error);
+                showToast('Auto-settle failed');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔄 Auto Settle Bets';
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Enter key to send message
+        document.getElementById('custom-message').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendCustomMessage();
+        });
+
+        // Initial fetch and auto-refresh
+        fetchData();
+        setInterval(fetchData, 3000);
+    </script>
+</body>
+</html>

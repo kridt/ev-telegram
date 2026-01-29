@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backtest Results - Soccer Props Value</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-card.highlight {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 255, 136, 0.2));
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-value.positive {
+            color: #00ff88;
+        }
+
+        .stat-value.negative {
+            color: #ff6b6b;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px 20px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: rgba(0, 212, 255, 0.2);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .comparison-table tr:not(:last-child) td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table td:last-child {
+            font-weight: 600;
+        }
+
+        .bookmaker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bookmaker-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bookmaker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .bookmaker-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .bookmaker-date {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .bookmaker-bets {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .bets-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .bets-table th {
+            background: rgba(0, 212, 255, 0.15);
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+
+        .bets-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bets-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .status-win {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .status-loss {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .profit-positive {
+            color: #00ff88;
+        }
+
+        .profit-negative {
+            color: #ff6b6b;
+        }
+
+        .bets-container {
+            max-height: 500px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bets-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .bets-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .bets-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .summary-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .summary-item .label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 30px;
+            height: 200px;
+            padding: 20px 0;
+        }
+
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 80px;
+            border-radius: 8px 8px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .bar.wins {
+            background: linear-gradient(180deg, #00ff88, #00cc6a);
+            height: 147px;
+        }
+
+        .bar.losses {
+            background: linear-gradient(180deg, #ff6b6b, #cc5555);
+            height: 159px;
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .bar-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .leagues-processed {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .league-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .league-tag.active {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .league-tag.inactive {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backtest Results</h1>
+
+        <div class="summary-bar">
+            <div class="summary-item">
+                <div class="value">+28.5%</div>
+                <div class="label">ROI (Filtered)</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">$71.24</div>
+                <div class="label">Total Profit</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">48.0%</div>
+                <div class="label">Win Rate</div>
+            </div>
+            <div class="summary-item">
+                <div class="value">25</div>
+                <div class="label">Total Bets</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card highlight">
+                <div class="stat-value positive">+28.5%</div>
+                <div class="stat-label">ROI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">25</div>
+                <div class="stat-label">Total Bets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value positive">12</div>
+                <div class="stat-label">Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value negative">13</div>
+                <div class="stat-label">Losses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">48.0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8.5%</div>
+                <div class="stat-label">Avg Edge</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2.87</div>
+                <div class="stat-label">Avg Odds</div>
+            </div>
+            <div class="stat-card highlight">
+                <div class="stat-value positive">$71.24</div>
+                <div class="stat-label">Profit</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Wins vs Losses</h2>
+        <div class="chart-container">
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-value" style="color: #00ff88;">12</div>
+                    <div class="bar wins"></div>
+                    <div class="bar-label">Wins</div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-value" style="color: #ff6b6b;">13</div>
+                    <div class="bar losses"></div>
+                    <div class="bar-label">Losses</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Filtered vs Unfiltered Comparison</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Unfiltered</th>
+                    <th>Filtered (3-15/book/day)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total Bets</td>
+                    <td>32</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td>Wins / Losses</td>
+                    <td>15 / 17</td>
+                    <td>12 / 13</td>
+                </tr>
+                <tr>
+                    <td>Win Rate</td>
+                    <td>46.9%</td>
+                    <td style="color: #00ff88;">48.0%</td>
+                </tr>
+                <tr>
+                    <td>Average Edge</td>
+                    <td>8.6%</td>
+                    <td>8.5%</td>
+                </tr>
+                <tr>
+                    <td>Average Odds</td>
+                    <td>-</td>
+                    <td>2.87</td>
+                </tr>
+                <tr>
+                    <td>Total Staked</td>
+                    <td>$320.00</td>
+                    <td>$250.00</td>
+                </tr>
+                <tr>
+                    <td>Profit</td>
+                    <td style="color: #00ff88;">$98.64</td>
+                    <td style="color: #00ff88;">$71.24</td>
+                </tr>
+                <tr>
+                    <td>ROI</td>
+                    <td style="color: #00ff88;">+30.8%</td>
+                    <td style="color: #00ff88; font-size: 1.2rem;">+28.5%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">Bets per Bookmaker per Day</h2>
+        <div class="bookmaker-grid">
+            <div class="bookmaker-card">
+                <div class="bookmaker-header">
+                    <span class="bookmaker-name">Betway</span>
+                    <span class="bookmaker-date">2026-01-23</span>
+                </div>
+                <div class="bookmaker-bets">8 bets</div>
+            </div>
+            <div class="bookmaker-card">
+                <div class="bookmaker-header">
+                    <span class="bookmaker-name">Betsson</span>
+                    <span class="bookmaker-date">2026-01-24</span>
+                </div>
+                <div class="bookmaker-bets">9 bets</div>
+            </div>
+            <div class="bookmaker-card">
+                <div class="bookmaker-header">
+                    <span class="bookmaker-name">Unibet</span>
+                    <span class="bookmaker-date">2026-01-24</span>
+                </div>
+                <div class="bookmaker-bets">4 bets</div>
+            </div>
+            <div class="bookmaker-card">
+                <div class="bookmaker-header">
+                    <span class="bookmaker-name">Betsson</span>
+                    <span class="bookmaker-date">2026-01-25</span>
+                </div>
+                <div class="bookmaker-bets">4 bets</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Leagues Processed</h2>
+        <div class="leagues-processed">
+            <span class="league-tag active">La Liga (9)</span>
+            <span class="league-tag active">Bundesliga (9)</span>
+            <span class="league-tag active">Serie A (9)</span>
+            <span class="league-tag active">Ligue 1 (9)</span>
+        </div>
+
+        <h2 class="section-title">All Filtered Bets (Sorted by Profit)</h2>
+        <div class="bets-container">
+            <table class="bets-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Edge</th>
+                        <th>Odds</th>
+                        <th>Bookmaker</th>
+                        <th>Selection</th>
+                        <th>Market</th>
+                        <th>Date</th>
+                        <th>P/L</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>7.4%</td>
+                        <td>4.20</td>
+                        <td>Betway</td>
+                        <td>Over 11.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-positive">+$32.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>8.1%</td>
+                        <td>3.23</td>
+                        <td>Betsson</td>
+                        <td>Over 27.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-25</td>
+                        <td class="profit-positive">+$22.30</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>7.8%</td>
+                        <td>3.10</td>
+                        <td>Betway</td>
+                        <td>Over 10.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-positive">+$21.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>10.7%</td>
+                        <td>3.02</td>
+                        <td>Betsson</td>
+                        <td>Under 24.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-positive">+$20.20</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>13.6%</td>
+                        <td>3.02</td>
+                        <td>Betsson</td>
+                        <td>Under 21.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-25</td>
+                        <td class="profit-positive">+$20.20</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>5.7%</td>
+                        <td>2.87</td>
+                        <td>Betsson</td>
+                        <td>Under 24.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-positive">+$18.70</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>8.2%</td>
+                        <td>2.30</td>
+                        <td>Betway</td>
+                        <td>Over 8.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-positive">+$13.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>6.7%</td>
+                        <td>2.30</td>
+                        <td>Betway</td>
+                        <td>Over 26.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-positive">+$13.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>5.9%</td>
+                        <td>2.30</td>
+                        <td>Betway</td>
+                        <td>Over 9.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-positive">+$13.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>6.9%</td>
+                        <td>2.00</td>
+                        <td>Betsson</td>
+                        <td>Over 9.0</td>
+                        <td>Total Corners</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-positive">+$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>10.5%</td>
+                        <td>1.94</td>
+                        <td>Betsson</td>
+                        <td>Under 10.0</td>
+                        <td>Total Corners</td>
+                        <td>2026-01-25</td>
+                        <td class="profit-positive">+$9.43</td>
+                    </tr>
+                    <tr>
+                        <td class="status-win">WIN</td>
+                        <td>6.3%</td>
+                        <td>1.84</td>
+                        <td>Betsson</td>
+                        <td>Under 31.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-positive">+$8.40</td>
+                    </tr>
+                    <!-- Losses -->
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>11.9%</td>
+                        <td>4.33</td>
+                        <td>Betway</td>
+                        <td>Over 10.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>10.7%</td>
+                        <td>5.00</td>
+                        <td>Betway</td>
+                        <td>Over 12.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>9.0%</td>
+                        <td>3.10</td>
+                        <td>Betway</td>
+                        <td>Over 9.5</td>
+                        <td>Total Shots On Target</td>
+                        <td>2026-01-23</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>11.5%</td>
+                        <td>2.87</td>
+                        <td>Betsson</td>
+                        <td>Over 28.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>9.0%</td>
+                        <td>3.02</td>
+                        <td>Betsson</td>
+                        <td>Over 28.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>7.1%</td>
+                        <td>2.84</td>
+                        <td>Betsson</td>
+                        <td>Under 23.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>5.9%</td>
+                        <td>3.02</td>
+                        <td>Betsson</td>
+                        <td>Over 29.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>5.3%</td>
+                        <td>3.29</td>
+                        <td>Betsson</td>
+                        <td>Over 30.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>9.0%</td>
+                        <td>3.38</td>
+                        <td>Betsson</td>
+                        <td>Under 21.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-25</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>12.2%</td>
+                        <td>2.50</td>
+                        <td>Unibet</td>
+                        <td>Over 27.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>12.1%</td>
+                        <td>2.55</td>
+                        <td>Unibet</td>
+                        <td>Over 27.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>5.3%</td>
+                        <td>2.18</td>
+                        <td>Unibet</td>
+                        <td>Over 26.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                    <tr>
+                        <td class="status-loss">LOSS</td>
+                        <td>5.3%</td>
+                        <td>1.67</td>
+                        <td>Unibet</td>
+                        <td>Over 24.5</td>
+                        <td>Total Shots</td>
+                        <td>2026-01-24</td>
+                        <td class="profit-negative">-$10.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.4); font-size: 0.85rem;">
+            Generated on 2026-01-26 | Soccer Props Value Betting System | Top 5 Leagues (partial data)
+        </div>
+    </div>
+</body>
+</html>

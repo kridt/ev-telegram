@@ -1,0 +1,24 @@
+# HTTP client
+httpx>=0.25.0
+
+# Data validation
+pydantic>=2.0
+pydantic-settings>=2.0
+
+# Telegram integration
+python-telegram-bot>=20.0
+
+# Web framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Task scheduling
+apscheduler>=3.10.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-httpx>=0.21.0
