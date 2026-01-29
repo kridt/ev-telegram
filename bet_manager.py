@@ -18,10 +18,13 @@ FIRESTORE_PROJECT = "value-profit-system"
 FIRESTORE_URL = f"https://firestore.googleapis.com/v1/projects/{FIRESTORE_PROJECT}/databases/(default)/documents"
 
 import os
+import sys
 from dotenv import load_dotenv
 load_dotenv()
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+if not BOT_TOKEN:
+    print("[WARNING] TELEGRAM_BOT_TOKEN not set in bet_manager - some features will fail")
 
 
 class RealtimeDB:

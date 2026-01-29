@@ -39,7 +39,24 @@ from bet_manager import BetManager
 # Configuration - Load from environment variables
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 API_KEY = os.environ.get("OPTICODDS_API_KEY", "")
+CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 BASE_URL = "https://api.opticodds.com/api/v3"
+
+# Validate required environment variables at startup
+def validate_env():
+    """Check required environment variables are set."""
+    missing = []
+    if not BOT_TOKEN:
+        missing.append("TELEGRAM_BOT_TOKEN")
+    if not API_KEY:
+        missing.append("OPTICODDS_API_KEY")
+    if not CHAT_ID:
+        missing.append("TELEGRAM_CHAT_ID")
+    if missing:
+        print(f"[ERROR] Missing environment variables: {', '.join(missing)}")
+        print("Set these in .env file or Render environment settings.")
+        sys.exit(1)
+    print("[OK] All environment variables loaded")
 
 # Bookmakers we actually bet on (Danish licensed)
 BETTING_BOOKS = ["betsson", "leovegas", "unibet", "betano"]
@@ -176,7 +193,13 @@ pending_queue = load_pending_queue()
 
 
 def load_chat_id():
-    """Load chat ID from config or detect from Telegram."""
+    """Load chat ID from environment variable or config file."""
+    # First try environment variable (for Render/Docker)
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+    if chat_id:
+        return chat_id
+
+    # Fallback to config file (for local development)
     try:
         with open(os.path.join(SCRIPT_DIR, "config/settings.json"), "r") as f:
             config = json.load(f)
@@ -634,10 +657,13 @@ async def main():
 
     print("="*60)
     print("SOCCER VALUE BET SCANNER v2.0")
-    print("Firebase RTDB + Firestore | Auto-cleanup")
+    print("Firebase RTDB | Auto-cleanup")
     print(f"Scan every {SCAN_INTERVAL_SEC//60}min | Send {BETS_PER_BATCH} bets every {BATCH_INTERVAL_SEC//60}min")
     print(f"Max {MAX_BETS_PER_BOOKMAKER} bets per bookmaker")
     print("="*60)
+
+    # Validate environment variables
+    validate_env()
 
     # Initialize bet manager
     bet_manager = BetManager()

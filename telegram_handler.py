@@ -18,6 +18,13 @@ BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 RESPONSES_FILE = os.path.join(SCRIPT_DIR, 'bet_responses.json')
 
+# Validate bot token at startup
+if not BOT_TOKEN:
+    print("[ERROR] TELEGRAM_BOT_TOKEN not set!")
+    print("Set it in .env file or Render environment settings.")
+    import sys
+    sys.exit(1)
+
 # Initialize bet manager
 bet_manager = BetManager()
 
@@ -144,12 +151,11 @@ def handle_callback(callback_query, responses):
     # Update Firebase via BetManager if this is a Firebase key (starts with -)
     if bet_id.startswith('-'):
         try:
-            loop = asyncio.get_event_loop()
             if action == 'placed':
-                loop.run_until_complete(bet_manager.mark_played(bet_id, str(user.get('id', ''))))
+                asyncio.run(bet_manager.mark_played(bet_id, str(user.get('id', ''))))
                 print(f"  [FIREBASE] Marked {bet_id} as played")
             else:
-                loop.run_until_complete(bet_manager.mark_skipped(bet_id, str(user.get('id', ''))))
+                asyncio.run(bet_manager.mark_skipped(bet_id, str(user.get('id', ''))))
                 print(f"  [FIREBASE] Marked {bet_id} as skipped")
         except Exception as e:
             print(f"  [FIREBASE ERROR] {e}")
