@@ -23,7 +23,7 @@ EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/api/health || exit 1
+    CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
-# Run both scanner and telegram handler
-CMD ["sh", "-c", "python telegram_handler.py & python auto_scanner.py"]
+# Run health server, telegram handler, and scanner
+CMD ["sh", "-c", "python health_server.py & python telegram_handler.py & python auto_scanner.py"]
