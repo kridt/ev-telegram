@@ -21,6 +21,19 @@ class FiltersConfig(BaseModel):
     max_hours_to_kickoff: int = 24
 
 
+class OddsApiConfig(BaseModel):
+    """Odds-API.io specific configuration."""
+    api_key: str = ""
+    enabled: bool = False
+    min_ev_percent: float = 5.0
+    max_ev_percent: float = 25.0
+    bookmakers: List[str] = Field(default_factory=lambda: [
+        "bet365", "danskespil", "unibet_dk", "coolbet"
+    ])
+    prop_markets_only: bool = True
+    refresh_interval_minutes: int = 5
+
+
 class Settings(BaseModel):
     """Application settings."""
     opticodds_api_key: str = ""
@@ -49,6 +62,9 @@ class Settings(BaseModel):
     refresh_interval_minutes: int = 3
     hours_ahead: int = 24
     filters: FiltersConfig = Field(default_factory=FiltersConfig)
+
+    # Odds-API.io configuration
+    oddsapi: OddsApiConfig = Field(default_factory=OddsApiConfig)
 
 
 class BookmakerInfo(BaseModel):
@@ -115,6 +131,13 @@ class ConfigManager:
                 settings_data["telegram"]["bot_token"] = os.environ["TELEGRAM_BOT_TOKEN"]
             if os.environ.get("TELEGRAM_CHAT_ID"):
                 settings_data["telegram"]["chat_id"] = os.environ["TELEGRAM_CHAT_ID"]
+
+        # Odds-API.io configuration from environment
+        if os.environ.get("ODDSAPI_API_KEY"):
+            if "oddsapi" not in settings_data:
+                settings_data["oddsapi"] = {}
+            settings_data["oddsapi"]["api_key"] = os.environ["ODDSAPI_API_KEY"]
+            settings_data["oddsapi"]["enabled"] = True
 
         self._settings = Settings(**settings_data)
         return self._settings
