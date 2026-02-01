@@ -316,6 +316,198 @@ Odds: <b>{bet.bookmaker_odds:.2f}</b>
 Fair: <b>{bet.sharp_odds:.2f}</b>"""
 
 
+def build_selection_text(bet: OddsApiValueBet) -> str:
+    """
+    Build proper selection text for display.
+
+    FAIL-SAFE: This function ALWAYS returns a meaningful string, never crashes.
+    Priority chain: Calculated > selection_display > selection > market+side > "Ukendt spil"
+    """
+    try:
+        # Safe extraction of all fields with defaults
+        market_name = getattr(bet, 'market_name', None) or ""
+        market_lower = market_name.lower()
+        bet_side = (getattr(bet, 'bet_side', None) or "").lower().strip()
+        line = getattr(bet, 'line', None)
+        home_team = getattr(bet, 'home_team', None) or ""
+        away_team = getattr(bet, 'away_team', None) or ""
+        selection = getattr(bet, 'selection', None) or ""
+        selection_display = getattr(bet, 'selection_display', None) or ""
+
+        # Format line with +/- sign (handles floats and ints)
+        def format_line(val) -> str:
+            if val is None:
+                return ""
+            try:
+                val = float(val)
+                # Format nicely: 9.5 stays 9.5, 9.0 becomes 9
+                if val == int(val):
+                    val = int(val)
+                if val > 0:
+                    return f"+{val}"
+                elif val == 0:
+                    return "0"
+                else:
+                    return str(val)
+            except (ValueError, TypeError):
+                return ""
+
+        # ============================================================
+        # STRATEGY 1: Calculate based on market type
+        # ============================================================
+
+        # --- SPREAD / HANDICAP markets ---
+        if any(kw in market_lower for kw in ["spread", "handicap", "asian"]):
+            if bet_side in ("home", "1"):
+                team = home_team if home_team else "Hjemme"
+                line_str = format_line(line)
+                return f"{team} {line_str}".strip() if line_str else team
+            elif bet_side in ("away", "2"):
+                team = away_team if away_team else "Ude"
+                # Away handicap is opposite sign of the line shown
+                try:
+                    opposite = -float(line) if line is not None else None
+                    line_str = format_line(opposite)
+                except (ValueError, TypeError):
+                    line_str = ""
+                return f"{team} {line_str}".strip() if line_str else team
+            elif bet_side == "draw":
+                return "Uafgjort"
+
+        # --- TOTALS / OVER-UNDER markets ---
+        elif any(kw in market_lower for kw in ["total", "over", "under", "o/u"]):
+            line_str = str(line) if line is not None else ""
+            if bet_side in ("home", "over", "o"):
+                return f"Over {line_str}".strip() if line_str else "Over"
+            elif bet_side in ("away", "under", "u"):
+                return f"Under {line_str}".strip() if line_str else "Under"
+
+        # --- 1X2 / MONEYLINE markets ---
+        elif any(kw in market_lower for kw in ["1x2", "moneyline", "match winner", "fulltime result"]):
+            if bet_side in ("home", "1", "h"):
+                return home_team if home_team else "Hjemme sejr"
+            elif bet_side in ("away", "2", "a"):
+                return away_team if away_team else "Ude sejr"
+            elif bet_side in ("draw", "x"):
+                return "Uafgjort"
+
+        # --- DOUBLE CHANCE markets ---
+        elif "double chance" in market_lower:
+            if bet_side in ("1x", "home_draw"):
+                home = home_team if home_team else "Hjemme"
+                return f"{home} eller Uafgjort"
+            elif bet_side in ("x2", "draw_away"):
+                away = away_team if away_team else "Ude"
+                return f"Uafgjort eller {away}"
+            elif bet_side in ("12", "home_away"):
+                return "Hjemme eller Ude"
+
+        # --- DRAW NO BET markets ---
+        elif "draw no bet" in market_lower or "dnb" in market_lower:
+            if bet_side in ("home", "1"):
+                return home_team if home_team else "Hjemme (DNB)"
+            elif bet_side in ("away", "2"):
+                return away_team if away_team else "Ude (DNB)"
+
+        # --- BOTH TEAMS TO SCORE ---
+        elif any(kw in market_lower for kw in ["btts", "both teams", "gg/ng"]):
+            if bet_side in ("yes", "gg", "over"):
+                return "Begge hold scorer: Ja"
+            elif bet_side in ("no", "ng", "under"):
+                return "Begge hold scorer: Nej"
+
+        # --- CORNERS markets ---
+        elif "corner" in market_lower:
+            line_str = str(line) if line is not None else ""
+            if "spread" in market_lower or "handicap" in market_lower:
+                if bet_side in ("home", "1"):
+                    team = home_team if home_team else "Hjemme"
+                    return f"{team} Hjørnespark {format_line(line)}".strip()
+                elif bet_side in ("away", "2"):
+                    team = away_team if away_team else "Ude"
+                    try:
+                        opposite = -float(line) if line is not None else None
+                        line_str = format_line(opposite)
+                    except (ValueError, TypeError):
+                        line_str = ""
+                    return f"{team} Hjørnespark {line_str}".strip()
+            else:  # Totals
+                if bet_side in ("home", "over", "o"):
+                    return f"Hjørnespark Over {line_str}".strip()
+                elif bet_side in ("away", "under", "u"):
+                    return f"Hjørnespark Under {line_str}".strip()
+
+        # --- CARDS / BOOKINGS markets ---
+        elif any(kw in market_lower for kw in ["card", "booking"]):
+            line_str = str(line) if line is not None else ""
+            if "spread" in market_lower or "handicap" in market_lower:
+                if bet_side in ("home", "1"):
+                    team = home_team if home_team else "Hjemme"
+                    return f"{team} Kort {format_line(line)}".strip()
+                elif bet_side in ("away", "2"):
+                    team = away_team if away_team else "Ude"
+                    try:
+                        opposite = -float(line) if line is not None else None
+                        line_str = format_line(opposite)
+                    except (ValueError, TypeError):
+                        line_str = ""
+                    return f"{team} Kort {line_str}".strip()
+            else:  # Totals
+                if bet_side in ("home", "over", "o"):
+                    return f"Kort Over {line_str}".strip()
+                elif bet_side in ("away", "under", "u"):
+                    return f"Kort Under {line_str}".strip()
+
+        # ============================================================
+        # STRATEGY 2: Use API-provided selection_display
+        # ============================================================
+        if selection_display and selection_display.strip():
+            return selection_display.strip()
+
+        # ============================================================
+        # STRATEGY 3: Use API-provided selection
+        # ============================================================
+        if selection and selection.strip():
+            return selection.strip()
+
+        # ============================================================
+        # STRATEGY 4: Build from market name + bet_side
+        # ============================================================
+        if market_name and bet_side:
+            # Clean up market name for display
+            clean_market = market_name.replace("_", " ").title()
+            side_display = bet_side.replace("_", " ").title()
+            line_str = f" {line}" if line is not None else ""
+            return f"{clean_market}: {side_display}{line_str}"
+
+        # ============================================================
+        # STRATEGY 5: Last resort fallbacks
+        # ============================================================
+        if market_name:
+            return f"{market_name} (ukendt)"
+
+        if bet_side:
+            return bet_side.title()
+
+        # Absolute last resort
+        return "Ukendt spil"
+
+    except Exception as e:
+        # CRITICAL: Never crash, always return something
+        logger.warning(f"[FAILSAFE] Error building selection text: {e}")
+        try:
+            # Emergency fallbacks
+            if hasattr(bet, 'selection_display') and bet.selection_display:
+                return str(bet.selection_display)
+            if hasattr(bet, 'selection') and bet.selection:
+                return str(bet.selection)
+            if hasattr(bet, 'market_name') and bet.market_name:
+                return f"{bet.market_name} (fejl)"
+        except:
+            pass
+        return "Ukendt spil"
+
+
 def convert_to_bet_dict(bet: OddsApiValueBet) -> Dict:
     """Convert OddsApiValueBet to dict format compatible with BetManager."""
     return {
@@ -324,7 +516,7 @@ def convert_to_bet_dict(bet: OddsApiValueBet) -> Dict:
         "league": bet.league,
         "kickoff": bet.start_time.isoformat() if bet.start_time else None,
         "market": bet.market_name,
-        "selection": bet.selection,
+        "selection": build_selection_text(bet),
         "book": bet.bookmaker,
         "odds": bet.bookmaker_odds,
         "american": bet.bookmaker_american,
@@ -480,6 +672,8 @@ async def run_scan(client: OddsApiClient) -> List[Dict]:
                             # Update the dict with enriched data
                             bet_dict["fixture"] = raw_bet.fixture_name
                             bet_dict["league"] = raw_bet.league
+                            # Rebuild selection with real team names
+                            bet_dict["selection"] = build_selection_text(raw_bet)
 
                             # Filter out non-football events
                             if raw_bet.sport and raw_bet.sport.lower() not in ("football", "soccer"):
@@ -539,13 +733,32 @@ async def process_queue(
             break
 
         bet = pending_queue.pop(0)
+
+        # Get the raw bet object for formatting
+        raw_bet = bet.pop("_raw_bet", None)
+
+        # FAILSAFE: Validate and repair empty selection
+        selection = bet.get("selection", "").strip()
+        if not selection:
+            # Try to rebuild from raw_bet if available
+            if raw_bet:
+                try:
+                    selection = build_selection_text(raw_bet)
+                    bet["selection"] = selection
+                    logger.warning(f"[FAILSAFE] Repaired empty selection -> '{selection}'")
+                except Exception as e:
+                    logger.warning(f"[FAILSAFE] Could not repair selection: {e}")
+
+            # If still empty, use market name as last resort
+            if not bet.get("selection", "").strip():
+                fallback = bet.get("market", "Ukendt marked")
+                bet["selection"] = fallback
+                logger.warning(f"[FAILSAFE] Using market as selection: '{fallback}'")
+
         alert_key = f"{bet['fixture']}|{bet['market']}|{bet['selection']}|{bet['book']}"
 
         if alert_key in sent_alerts:
             continue
-
-        # Get the raw bet object for formatting
-        raw_bet = bet.pop("_raw_bet", None)
 
         # Create bet in Firebase if available
         bet_key = None
@@ -625,6 +838,8 @@ Bookmakers: {', '.join(DANISH_BOOKMAKERS)}""",
 
     last_scan_time = 0
     last_send_time = 0
+    last_timer_time = 0
+    TIMER_INTERVAL_SEC = 60  # Update timers every 60 seconds
 
     try:
         while True:
@@ -643,11 +858,22 @@ Bookmakers: {', '.join(DANISH_BOOKMAKERS)}""",
                     }
 
                     new_bets = 0
+                    skipped_empty = 0
                     for bet in value_bets:
+                        # STRICT: Skip bets with empty selection
+                        selection = (bet.get('selection') or '').strip()
+                        if not selection:
+                            skipped_empty += 1
+                            logger.warning(f"[SKIP] Empty selection: {bet.get('fixture', 'Unknown')} | {bet.get('market', 'Unknown')}")
+                            continue
+
                         key = f"{bet['fixture']}|{bet['market']}|{bet['selection']}|{bet['book']}"
                         if key not in existing_keys and key not in queued_keys:
                             pending_queue.append(bet)
                             new_bets += 1
+
+                    if skipped_empty > 0:
+                        logger.warning(f"[SKIP] Skipped {skipped_empty} bets with empty selection")
 
                     save_pending_queue(pending_queue)
 
@@ -666,6 +892,16 @@ Bookmakers: {', '.join(DANISH_BOOKMAKERS)}""",
                 if sent > 0:
                     logger.info(f"\n[QUEUE] Sent {sent} bets, {len(pending_queue)} remaining")
                 last_send_time = now
+
+            # Update bet timers every 60 seconds
+            if bet_manager and now - last_timer_time >= TIMER_INTERVAL_SEC:
+                try:
+                    updated = await bet_manager.update_bet_timers()
+                    if updated > 0:
+                        logger.info(f"\n[TIMER] Updated {updated} bet timers")
+                except Exception as e:
+                    logger.warning(f"[TIMER] Error: {e}")
+                last_timer_time = now
 
             # Status update
             queue_status = f"Queue: {len(pending_queue)}" if pending_queue else "Queue: empty"

@@ -36,7 +36,6 @@ class OddsApiConfig(BaseModel):
 
 class Settings(BaseModel):
     """Application settings."""
-    opticodds_api_key: str = ""
     telegram: TelegramConfig = Field(default_factory=TelegramConfig)
     sportsbooks: List[str] = Field(default_factory=lambda: [
         "betsson", "leovegas", "unibet", "betway"
@@ -121,9 +120,6 @@ class ConfigManager:
                 settings_data = json.load(f)
 
         # Override with environment variables
-        if os.environ.get("OPTICODDS_API_KEY"):
-            settings_data["opticodds_api_key"] = os.environ["OPTICODDS_API_KEY"]
-
         if os.environ.get("TELEGRAM_BOT_TOKEN") or os.environ.get("TELEGRAM_CHAT_ID"):
             if "telegram" not in settings_data:
                 settings_data["telegram"] = {}

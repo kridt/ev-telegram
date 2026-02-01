@@ -1,39 +1,50 @@
 {
-  "opticodds_api_key": "",
   "telegram": {
-    "bot_token": "",
-    "chat_id": ""
+    "bot_token": "YOUR_BOT_TOKEN",
+    "chat_id": "YOUR_CHAT_ID"
   },
   "sportsbooks": [
-    "betsson",
-    "leovegas",
-    "unibet",
-    "betano"
+    "Bet365",
+    "DanskeSpil",
+    "Unibet DK",
+    "Coolbet",
+    "Betano DK",
+    "NordicBet DK",
+    "Betsson",
+    "LeoVegas",
+    "Betinia DK",
+    "Campobet DK"
   ],
   "leagues": [
-    "england_-_premier_league",
-    "spain_-_la_liga",
-    "germany_-_bundesliga",
-    "italy_-_serie_a",
-    "france_-_ligue_1",
-    "netherlands_-_eredivisie",
-    "portugal_-_primeira_liga",
-    "uefa_-_champions_league",
-    "uefa_-_europa_league",
-    "usa_-_mls"
+    "england-premier-league",
+    "spain-laliga",
+    "germany-bundesliga",
+    "italy-serie-a",
+    "france-ligue-1",
+    "netherlands-eredivisie",
+    "international-clubs-uefa-champions-league",
+    "international-clubs-uefa-europa-league"
   ],
   "target_markets": [
-    "Total Shots",
-    "Total Shots On Target",
-    "Total Corners",
-    "Asian Handicap",
-    "Asian Handicap Corners"
+    "Corners",
+    "Corner Handicap",
+    "Cards",
+    "Bookings"
   ],
   "min_edge_percent": 5.0,
   "max_edge_percent": 25.0,
   "min_odds": 1.5,
   "max_odds": 3.0,
-  "min_books": 4,
+  "min_books": 2,
   "refresh_interval_minutes": 5,
-  "hours_ahead": 6
+  "hours_ahead": 24,
+  "oddsapi": {
+    "api_key": "YOUR_ODDSAPI_KEY",
+    "enabled": true,
+    "min_ev_percent": 5.0,
+    "max_ev_percent": 25.0,
+    "bookmakers": ["Bet365", "DanskeSpil", "Unibet DK", "Coolbet"],
+    "prop_markets_only": true,
+    "refresh_interval_minutes": 5
+  }
 }

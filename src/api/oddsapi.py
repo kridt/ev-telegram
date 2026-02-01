@@ -124,8 +124,16 @@ class OddsApiValueBet:
             "corner", "booking", "card", "shot", "foul",
             "throw", "offside", "tackle", "save"
         ]
+        # Exclude certain market types
+        excluded_keywords = ["race"]
+
         market_lower = self.market_name.lower()
-        return any(kw in market_lower for kw in prop_keywords)
+
+        # Must contain a prop keyword and NOT contain excluded keywords
+        has_prop = any(kw in market_lower for kw in prop_keywords)
+        has_excluded = any(kw in market_lower for kw in excluded_keywords)
+
+        return has_prop and not has_excluded
 
     @property
     def is_fresh(self) -> bool:

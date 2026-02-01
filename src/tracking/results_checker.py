@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Any
 
-from ..api import OpticOddsClient
+from ..api import OddsApiClient
 from .bet_tracker import BetTracker, TrackedBet, BetStatus
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ResultsChecker:
     """Checks match results and settles bets."""
 
-    def __init__(self, api_client: OpticOddsClient, bet_tracker: BetTracker):
+    def __init__(self, api_client: OddsApiClient, bet_tracker: BetTracker):
         """Initialize with API client and bet tracker."""
         self.api = api_client
         self.tracker = bet_tracker
@@ -117,7 +117,7 @@ class ResultsChecker:
     ) -> Optional[float]:
         """Extract the result value for a bet from match stats.
 
-        OpticOdds API field names:
+        API field names:
         - total_scoring_att = Total shots
         - ontarget_scoring_att = Shots on target
         - fouls = Total fouls
@@ -206,7 +206,7 @@ class ResultsChecker:
             else:
                 return away_goals - home_goals
 
-        # Player props - OpticOdds doesn't provide player-level stats
+        # Player props - API doesn't provide player-level stats
         # These need manual verification
         if "player" in market:
             logger.info(f"Player prop needs manual verification: {bet.selection}")

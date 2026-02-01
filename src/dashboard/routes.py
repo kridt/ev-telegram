@@ -160,7 +160,7 @@ def create_router() -> APIRouter:
     @router.get("/leagues")
     async def list_leagues() -> List[Dict[str, str]]:
         """Get available leagues."""
-        # This could be expanded to fetch from OpticOdds API
+        # This could be expanded to fetch from Odds-API.io
         return [
             {"id": "premier-league", "name": "Premier League"},
             {"id": "la-liga", "name": "La Liga"},

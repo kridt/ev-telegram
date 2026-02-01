@@ -17,6 +17,26 @@ load_dotenv()
 # Firebase config
 RTDB_URL = "https://value-profit-system-default-rtdb.europe-west1.firebasedatabase.app"
 
+# Load market translations
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TRANSLATIONS_FILE = os.path.join(SCRIPT_DIR, "config", "market_translations.json")
+try:
+    with open(TRANSLATIONS_FILE, "r", encoding="utf-8") as f:
+        MARKET_TRANSLATIONS = json.load(f)
+except Exception as e:
+    print(f"[WARNING] Could not load market translations: {e}")
+    MARKET_TRANSLATIONS = {"markets": {}, "selections": {}}
+
+
+def get_translated_market(market_name: str, bookmaker: str) -> str:
+    """Translate API market name to Danish bookmaker-specific name."""
+    markets = MARKET_TRANSLATIONS.get("markets", {})
+    if market_name in markets:
+        book_translations = markets[market_name]
+        return book_translations.get(bookmaker, book_translations.get("default", market_name))
+    return market_name
+
+
 app = FastAPI(title="EV Bot Admin Dashboard")
 
 
@@ -289,7 +309,8 @@ async def dashboard(request: Request):
             <h1>⚽ EV Telegram Bot Dashboard</h1>
             <p style="margin-bottom:20px;">
                 <a href="/settle" style="color:#60a5fa;text-decoration:none;margin-right:20px;">⚖️ Settle Bets</a>
-                <a href="/backtest" style="color:#60a5fa;text-decoration:none;">📊 Backtest</a>
+                <a href="/backtest" style="color:#60a5fa;text-decoration:none;margin-right:20px;">📊 Backtest</a>
+                <a href="/data-collection" style="color:#22c55e;text-decoration:none;">📦 Data Collection</a>
             </p>
 
             <div class="stats-grid">
@@ -400,11 +421,19 @@ async def dashboard(request: Request):
 async def settle_page(request: Request):
     """Settlement page for marking bet results - grouped by match with auto-settle."""
     bet_history = await fetch_firebase("bet_history") or {}
+    active_bets = await fetch_firebase("active_bets") or {}
 
-    # Find unsettled bets (played but no result)
+    # Find unsettled bets (played but no result) from bet_history
     unsettled = []
     for key, bet in bet_history.items():
         if bet.get("user_action") == "played" and not bet.get("result"):
+            unsettled.append((key, bet))
+
+    # Also include pending/played/expired bets from active_bets (not yet settled)
+    for key, bet in active_bets.items():
+        if bet.get("status") in ("pending", "played", "expired") and not bet.get("result"):
+            # Mark source for display
+            bet["_source"] = "active"
             unsettled.append((key, bet))
 
     # Group by fixture
@@ -458,8 +487,9 @@ async def settle_page(request: Request):
         # Build bet rows
         bet_rows = ""
         for key, bet in bets:
-            book = bet.get("bookmaker", "").lower()
-            book_class = book if book in ["betsson", "leovegas", "unibet", "betano"] else ""
+            book = bet.get("bookmaker", "")
+            book_lower = book.lower()
+            book_class = book_lower if book_lower in ["betsson", "leovegas", "unibet", "betano"] else ""
             odds = bet.get("odds", 0)
             edge = bet.get("edge", 0)
             edge_class = "high" if edge >= 10 else "medium" if edge >= 7 else "low"
@@ -467,12 +497,14 @@ async def settle_page(request: Request):
             arrow = "▲" if "over" in selection.lower() else "▼" if "under" in selection.lower() else ""
             arrow_class = "over" if "over" in selection.lower() else "under" if "under" in selection.lower() else ""
             stake = bet.get("stake", calc_stake(odds))
+            market_raw = bet.get("market", "")
+            market_dk = get_translated_market(market_raw, book)
 
             bet_rows += f'''
-            <tr data-key="{key}" data-odds="{odds}" data-stake="{stake}" data-market="{bet.get('market', '')}" data-selection="{selection}">
-                <td>{bet.get('market', 'N/A')}</td>
+            <tr data-key="{key}" data-odds="{odds}" data-stake="{stake}" data-market="{market_raw}" data-selection="{selection}">
+                <td>{market_dk}</td>
                 <td><span class="selection"><span class="arrow {arrow_class}">{arrow}</span> {selection}</span></td>
-                <td><span class="bookmaker {book_class}">{book.upper()}</span></td>
+                <td><span class="bookmaker {book_class}">{book.upper() if book else 'N/A'}</span></td>
                 <td>{odds:.2f}</td>
                 <td><span class="edge {edge_class}">{edge:.1f}%</span></td>
                 <td><input type="number" class="stake-input" id="stake-{key}" value="{stake}" step="0.5" min="0.5" max="50"></td>
@@ -786,7 +818,7 @@ async def settle_page(request: Request):
 
         <div class="auto-settle-section">
             <h3>🤖 Auto-Settle with Live Scores</h3>
-            <p>Automatically fetch match results from OpticOdds and settle all bets. Only works for bets with fixture_id stored.</p>
+            <p>Automatically fetch match results from Odds-API and settle all bets. Only works for bets with fixture_id stored.</p>
             <button class="auto-settle-btn" onclick="runAutoSettle()">
                 <span class="spinner" id="autoSettleSpinner"></span>
                 <span id="autoSettleBtnText">⚡ Auto-Settle All</span>
@@ -954,7 +986,7 @@ async def settle_page(request: Request):
                 progressDiv.classList.add('show');
                 progressBar.style.width = '0%';
                 log.innerHTML = '';
-                status.textContent = 'Connecting to OpticOdds...';
+                status.textContent = 'Connecting to Odds-API...';
 
                 // Close existing connection
                 if (autoSettleEventSource) autoSettleEventSource.close();
@@ -1057,12 +1089,24 @@ async def api_settle(request: Request):
 
     try:
         async with httpx.AsyncClient(timeout=30) as client:
-            r = await client.patch(
-                f"{RTDB_URL}/bet_history/{bet_key}.json",
-                json=update_data
-            )
-            if r.status_code == 200:
-                return {"success": True, "bet_key": bet_key, "result": result, "profit": profit}
+            # Try active_bets first (for pending/played bets)
+            r = await client.get(f"{RTDB_URL}/active_bets/{bet_key}.json")
+            if r.status_code == 200 and r.json():
+                # Bet is in active_bets - update it there
+                r = await client.patch(
+                    f"{RTDB_URL}/active_bets/{bet_key}.json",
+                    json=update_data
+                )
+                if r.status_code == 200:
+                    return {"success": True, "bet_key": bet_key, "result": result, "profit": profit, "source": "active_bets"}
+            else:
+                # Try bet_history
+                r = await client.patch(
+                    f"{RTDB_URL}/bet_history/{bet_key}.json",
+                    json=update_data
+                )
+                if r.status_code == 200:
+                    return {"success": True, "bet_key": bet_key, "result": result, "profit": profit, "source": "bet_history"}
     except Exception as e:
         return {"error": str(e)}
 
@@ -1112,11 +1156,205 @@ import uuid
 # Store for backtest jobs
 backtest_jobs = {}
 
+
+@app.get("/api/data-collection/stats")
+async def data_collection_stats():
+    """Get statistics about collected odds data for backtesting."""
+    try:
+        from src.odds_history import get_collector
+        collector = get_collector()
+        stats = collector.get_stats()
+        return {"success": True, "stats": stats}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@app.get("/data-collection", response_class=HTMLResponse)
+async def data_collection_page(request: Request):
+    """Page showing data collection status for backtesting."""
+
+    # Try to get stats
+    try:
+        from src.odds_history import get_collector
+        collector = get_collector()
+        stats = collector.get_stats()
+        enabled = True
+    except Exception as e:
+        stats = {"error": str(e)}
+        enabled = False
+
+    html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Collection | EV Bot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            padding: 20px;
+        }}
+
+        .container {{ max-width: 900px; margin: 0 auto; }}
+
+        .header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }}
+
+        .header h1 {{ font-size: 28px; }}
+        .header nav a {{
+            color: #94a3b8;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.2s;
+        }}
+        .header nav a:hover {{ color: #22c55e; }}
+
+        .status-card {{
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }}
+
+        .status-badge {{
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }}
+        .status-enabled {{ background: #22c55e; color: white; }}
+        .status-disabled {{ background: #ef4444; color: white; }}
+
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }}
+
+        .stat-box {{
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }}
+        .stat-box .value {{
+            font-size: 36px;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 5px;
+        }}
+        .stat-box .label {{ color: #94a3b8; font-size: 14px; }}
+
+        .info-section {{
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }}
+        .info-section h3 {{ color: #22c55e; margin-bottom: 10px; }}
+        .info-section p {{ color: #94a3b8; line-height: 1.6; }}
+
+        .date-range {{
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            display: inline-block;
+            margin-top: 10px;
+        }}
+        .date-range span {{ color: #60a5fa; font-weight: 600; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Data Collection</h1>
+            <nav>
+                <a href="/">Dashboard</a>
+                <a href="/settle">Settle</a>
+                <a href="/backtest">Backtest</a>
+            </nav>
+        </div>
+
+        <div class="status-card">
+            <div class="status-badge {'status-enabled' if enabled else 'status-disabled'}">
+                {'ACTIVE' if enabled else 'DISABLED'}
+            </div>
+
+            <h2>Odds History Collection</h2>
+            <p style="color: #94a3b8; margin-top: 10px;">
+                The scanner automatically saves odds snapshots for every fixture it analyzes.
+                This data will be used for future backtesting once enough history is collected.
+            </p>
+
+            {'<div class="stats-grid">' if enabled else ''}
+            {'<div class="stat-box"><div class="value">' + str(stats.get("total_days", 0)) + '</div><div class="label">Days Collected</div></div>' if enabled else ''}
+            {'<div class="stat-box"><div class="value">' + str(stats.get("total_snapshots", 0)) + '</div><div class="label">Odds Snapshots</div></div>' if enabled else ''}
+            {'<div class="stat-box"><div class="value">' + str(stats.get("total_fixtures", 0)) + '</div><div class="label">Unique Fixtures</div></div>' if enabled else ''}
+            {'<div class="stat-box"><div class="value">' + str(stats.get("total_value_bets_logged", 0)) + '</div><div class="label">Value Bets Found</div></div>' if enabled else ''}
+            {'<div class="stat-box"><div class="value">' + str(stats.get("total_results_saved", 0)) + '</div><div class="label">Results Saved</div></div>' if enabled else ''}
+            {'</div>' if enabled else ''}
+
+            {('<div class="date-range">Data from <span>' + (stats.get("date_range", {}) or {}).get("start", "N/A") + '</span> to <span>' + (stats.get("date_range", {}) or {}).get("end", "N/A") + '</span></div>') if enabled and stats.get("date_range") else ''}
+        </div>
+
+        <div class="info-section">
+            <h3>How It Works</h3>
+            <p>
+                Every time the scanner runs (every 5 minutes), it saves odds from all bookmakers
+                for every fixture and market it analyzes. This includes:
+            </p>
+            <ul style="margin-top: 10px; margin-left: 20px; color: #94a3b8;">
+                <li>Odds from 10 bookmakers (4 betting + 6 reference)</li>
+                <li>All target markets (Shots, SOT, Corners, Asian Handicap)</li>
+                <li>Value bets detected at each snapshot</li>
+                <li>Match results when available</li>
+            </ul>
+            <p style="margin-top: 15px;">
+                After collecting 1-3 months of data, you'll be able to run comprehensive
+                backtests using real historical odds from your scanner.
+            </p>
+        </div>
+
+        <div class="info-section" style="background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3);">
+            <h3 style="color: #fbbf24;">Recommendation</h3>
+            <p>
+                Keep the scanner running consistently. The more data collected, the more
+                statistically significant your backtest results will be. Aim for at least
+                30 days of data before running a backtest.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh stats every 60 seconds
+        setTimeout(() => location.reload(), 60000);
+    </script>
+</body>
+</html>
+"""
+    return HTMLResponse(content=html)
+
 @app.get("/backtest", response_class=HTMLResponse)
 async def backtest_page(request: Request):
     """Backtesting page to analyze historical EV opportunities."""
 
-    # Get available leagues from OpticOdds
+    # Get available leagues from Odds-API
     leagues = [
         ("england_-_premier_league", "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League"),
         ("spain_-_la_liga", "🇪🇸 La Liga"),
@@ -1978,20 +2216,20 @@ async def api_backtest_stream(
 
     async def generate():
         try:
-            from src.api import OpticOddsClient
+            from src.api import OddsApiClient
             from src.backtesting.backtest import Backtester
         except ImportError as e:
             yield f"data: {json.dumps({'type': 'error', 'message': f'Import error: {e}'})}\n\n"
             return
 
-        api_key = os.environ.get("OPTICODDS_API_KEY", "")
+        api_key = os.environ.get("ODDSAPI_API_KEY", "")
         if not api_key:
-            yield f"data: {json.dumps({'type': 'error', 'message': 'OPTICODDS_API_KEY not configured'})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'message': 'ODDSAPI_API_KEY not configured'})}\n\n"
             return
 
         client = None
         try:
-            client = OpticOddsClient(api_key, timeout=120.0)
+            client = OddsApiClient(api_key, timeout=120.0)
 
             # Fetch completed fixtures in date range
             response = await client._request('GET', '/fixtures', params={
@@ -2113,7 +2351,7 @@ async def api_backtest_stream(
 
 @app.get("/api/auto-settle/stream")
 async def api_auto_settle_stream():
-    """Auto-settle bets using OpticOdds match results with SSE streaming."""
+    """Auto-settle bets using Odds-API match results with SSE streaming."""
     import sys
     import os
 
@@ -2121,14 +2359,14 @@ async def api_auto_settle_stream():
 
     async def generate():
         try:
-            from src.api import OpticOddsClient
+            from src.api import OddsApiClient
         except ImportError as e:
             yield f"data: {json.dumps({'type': 'error', 'message': f'Import error: {e}'})}\n\n"
             return
 
-        api_key = os.environ.get("OPTICODDS_API_KEY", "")
+        api_key = os.environ.get("ODDSAPI_API_KEY", "")
         if not api_key:
-            yield f"data: {json.dumps({'type': 'error', 'message': 'OPTICODDS_API_KEY not configured'})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'message': 'ODDSAPI_API_KEY not configured'})}\n\n"
             return
 
         # Fetch unsettled bets from Firebase
@@ -2147,7 +2385,7 @@ async def api_auto_settle_stream():
 
         client = None
         try:
-            client = OpticOddsClient(api_key, timeout=60.0)
+            client = OddsApiClient(api_key, timeout=60.0)
 
             # Risk management stake function
             def calc_stake(odds):
@@ -2178,7 +2416,7 @@ async def api_auto_settle_stream():
                     continue
 
                 try:
-                    # Fetch match results from OpticOdds
+                    # Fetch match results from Odds-API
                     response = await client._request('GET', '/fixtures/results', params={
                         'fixture_id': fixture_id
                     })
@@ -2324,3 +2562,449 @@ async def api_auto_settle_stream():
                 await client.close()
 
     return StreamingResponse(generate(), media_type="text/event-stream")
+
+
+# Backtest Live Results Path
+BACKTEST_RESULTS_FILE = os.path.join(os.path.dirname(__file__), "backtest_live_results.json")
+
+
+@app.get("/backtest-live", response_class=HTMLResponse)
+async def backtest_live_page(request: Request):
+    """Live backtest results page - reads from JSON file updated by run_live_backtest.py."""
+
+    # Load results from JSON file
+    results = None
+    if os.path.exists(BACKTEST_RESULTS_FILE):
+        try:
+            with open(BACKTEST_RESULTS_FILE, 'r', encoding='utf-8') as f:
+                results = json.load(f)
+        except:
+            pass
+
+    if not results:
+        results = {
+            "status": "not_started",
+            "summary": {"total_bets": 0, "wins": 0, "losses": 0, "push": 0, "total_profit": 0, "roi": 0},
+            "progress": {"leagues_done": 0, "leagues_total": 9, "fixtures_processed": 0, "current_league": ""},
+            "by_league": {},
+            "by_market": {},
+            "by_book": {},
+            "recent_bets": [],
+            "config": {}
+        }
+
+    status = results.get("status", "unknown")
+    summary = results.get("summary", {})
+    progress = results.get("progress", {})
+    config = results.get("config", {})
+    by_league = results.get("by_league", {})
+    by_market = results.get("by_market", {})
+    by_book = results.get("by_book", {})
+    recent_bets = results.get("recent_bets", [])
+
+    # Status badge
+    status_colors = {"running": "#f59e0b", "completed": "#22c55e", "not_started": "#6b7280", "error": "#ef4444"}
+    status_color = status_colors.get(status, "#6b7280")
+    status_badge = f'<span style="background:{status_color};color:white;padding:5px 15px;border-radius:20px;font-weight:500;">{status.upper()}</span>'
+
+    # Progress bar
+    leagues_done = progress.get("leagues_done", 0)
+    leagues_total = progress.get("leagues_total", 9)
+    progress_pct = (leagues_done / leagues_total * 100) if leagues_total > 0 else 0
+    current_league = progress.get("current_league", "")
+
+    # Summary stats
+    total_bets = summary.get("total_bets", 0)
+    wins = summary.get("wins", 0)
+    losses = summary.get("losses", 0)
+    push = summary.get("push", 0)
+    total_profit = summary.get("total_profit", 0)
+    roi = summary.get("roi", 0)
+    win_rate = summary.get("win_rate", 0)
+    avg_edge = summary.get("avg_edge", 0)
+    avg_odds = summary.get("avg_odds", 0)
+    total_staked = summary.get("total_staked", 0)
+
+    profit_class = "positive" if total_profit >= 0 else "negative"
+    roi_class = "positive" if roi >= 0 else "negative"
+
+    # League breakdown table
+    league_rows = ""
+    for league_name, stats in sorted(by_league.items(), key=lambda x: x[1].get("profit", 0), reverse=True):
+        l_bets = stats.get("bets", 0)
+        l_wins = stats.get("wins", 0)
+        l_losses = stats.get("losses", 0)
+        l_profit = stats.get("profit", 0)
+        l_staked = stats.get("staked", 0)
+        l_roi = (l_profit / l_staked * 100) if l_staked > 0 else 0
+        l_wr = (l_wins / (l_wins + l_losses) * 100) if (l_wins + l_losses) > 0 else 0
+        l_profit_class = "positive" if l_profit >= 0 else "negative"
+        league_rows += f'''
+        <tr>
+            <td>{league_name}</td>
+            <td>{l_bets}</td>
+            <td>{l_wins}W / {l_losses}L</td>
+            <td>{l_wr:.1f}%</td>
+            <td class="{l_profit_class}">{l_profit:+.2f}</td>
+            <td class="{l_profit_class}">{l_roi:+.1f}%</td>
+        </tr>
+        '''
+
+    # Market breakdown table
+    market_rows = ""
+    for market_name, stats in sorted(by_market.items(), key=lambda x: x[1].get("profit", 0), reverse=True):
+        m_bets = stats.get("bets", 0)
+        m_wins = stats.get("wins", 0)
+        m_losses = stats.get("losses", 0)
+        m_profit = stats.get("profit", 0)
+        m_staked = stats.get("staked", 0)
+        m_roi = (m_profit / m_staked * 100) if m_staked > 0 else 0
+        m_wr = (m_wins / (m_wins + m_losses) * 100) if (m_wins + m_losses) > 0 else 0
+        m_profit_class = "positive" if m_profit >= 0 else "negative"
+        market_rows += f'''
+        <tr>
+            <td>{market_name}</td>
+            <td>{m_bets}</td>
+            <td>{m_wins}W / {m_losses}L</td>
+            <td>{m_wr:.1f}%</td>
+            <td class="{m_profit_class}">{m_profit:+.2f}</td>
+            <td class="{m_profit_class}">{m_roi:+.1f}%</td>
+        </tr>
+        '''
+
+    # Book breakdown table
+    book_rows = ""
+    for book_name, stats in sorted(by_book.items(), key=lambda x: x[1].get("profit", 0), reverse=True):
+        b_bets = stats.get("bets", 0)
+        b_wins = stats.get("wins", 0)
+        b_losses = stats.get("losses", 0)
+        b_profit = stats.get("profit", 0)
+        b_staked = stats.get("staked", 0)
+        b_roi = (b_profit / b_staked * 100) if b_staked > 0 else 0
+        b_wr = (b_wins / (b_wins + b_losses) * 100) if (b_wins + b_losses) > 0 else 0
+        b_profit_class = "positive" if b_profit >= 0 else "negative"
+        book_rows += f'''
+        <tr>
+            <td style="text-transform: capitalize;">{book_name}</td>
+            <td>{b_bets}</td>
+            <td>{b_wins}W / {b_losses}L</td>
+            <td>{b_wr:.1f}%</td>
+            <td class="{b_profit_class}">{b_profit:+.2f}</td>
+            <td class="{b_profit_class}">{b_roi:+.1f}%</td>
+        </tr>
+        '''
+
+    # Recent bets table (show last 25)
+    recent_rows = ""
+    for bet in reversed(recent_bets[-25:]):
+        result = bet.get("result", "pending")
+        result_colors = {"won": "#22c55e", "lost": "#ef4444", "push": "#3b82f6"}
+        result_color = result_colors.get(result, "#6b7280")
+        bet_profit = bet.get("profit", 0)
+        profit_class = "positive" if bet_profit >= 0 else "negative"
+        recent_rows += f'''
+        <tr>
+            <td>{bet.get("date", "")}</td>
+            <td>{bet.get("fixture", "")[:30]}</td>
+            <td>{bet.get("league", "")}</td>
+            <td>{bet.get("market", "")}</td>
+            <td>{bet.get("selection", "")}</td>
+            <td style="text-transform: capitalize;">{bet.get("book", "")}</td>
+            <td>{bet.get("odds", 0):.2f}</td>
+            <td>{bet.get("edge", 0):.1f}%</td>
+            <td>{bet.get("actual", "")}</td>
+            <td><span style="background:{result_color};color:white;padding:2px 8px;border-radius:4px;font-size:11px;">{result.upper()}</span></td>
+            <td class="{profit_class}">{bet_profit:+.2f}</td>
+        </tr>
+        '''
+
+    # Config info
+    config_info = ""
+    if config:
+        config_info = f'''
+        <div class="config-info">
+            <span>Date Range: {config.get("date_range", "N/A")}</span>
+            <span>Edge: {config.get("min_edge", 5)}% - {config.get("max_edge", 25)}%</span>
+            <span>Odds: {config.get("min_odds", 1.5)} - {config.get("max_odds", 3.0)}</span>
+            <span>Min Books: {config.get("min_books", 4)}</span>
+        </div>
+        '''
+
+    html = f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Live Backtest - EV Bot</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #0f0f1a, #0a1628);
+                background-size: 400% 400%;
+                animation: gradientBG 15s ease infinite;
+                color: #fff;
+                padding: 20px;
+                max-width: 1600px;
+                margin: 0 auto;
+                min-height: 100vh;
+            }}
+            @keyframes gradientBG {{
+                0% {{ background-position: 0% 50%; }}
+                50% {{ background-position: 100% 50%; }}
+                100% {{ background-position: 0% 50%; }}
+            }}
+
+            h1 {{
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 32px;
+                background: linear-gradient(135deg, #fff 0%, #f59e0b 50%, #22c55e 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }}
+            .subtitle {{ text-align: center; color: #888; margin-bottom: 20px; }}
+            .subtitle a {{ color: #60a5fa; text-decoration: none; }}
+
+            .status-bar {{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }}
+
+            .progress-section {{
+                background: rgba(26, 26, 26, 0.8);
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }}
+            .progress-bar {{
+                background: #1a1a1a;
+                border-radius: 10px;
+                height: 20px;
+                overflow: hidden;
+                margin: 10px 0;
+            }}
+            .progress-fill {{
+                background: linear-gradient(90deg, #f59e0b, #22c55e);
+                height: 100%;
+                transition: width 0.5s ease;
+            }}
+            .progress-text {{ text-align: center; color: #888; font-size: 14px; }}
+
+            .config-info {{
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+                font-size: 13px;
+                color: #888;
+            }}
+            .config-info span {{
+                background: rgba(255,255,255,0.05);
+                padding: 5px 12px;
+                border-radius: 6px;
+            }}
+
+            .stats-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                margin-bottom: 30px;
+            }}
+            .stat-card {{
+                background: rgba(26, 26, 26, 0.8);
+                border-radius: 12px;
+                padding: 20px;
+                text-align: center;
+                border: 1px solid rgba(255,255,255,0.1);
+            }}
+            .stat-value {{
+                font-size: 28px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }}
+            .stat-value.positive {{ color: #4ade80; }}
+            .stat-value.negative {{ color: #f87171; }}
+            .stat-label {{ font-size: 12px; color: #888; text-transform: uppercase; }}
+
+            .section-title {{
+                font-size: 20px;
+                margin: 30px 0 15px 0;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }}
+
+            .breakdown-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }}
+            .breakdown-card {{
+                background: rgba(26, 26, 26, 0.8);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid rgba(255,255,255,0.1);
+            }}
+            .breakdown-card h3 {{
+                margin-bottom: 15px;
+                color: #60a5fa;
+            }}
+
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }}
+            th {{
+                background: rgba(255,255,255,0.05);
+                padding: 10px;
+                text-align: left;
+                font-weight: 500;
+                color: #888;
+            }}
+            td {{
+                padding: 10px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }}
+            .positive {{ color: #4ade80; }}
+            .negative {{ color: #f87171; }}
+
+            .recent-bets {{
+                background: rgba(26, 26, 26, 0.8);
+                border-radius: 12px;
+                padding: 20px;
+                overflow-x: auto;
+            }}
+            .recent-bets table {{ min-width: 1000px; }}
+
+            .refresh-info {{
+                text-align: center;
+                color: #666;
+                font-size: 12px;
+                margin-top: 20px;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>Live Backtest Results</h1>
+        <p class="subtitle"><a href="/">Dashboard</a> | <a href="/backtest">Run Backtest</a> | <a href="/settle">Settle</a></p>
+
+        <div class="status-bar">
+            {status_badge}
+            <span style="color:#888;">Last Updated: {results.get("last_updated", "Never")}</span>
+        </div>
+
+        {config_info}
+
+        <div class="progress-section">
+            <div class="progress-text">
+                Processing: <strong>{current_league or "Waiting..."}</strong>
+                ({leagues_done}/{leagues_total} leagues, {progress.get("fixtures_processed", 0)} fixtures)
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {progress_pct:.1f}%"></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{total_bets}</div>
+                <div class="stat-label">Total Bets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{wins}W / {losses}L</div>
+                <div class="stat-label">Record</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{win_rate:.1f}%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{total_staked:.0f}</div>
+                <div class="stat-label">Total Staked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value {profit_class}">{total_profit:+.2f}</div>
+                <div class="stat-label">Profit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value {roi_class}">{roi:+.1f}%</div>
+                <div class="stat-label">ROI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{avg_edge:.1f}%</div>
+                <div class="stat-label">Avg Edge</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{avg_odds:.2f}</div>
+                <div class="stat-label">Avg Odds</div>
+            </div>
+        </div>
+
+        <div class="breakdown-grid">
+            <div class="breakdown-card">
+                <h3>By League</h3>
+                <table>
+                    <thead><tr><th>League</th><th>Bets</th><th>Record</th><th>Win%</th><th>Profit</th><th>ROI</th></tr></thead>
+                    <tbody>{league_rows if league_rows else '<tr><td colspan="6" style="text-align:center;color:#666;">No data yet</td></tr>'}</tbody>
+                </table>
+            </div>
+            <div class="breakdown-card">
+                <h3>By Market</h3>
+                <table>
+                    <thead><tr><th>Market</th><th>Bets</th><th>Record</th><th>Win%</th><th>Profit</th><th>ROI</th></tr></thead>
+                    <tbody>{market_rows if market_rows else '<tr><td colspan="6" style="text-align:center;color:#666;">No data yet</td></tr>'}</tbody>
+                </table>
+            </div>
+            <div class="breakdown-card">
+                <h3>By Bookmaker</h3>
+                <table>
+                    <thead><tr><th>Book</th><th>Bets</th><th>Record</th><th>Win%</th><th>Profit</th><th>ROI</th></tr></thead>
+                    <tbody>{book_rows if book_rows else '<tr><td colspan="6" style="text-align:center;color:#666;">No data yet</td></tr>'}</tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="section-title">Recent Bets ({len(recent_bets)})</h2>
+        <div class="recent-bets">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Fixture</th>
+                        <th>League</th>
+                        <th>Market</th>
+                        <th>Selection</th>
+                        <th>Book</th>
+                        <th>Odds</th>
+                        <th>Edge</th>
+                        <th>Actual</th>
+                        <th>Result</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {recent_rows if recent_rows else '<tr><td colspan="11" style="text-align:center;color:#666;">No bets yet</td></tr>'}
+                </tbody>
+            </table>
+        </div>
+
+        <p class="refresh-info">Auto-refreshes every 10 seconds | Started: {results.get("started_at", "N/A")}</p>
+
+        <script>
+            // Auto-refresh every 10 seconds
+            setTimeout(() => location.reload(), 10000);
+        </script>
+    </body>
+    </html>
+    '''
+
+    return HTMLResponse(content=html)

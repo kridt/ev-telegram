@@ -1,4 +1,4 @@
-"""Pydantic models for OpticOdds API responses - Updated with real API structure."""
+"""Pydantic models for API responses."""
 
 from datetime import datetime
 from typing import Any, Dict, List, Optional

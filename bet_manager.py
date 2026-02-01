@@ -19,6 +19,7 @@ FIRESTORE_URL = f"https://firestore.googleapis.com/v1/projects/{FIRESTORE_PROJEC
 
 import os
 import sys
+import json
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -28,6 +29,25 @@ if not BOT_TOKEN:
 
 # Base unit size in DKK
 BASE_UNIT = 10.0
+
+# Load market translations
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TRANSLATIONS_FILE = os.path.join(SCRIPT_DIR, "config", "market_translations.json")
+try:
+    with open(TRANSLATIONS_FILE, "r", encoding="utf-8") as f:
+        MARKET_TRANSLATIONS = json.load(f)
+except Exception as e:
+    print(f"[WARNING] Could not load market translations: {e}")
+    MARKET_TRANSLATIONS = {"markets": {}, "selections": {}}
+
+
+def get_translated_market(market_name: str, bookmaker: str) -> str:
+    """Translate API market name to Danish bookmaker-specific name."""
+    markets = MARKET_TRANSLATIONS.get("markets", {})
+    if market_name in markets:
+        book_translations = markets[market_name]
+        return book_translations.get(bookmaker, book_translations.get("default", market_name))
+    return market_name
 
 def calculate_stake(odds: float, base_unit: float = BASE_UNIT) -> float:
     """
@@ -226,8 +246,24 @@ class BetManager:
         1. Save to Realtime DB
         2. Send Telegram message
         3. Store message_id for later management
+
+        Returns None if bet is invalid (will be skipped).
         """
         now = datetime.now(timezone.utc)
+
+        # STRICT VALIDATION: Require valid selection
+        selection = (bet_data.get("selection") or "").strip()
+        if not selection:
+            # Try market name as fallback
+            market = bet_data.get("market", "")
+            if market:
+                selection = f"{market} (ukendt valg)"
+            else:
+                # REJECT bet - no selection and no market
+                print(f"[REJECT] Skipping bet with no selection: {bet_data.get('fixture', 'Unknown')}")
+                return None
+            bet_data["selection"] = selection
+            print(f"[FAILSAFE] Repaired empty selection -> '{selection}'")
 
         # Calculate stake based on odds (risk management)
         odds = round(bet_data.get("odds", 0), 2)
@@ -495,7 +531,13 @@ class BetManager:
         book = bet.get('book', '').lower()
         icon = book_icons.get(book, "⚪")
 
-        selection = bet.get('selection', '')
+        selection = bet.get('selection', '').strip()
+
+        # FAILSAFE: Ensure selection is never empty in display
+        if not selection:
+            market = bet.get('market', '')
+            selection = market if market else "Ukendt spil"
+
         if "under" in selection.lower():
             arrow = "⬇️"
         elif "over" in selection.lower():
@@ -503,22 +545,229 @@ class BetManager:
         else:
             arrow = "➡️"
 
-        # Calculate stake for display
+        # Calculate units for display
         odds = bet.get('odds', 0)
         stake = calculate_stake(odds)
+        units = stake / BASE_UNIT  # Convert DKK to units
 
-        return f"""⚠️ <b>EV BET FUNDET</b> ⚠️
-{bar} <b>{edge:.1f}%</b>
+        # Translate market name to Danish
+        market_raw = bet.get('market', '')
+        bookmaker = bet.get('book', '')
+        market_dk = get_translated_market(market_raw, bookmaker)
 
-{icon} <b>{bet.get('book', '').upper()}</b>
+        return f"""{icon} <b>{bookmaker.upper()}</b> - {edge:.1f}%
 
 ⚽ {bet.get('fixture', '')}
 🏆 {bet.get('league', '')} | {time_display}
 
-Marked: <b>{bet.get('market', '')}</b>
+Marked: <b>{market_dk}</b>
 Spil: {arrow} <b>{selection}</b>
 Odds: <b>{odds:.2f}</b>
-💰 Indsats: <b>{stake:.2f} DKK</b>"""
+💰 Indsats: <b>{units:.2f} units</b>"""
+
+    def _format_bet_message_with_timer(self, bet: dict, created_at: str) -> str:
+        """Format bet for Telegram message with eligibility status."""
+        kickoff_str = bet.get("kickoff", "")
+        try:
+            kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
+            kickoff_cet = kickoff + timedelta(hours=1)
+            time_display = kickoff_cet.strftime("%H:%M")
+        except:
+            time_display = "TBD"
+
+        edge = bet.get('edge', 0)
+        filled = min(10, int(edge / 2))
+        bar = "▓" * filled + "░" * (10 - filled)
+
+        book_icons = {
+            "betsson": "🔷", "leovegas": "🟡",
+            "unibet": "🟢", "betano": "🟠"
+        }
+        book = bet.get('bookmaker', bet.get('book', '')).lower()
+        icon = book_icons.get(book, "⚪")
+        bookmaker = bet.get('bookmaker', bet.get('book', ''))
+
+        selection = bet.get('selection', '').strip()
+        if not selection:
+            market = bet.get('market', '')
+            selection = market if market else "Ukendt spil"
+
+        if "under" in selection.lower():
+            arrow = "⬇️"
+        elif "over" in selection.lower():
+            arrow = "⬆️"
+        else:
+            arrow = "➡️"
+
+        odds = bet.get('odds', 0)
+        stake = calculate_stake(odds)
+        units = stake / BASE_UNIT
+
+        market_raw = bet.get('market', '')
+        market_dk = get_translated_market(market_raw, bookmaker)
+
+        return f"""{icon} <b>{bookmaker.upper()}</b> - {edge:.1f}%
+
+⚽ {bet.get('fixture', '')}
+🏆 {bet.get('league', '')} | {time_display}
+
+Marked: <b>{market_dk}</b>
+Spil: {arrow} <b>{selection}</b>
+Odds: <b>{odds:.2f}</b>
+💰 Indsats: <b>{units:.2f} units</b>
+
+✅ <b>Spilbar</b>"""
+
+    def _format_expired_message(self, bet: dict) -> str:
+        """Format expired bet message."""
+        kickoff_str = bet.get("kickoff", "")
+        try:
+            kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
+            kickoff_cet = kickoff + timedelta(hours=1)
+            time_display = kickoff_cet.strftime("%H:%M")
+        except:
+            time_display = "TBD"
+
+        edge = bet.get('edge', 0)
+        filled = min(10, int(edge / 2))
+        bar = "░" * 10  # Empty bar for expired
+
+        book_icons = {
+            "betsson": "🔷", "leovegas": "🟡",
+            "unibet": "🟢", "betano": "🟠"
+        }
+        book = bet.get('bookmaker', bet.get('book', '')).lower()
+        icon = book_icons.get(book, "⚪")
+        bookmaker = bet.get('bookmaker', bet.get('book', ''))
+
+        market_raw = bet.get('market', '')
+        market_dk = get_translated_market(market_raw, bookmaker)
+        selection = bet.get('selection', '').strip() or market_raw
+
+        if "under" in selection.lower():
+            arrow = "⬇️"
+        elif "over" in selection.lower():
+            arrow = "⬆️"
+        else:
+            arrow = "➡️"
+
+        odds = bet.get('odds', 0)
+        stake = calculate_stake(odds)
+        units = stake / BASE_UNIT
+
+        return f"""{icon} <s>{bookmaker.upper()} - {edge:.1f}%</s>
+
+⚽ {bet.get('fixture', '')}
+🏆 {bet.get('league', '')} | {time_display}
+
+Marked: <s>{market_dk}</s>
+Spil: {arrow} <s>{selection}</s>
+Odds: <s>{odds:.2f}</s>
+💰 Indsats: <s>{units:.2f} units</s>
+
+❌ <b>Ikke spilbar længere</b>"""
+
+    async def update_bet_timers(self) -> int:
+        """Update all active bet messages with current timer. Returns count of updated messages."""
+        active_bets = await self.rtdb.get("active_bets")
+        if not active_bets:
+            return 0
+
+        updated = 0
+        expired_count = 0
+        now = datetime.now(timezone.utc)
+
+        # Process max 5 bets per cycle to avoid rate limits
+        processed = 0
+        MAX_PER_CYCLE = 5
+
+        for bet_key, bet in active_bets.items():
+            if processed >= MAX_PER_CYCLE:
+                break
+
+            # Skip bets that already have user action or are expired
+            if bet.get("user_action") or bet.get("status") in ("expired", "void"):
+                continue
+
+            # Skip if no message_id
+            message_id = bet.get("message_id")
+            chat_id = bet.get("chat_id")
+            if not message_id or not chat_id:
+                continue
+
+            created_at = bet.get("created_at", "")
+
+            # Check if bet should be expired (15 min old or match started)
+            try:
+                created = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                age_minutes = (now - created).total_seconds() / 60
+
+                # Check if match has started
+                kickoff_str = bet.get("kickoff", "")
+                if kickoff_str:
+                    kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
+                    match_started = now >= kickoff
+                else:
+                    match_started = False
+
+                # Expire if too old or match started
+                if age_minutes > 15 or match_started:
+                    # Mark as expired with delay to avoid rate limit
+                    await self.expire_bet(bet_key, bet, reason="timeout" if age_minutes > 15 else "match_started")
+                    expired_count += 1
+                    processed += 1
+                    await asyncio.sleep(1.5)  # Wait 1.5 seconds between edits
+                    continue
+
+            except Exception as e:
+                print(f"[TIMER] Error checking expiry for {bet_key}: {e}")
+                continue
+
+            # Update message with new timer
+            try:
+                new_message = self._format_bet_message_with_timer(bet, created_at)
+                success = await self.telegram.update_message(
+                    chat_id, message_id, new_message,
+                    show_buttons=True, bet_key=bet_key
+                )
+                if success:
+                    updated += 1
+                processed += 1
+                await asyncio.sleep(1.5)  # Wait 1.5 seconds between edits
+            except Exception as e:
+                print(f"[TIMER] Error updating message for {bet_key}: {e}")
+
+        if expired_count > 0:
+            print(f"[TIMER] Expired {expired_count} bets")
+
+        return updated
+
+    async def expire_bet(self, bet_key: str, bet: dict, reason: str = "timeout") -> bool:
+        """Mark a bet as expired and update its Telegram message."""
+        try:
+            # Update status in Firebase
+            await self.rtdb.update(f"active_bets/{bet_key}", {
+                "status": "expired",
+                "expired_at": datetime.now(timezone.utc).isoformat(),
+                "expire_reason": reason
+            })
+
+            # Update Telegram message
+            message_id = bet.get("message_id")
+            chat_id = bet.get("chat_id")
+            if message_id and chat_id:
+                expired_message = self._format_expired_message(bet)
+                await self.telegram.update_message(
+                    chat_id, message_id, expired_message,
+                    show_buttons=False
+                )
+
+            print(f"[EXPIRED] {bet_key} - {reason}")
+            return True
+
+        except Exception as e:
+            print(f"[EXPIRE ERROR] {bet_key}: {e}")
+            return False
 
 
 # Background cleanup task
@@ -533,6 +782,20 @@ async def cleanup_loop(manager: BetManager, interval_minutes: int = 5):
             print(f"[CLEANUP ERROR] {e}")
 
         await asyncio.sleep(interval_minutes * 60)
+
+
+# Background timer update task
+async def timer_update_loop(manager: BetManager, interval_seconds: int = 60):
+    """Update bet message timers every N seconds."""
+    while True:
+        try:
+            updated = await manager.update_bet_timers()
+            if updated > 0:
+                print(f"[TIMER] Updated {updated} bet messages")
+        except Exception as e:
+            print(f"[TIMER ERROR] {e}")
+
+        await asyncio.sleep(interval_seconds)
 
 
 # Test

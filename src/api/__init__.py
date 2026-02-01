@@ -1,6 +1,6 @@
 """API clients and models."""
 
-from .opticodds import OpticOddsClient, OpticOddsError
+from .oddsapi import OddsApiClient, OddsApiValueBet
 from .models import (
     Fixture,
     OddsData,
@@ -12,8 +12,8 @@ from .models import (
 )
 
 __all__ = [
-    "OpticOddsClient",
-    "OpticOddsError",
+    "OddsApiClient",
+    "OddsApiValueBet",
     "Fixture",
     "OddsData",
     "Team",

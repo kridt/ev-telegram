@@ -2,17 +2,39 @@
 # Deploy with: https://render.com/docs/blueprint-spec
 
 services:
+  # Web Dashboard
   - type: web
-    name: soccer-props-value
-    env: docker
-    plan: starter
-    healthCheckPath: /api/health
+    name: ev-bot-dashboard
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn admin_dashboard:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
     envVars:
-      - key: ODDSAPI_API_KEY
-        sync: false
-      - key: OPTICODDS_API_KEY
-        sync: false
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_CHAT_ID
         sync: false
+      - key: ODDSAPI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+  # Background Scanner Worker
+  - type: worker
+    name: ev-bot-scanner
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python oddsapi_scanner.py
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: ODDSAPI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.11.0

@@ -41,7 +41,7 @@ class MarketCategory(Enum):
     SPECIALS = "specials"
 
 
-# Mapping from OpticOdds market IDs to our market types
+# Mapping from API market IDs to our market types
 MARKET_ID_MAP = {
     "1x2": MarketType.MATCH_WINNER,
     "moneyline": MarketType.MATCH_WINNER,
@@ -101,10 +101,10 @@ PLAYER_PROP_MARKETS = [
 
 def get_market_type(market_id: str) -> MarketType:
     """
-    Get the market type from an OpticOdds market ID.
+    Get the market type from a market ID.
 
     Args:
-        market_id: Market ID string from OpticOdds
+        market_id: Market ID string
 
     Returns:
         MarketType enum value
