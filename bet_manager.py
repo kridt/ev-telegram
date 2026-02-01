@@ -150,7 +150,7 @@ class TelegramManager:
         keyboard = {
             "inline_keyboard": [
                 [
-                    {"text": "Spillet", "callback_data": f"played_{bet_key}"},
+                    {"text": "Spillet", "callback_data": f"placed_{bet_key}"},
                     {"text": "Droppet", "callback_data": f"skipped_{bet_key}"}
                 ]
             ]
@@ -194,7 +194,7 @@ class TelegramManager:
             payload["reply_markup"] = {
                 "inline_keyboard": [
                     [
-                        {"text": "Spillet", "callback_data": f"played_{bet_key}"},
+                        {"text": "Spillet", "callback_data": f"placed_{bet_key}"},
                         {"text": "Droppet", "callback_data": f"skipped_{bet_key}"}
                     ]
                 ]
@@ -308,24 +308,28 @@ class BetManager:
         print(f"[BET] Created {bet_key} | {bet_data.get('selection')} @ {bet_data.get('book')}")
         return bet_key
 
-    async def mark_played(self, bet_key: str, user_id: str = None) -> bool:
-        """Mark bet as played by user."""
+    async def mark_played(self, bet_key: str, user_id: str = None, username: str = None, first_name: str = None) -> bool:
+        """Mark bet as played by user. Stores user info for tracking."""
         now = datetime.now(timezone.utc)
         return await self.rtdb.update(f"active_bets/{bet_key}", {
             "status": "played",
             "user_action": "played",
             "user_action_at": now.isoformat(),
-            "user_id": user_id
+            "user_id": user_id,
+            "username": username,
+            "first_name": first_name
         })
 
-    async def mark_skipped(self, bet_key: str, user_id: str = None) -> bool:
-        """Mark bet as skipped by user."""
+    async def mark_skipped(self, bet_key: str, user_id: str = None, username: str = None, first_name: str = None) -> bool:
+        """Mark bet as skipped by user. Stores user info for tracking."""
         now = datetime.now(timezone.utc)
         success = await self.rtdb.update(f"active_bets/{bet_key}", {
             "status": "skipped",
             "user_action": "skipped",
             "user_action_at": now.isoformat(),
-            "user_id": user_id
+            "user_id": user_id,
+            "username": username,
+            "first_name": first_name
         })
 
         # Delete skipped bets from Telegram after a delay

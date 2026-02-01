@@ -820,18 +820,7 @@ async def main():
         sys.exit(1)
     logger.info("[OK] Odds-API.io connection verified")
 
-    # Send startup message
-    send_telegram(
-        CHAT_ID,
-        f"""\u26bd <b>Odds-API Scanner startet!</b>
-
-\U0001f4ca Scanner hver {SCAN_INTERVAL_SEC // 60} min
-\U0001f4e4 Sender {BETS_PER_BATCH} bets hver {BATCH_INTERVAL_SEC // 60} min
-\U0001f3af EV range: {MIN_EV_PERCENT}% - {MAX_EV_PERCENT}%
-
-Bookmakers: {', '.join(DANISH_BOOKMAKERS)}""",
-    )
-
+    # Silent startup - no Telegram message (runs passively)
     # Load state
     sent_alerts = load_sent_alerts()
     pending_queue = load_pending_queue()

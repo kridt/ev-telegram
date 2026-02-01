@@ -57,22 +57,25 @@ def get_user_display(user):
 
 
 def update_message_with_responses(chat_id, message_id, original_text, bet_id, responses):
-    """Update the message to show who responded (Danish)."""
+    """Update the message to show response counts (privacy: no names shown publicly)."""
     bet_responses = responses.get(str(bet_id), {'placed': [], 'skipped': []})
 
     placed = bet_responses.get('placed', [])
     skipped = bet_responses.get('skipped', [])
 
-    # Build response summary (Danish)
+    # Build response summary - ONLY show counts, not names (privacy)
     summary = "\n\n─────────────────"
-    if placed:
-        summary += f"\n✅ Spillet ({len(placed)}): " + ", ".join(placed)
-    if skipped:
-        summary += f"\n❌ Droppet ({len(skipped)}): " + ", ".join(skipped)
-    if not placed and not skipped:
+    if placed or skipped:
+        parts = []
+        if placed:
+            parts.append(f"✅ {len(placed)} spillere")
+        if skipped:
+            parts.append(f"❌ {len(skipped)} droppet")
+        summary += "\n" + " | ".join(parts)
+    else:
         summary += "\n⏳ Ingen svar endnu"
 
-    # Keyboard (Danish)
+    # Keyboard with counts
     keyboard = {
         'inline_keyboard': [
             [
@@ -151,12 +154,17 @@ def handle_callback(callback_query, responses):
     # Update Firebase via BetManager if this is a Firebase key (starts with -)
     if bet_id.startswith('-'):
         try:
+            # Store both user_id and username for tracking
+            user_id = str(user.get('id', ''))
+            username = user.get('username', '')
+            first_name = user.get('first_name', '')
+
             if action == 'placed':
-                asyncio.run(bet_manager.mark_played(bet_id, str(user.get('id', ''))))
-                print(f"  [FIREBASE] Marked {bet_id} as played")
+                asyncio.run(bet_manager.mark_played(bet_id, user_id, username, first_name))
+                print(f"  [FIREBASE] Marked {bet_id} as played by {user_display}")
             else:
-                asyncio.run(bet_manager.mark_skipped(bet_id, str(user.get('id', ''))))
-                print(f"  [FIREBASE] Marked {bet_id} as skipped")
+                asyncio.run(bet_manager.mark_skipped(bet_id, user_id, username, first_name))
+                print(f"  [FIREBASE] Marked {bet_id} as skipped by {user_display}")
         except Exception as e:
             print(f"  [FIREBASE ERROR] {e}")
 
