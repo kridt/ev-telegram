@@ -5,6 +5,7 @@ Complete bet management system with:
 - Firestore for historical archive (analytics)
 - Auto-cleanup of expired/non-EV bets
 - Telegram message management
+- Live odds checking to expire bets when EV drops
 """
 
 import httpx
@@ -24,6 +25,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+ODDSAPI_KEY = os.environ.get("ODDSAPI_API_KEY", "")
+MIN_EV_PERCENT = 5.0  # Minimum EV to keep bet active
+
 if not BOT_TOKEN:
     print("[WARNING] TELEGRAM_BOT_TOKEN not set in bet_manager - some features will fail")
 
@@ -700,8 +704,62 @@ Indsats: <s>{units:.2f} units</s>
 
 ❌ <b>Ikke spilbar længere</b>"""
 
+    async def _fetch_current_value_bets(self, bookmaker: str) -> List[Dict]:
+        """Fetch current value bets from API for a bookmaker."""
+        if not ODDSAPI_KEY:
+            return []
+
+        try:
+            async with httpx.AsyncClient(timeout=30) as client:
+                r = await client.get(
+                    f"https://api2.odds-api.io/v3/value-bets",
+                    params={
+                        "apiKey": ODDSAPI_KEY,
+                        "sport": "football",
+                        "bookmaker": bookmaker
+                    }
+                )
+                if r.status_code == 200:
+                    return r.json() if isinstance(r.json(), list) else []
+        except Exception as e:
+            print(f"[ODDS CHECK] Error fetching odds for {bookmaker}: {e}")
+        return []
+
+    def _find_matching_bet(self, bet: Dict, value_bets: List[Dict]) -> Optional[Dict]:
+        """Find matching bet in value-bets list. Returns bet data if found."""
+        fixture_id = str(bet.get("fixture_id", ""))
+        market = bet.get("market", "").lower()
+        selection = bet.get("selection", "").lower()
+
+        for vb in value_bets:
+            vb_event_id = str(vb.get("eventId", ""))
+            vb_market = vb.get("market", {}).get("name", "").lower()
+
+            # Match by event ID and market
+            if vb_event_id == fixture_id and vb_market == market:
+                # Calculate EV
+                ev = vb.get("expectedValue", 0)
+                ev_percent = (ev - 100) if ev > 0 else 0
+
+                # Get current odds
+                bet_side = vb.get("betSide", "").lower()
+                odds_data = vb.get("bookmakerOdds", {})
+                if bet_side in ("home", "over", "1"):
+                    current_odds = float(odds_data.get("home", 0) or odds_data.get("over", 0) or 0)
+                elif bet_side in ("away", "under", "2"):
+                    current_odds = float(odds_data.get("away", 0) or odds_data.get("under", 0) or 0)
+                else:
+                    current_odds = float(odds_data.get("home", 0) or 0)
+
+                return {
+                    "ev_percent": ev_percent,
+                    "odds": current_odds,
+                    "raw": vb
+                }
+        return None
+
     async def update_bet_timers(self) -> int:
-        """Update all active bet messages with current timer. Returns count of updated messages."""
+        """Update all active bet messages - check live odds and expire if EV dropped."""
         active_bets = await self.rtdb.get("active_bets")
         if not active_bets:
             return 0
@@ -710,64 +768,102 @@ Indsats: <s>{units:.2f} units</s>
         expired_count = 0
         now = datetime.now(timezone.utc)
 
-        # Process max 5 bets per cycle to avoid rate limits
-        processed = 0
-        MAX_PER_CYCLE = 5
-
+        # Group active bets by bookmaker for efficient API calls
+        bets_by_bookmaker = {}
         for bet_key, bet in active_bets.items():
+            if bet.get("status") in ("expired", "void"):
+                continue
+            bookmaker = bet.get("bookmaker", "")
+            if bookmaker:
+                if bookmaker not in bets_by_bookmaker:
+                    bets_by_bookmaker[bookmaker] = []
+                bets_by_bookmaker[bookmaker].append((bet_key, bet))
+
+        # Fetch current value bets for each bookmaker
+        current_odds_cache = {}
+        for bookmaker in bets_by_bookmaker.keys():
+            current_odds_cache[bookmaker] = await self._fetch_current_value_bets(bookmaker)
+            await asyncio.sleep(0.5)  # Rate limit
+
+        # Process each bet
+        processed = 0
+        MAX_PER_CYCLE = 10
+
+        for bookmaker, bets in bets_by_bookmaker.items():
             if processed >= MAX_PER_CYCLE:
                 break
 
-            # Skip bets that already have user action or are expired
-            if bet.get("user_action") or bet.get("status") in ("expired", "void"):
-                continue
+            value_bets = current_odds_cache.get(bookmaker, [])
 
-            # Skip if no message_id
-            message_id = bet.get("message_id")
-            chat_id = bet.get("chat_id")
-            if not message_id or not chat_id:
-                continue
+            for bet_key, bet in bets:
+                if processed >= MAX_PER_CYCLE:
+                    break
 
-            created_at = bet.get("created_at", "")
+                message_id = bet.get("message_id")
+                chat_id = bet.get("chat_id")
+                if not message_id or not chat_id:
+                    continue
 
-            # Check if bet should be expired (only when match starts)
-            try:
                 # Check if match has started
                 kickoff_str = bet.get("kickoff", "")
-                if kickoff_str:
-                    kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
-                    match_started = now >= kickoff
-                else:
-                    match_started = False
+                try:
+                    if kickoff_str:
+                        kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
+                        if now >= kickoff:
+                            await self.expire_bet(bet_key, bet, reason="match_started")
+                            expired_count += 1
+                            processed += 1
+                            await asyncio.sleep(1.5)
+                            continue
+                except:
+                    pass
 
-                # Only expire when match starts
-                if match_started:
-                    await self.expire_bet(bet_key, bet, reason="match_started")
+                # Check current odds
+                match = self._find_matching_bet(bet, value_bets)
+
+                if match is None or match["ev_percent"] < MIN_EV_PERCENT:
+                    # Bet no longer has value - expire it
+                    reason = f"EV dropped to {match['ev_percent']:.1f}%" if match else "No longer in value bets"
+                    await self.expire_bet(bet_key, bet, reason="ev_dropped")
                     expired_count += 1
                     processed += 1
+                    print(f"[ODDS CHECK] Expired {bet_key}: {reason}")
                     await asyncio.sleep(1.5)
                     continue
 
-            except Exception as e:
-                print(f"[TIMER] Error checking expiry for {bet_key}: {e}")
-                continue
+                # Check if odds changed
+                old_odds = bet.get("odds", 0)
+                new_odds = match["odds"]
+                new_ev = match["ev_percent"]
 
-            # Update message with new timer
-            try:
-                new_message = self._format_bet_message_with_timer(bet, created_at)
-                success = await self.telegram.update_message(
-                    chat_id, message_id, new_message,
-                    show_buttons=False, bet_key=bet_key
-                )
-                if success:
-                    updated += 1
-                processed += 1
-                await asyncio.sleep(1.5)  # Wait 1.5 seconds between edits
-            except Exception as e:
-                print(f"[TIMER] Error updating message for {bet_key}: {e}")
+                if abs(new_odds - old_odds) > 0.01:
+                    # Odds changed - update Firebase and message
+                    await self.rtdb.update(f"active_bets/{bet_key}", {
+                        "odds": new_odds,
+                        "edge": new_ev,
+                        "odds_updated_at": now.isoformat()
+                    })
+                    bet["odds"] = new_odds
+                    bet["edge"] = new_ev
+                    print(f"[ODDS CHECK] Updated {bet_key}: {old_odds:.2f} -> {new_odds:.2f} (EV: {new_ev:.1f}%)")
+
+                # Update message
+                try:
+                    created_at = bet.get("created_at", "")
+                    new_message = self._format_bet_message_with_timer(bet, created_at)
+                    success = await self.telegram.update_message(
+                        chat_id, message_id, new_message,
+                        show_buttons=False, bet_key=bet_key
+                    )
+                    if success:
+                        updated += 1
+                    processed += 1
+                    await asyncio.sleep(1.5)
+                except Exception as e:
+                    print(f"[TIMER] Error updating message for {bet_key}: {e}")
 
         if expired_count > 0:
-            print(f"[TIMER] Expired {expired_count} bets")
+            print(f"[TIMER] Expired {expired_count} bets due to odds changes")
 
         return updated
 
