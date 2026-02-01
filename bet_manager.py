@@ -761,7 +761,7 @@ Odds: <s>{odds:.2f}</s>
                 new_message = self._format_bet_message_with_timer(bet, created_at)
                 success = await self.telegram.update_message(
                     chat_id, message_id, new_message,
-                    show_buttons=True, bet_key=bet_key
+                    show_buttons=False, bet_key=bet_key
                 )
                 if success:
                     updated += 1
