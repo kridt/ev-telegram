@@ -1,0 +1,2977 @@
+[
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "multiplicative_best",
+    "bets": 1054,
+    "roi": 10.830929791271341,
+    "profit": 1141.5799999999992,
+    "win_rate": 53.036053130929794,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 24.52,
+    "by_book": {
+      "betano": {
+        "bets": 49,
+        "wins": 20,
+        "losses": 29,
+        "profit": -40.199999999999996,
+        "staked": 490,
+        "avg_daily": 1.14
+      },
+      "betrivers": {
+        "bets": 200,
+        "wins": 128,
+        "losses": 72,
+        "profit": 714.8199999999998,
+        "staked": 2000,
+        "avg_daily": 4.65
+      },
+      "unibet": {
+        "bets": 239,
+        "wins": 108,
+        "losses": 131,
+        "profit": -175.69,
+        "staked": 2390,
+        "avg_daily": 5.56
+      },
+      "leovegas": {
+        "bets": 228,
+        "wins": 104,
+        "losses": 124,
+        "profit": -156.13999999999996,
+        "staked": 2280,
+        "avg_daily": 5.3
+      },
+      "betfair": {
+        "bets": 46,
+        "wins": 25,
+        "losses": 21,
+        "profit": 78.38,
+        "staked": 460,
+        "avg_daily": 1.07
+      },
+      "fanduel": {
+        "bets": 92,
+        "wins": 68,
+        "losses": 24,
+        "profit": 518.0,
+        "staked": 920,
+        "avg_daily": 2.14
+      },
+      "betmgm": {
+        "bets": 57,
+        "wins": 29,
+        "losses": 28,
+        "profit": -5.000000000000012,
+        "staked": 570,
+        "avg_daily": 1.33
+      },
+      "caesars": {
+        "bets": 46,
+        "wins": 32,
+        "losses": 14,
+        "profit": 257.58000000000004,
+        "staked": 460,
+        "avg_daily": 1.07
+      },
+      "bwin": {
+        "bets": 97,
+        "wins": 45,
+        "losses": 52,
+        "profit": -50.17,
+        "staked": 970,
+        "avg_daily": 2.26
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "additive_best",
+    "bets": 1118,
+    "roi": 8.995259391771002,
+    "profit": 1005.6699999999979,
+    "win_rate": 51.43112701252236,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 24.310000000000002,
+    "by_book": {
+      "betano": {
+        "bets": 51,
+        "wins": 21,
+        "losses": 30,
+        "profit": -38.199999999999996,
+        "staked": 510,
+        "avg_daily": 1.11
+      },
+      "betrivers": {
+        "bets": 210,
+        "wins": 128,
+        "losses": 82,
+        "profit": 641.4699999999999,
+        "staked": 2100,
+        "avg_daily": 4.57
+      },
+      "unibet": {
+        "bets": 249,
+        "wins": 109,
+        "losses": 140,
+        "profit": -224.8299999999999,
+        "staked": 2490,
+        "avg_daily": 5.41
+      },
+      "leovegas": {
+        "bets": 241,
+        "wins": 107,
+        "losses": 134,
+        "profit": -182.47999999999993,
+        "staked": 2410,
+        "avg_daily": 5.24
+      },
+      "betfair": {
+        "bets": 49,
+        "wins": 26,
+        "losses": 23,
+        "profit": 70.37999999999998,
+        "staked": 490,
+        "avg_daily": 1.07
+      },
+      "fanduel": {
+        "bets": 100,
+        "wins": 72,
+        "losses": 28,
+        "profit": 535.26,
+        "staked": 1000,
+        "avg_daily": 2.17
+      },
+      "betmgm": {
+        "bets": 63,
+        "wins": 32,
+        "losses": 31,
+        "profit": 17.579999999999984,
+        "staked": 630,
+        "avg_daily": 1.37
+      },
+      "caesars": {
+        "bets": 50,
+        "wins": 34,
+        "losses": 16,
+        "profit": 267.98,
+        "staked": 500,
+        "avg_daily": 1.09
+      },
+      "bwin": {
+        "bets": 105,
+        "wins": 46,
+        "losses": 59,
+        "profit": -81.48999999999994,
+        "staked": 1050,
+        "avg_daily": 2.28
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "average_odds",
+    "bets": 953,
+    "roi": 26.793809024134323,
+    "profit": 2553.450000000001,
+    "win_rate": 56.66316894018888,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 17.65,
+    "by_book": {
+      "betano": {
+        "bets": 78,
+        "wins": 43,
+        "losses": 35,
+        "profit": 189.79999999999995,
+        "staked": 780,
+        "avg_daily": 1.44
+      },
+      "caesars": {
+        "bets": 54,
+        "wins": 44,
+        "losses": 10,
+        "profit": 481.67999999999995,
+        "staked": 540,
+        "avg_daily": 1.0
+      },
+      "betrivers": {
+        "bets": 181,
+        "wins": 119,
+        "losses": 62,
+        "profit": 896.4199999999997,
+        "staked": 1810,
+        "avg_daily": 3.35
+      },
+      "betfair": {
+        "bets": 47,
+        "wins": 29,
+        "losses": 18,
+        "profit": 158.38,
+        "staked": 470,
+        "avg_daily": 0.87
+      },
+      "fanduel": {
+        "bets": 107,
+        "wins": 75,
+        "losses": 32,
+        "profit": 628.2700000000001,
+        "staked": 1070,
+        "avg_daily": 1.98
+      },
+      "betmgm": {
+        "bets": 43,
+        "wins": 21,
+        "losses": 22,
+        "profit": 22.739999999999995,
+        "staked": 430,
+        "avg_daily": 0.8
+      },
+      "unibet": {
+        "bets": 188,
+        "wins": 87,
+        "losses": 101,
+        "profit": 31.289999999999978,
+        "staked": 1880,
+        "avg_daily": 3.48
+      },
+      "leovegas": {
+        "bets": 171,
+        "wins": 80,
+        "losses": 91,
+        "profit": 58.75999999999998,
+        "staked": 1710,
+        "avg_daily": 3.17
+      },
+      "bwin": {
+        "bets": 84,
+        "wins": 42,
+        "losses": 42,
+        "profit": 86.10999999999999,
+        "staked": 840,
+        "avg_daily": 1.56
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "median_odds",
+    "bets": 824,
+    "roi": 33.35145631067962,
+    "profit": 2748.1600000000008,
+    "win_rate": 57.28155339805825,
+    "books_5_daily": 0,
+    "books_3_daily": 0,
+    "total_daily": 13.5,
+    "by_book": {
+      "betano": {
+        "bets": 128,
+        "wins": 76,
+        "losses": 52,
+        "profit": 389.2999999999999,
+        "staked": 1280,
+        "avg_daily": 2.1
+      },
+      "fanduel": {
+        "bets": 99,
+        "wins": 70,
+        "losses": 29,
+        "profit": 646.02,
+        "staked": 990,
+        "avg_daily": 1.62
+      },
+      "caesars": {
+        "bets": 55,
+        "wins": 52,
+        "losses": 3,
+        "profit": 656.5,
+        "staked": 550,
+        "avg_daily": 0.9
+      },
+      "betrivers": {
+        "bets": 135,
+        "wins": 95,
+        "losses": 40,
+        "profit": 902.5999999999997,
+        "staked": 1350,
+        "avg_daily": 2.21
+      },
+      "betfair": {
+        "bets": 41,
+        "wins": 21,
+        "losses": 20,
+        "profit": 80.8,
+        "staked": 410,
+        "avg_daily": 0.67
+      },
+      "betmgm": {
+        "bets": 28,
+        "wins": 13,
+        "losses": 15,
+        "profit": 20.33999999999999,
+        "staked": 280,
+        "avg_daily": 0.46
+      },
+      "unibet": {
+        "bets": 132,
+        "wins": 56,
+        "losses": 76,
+        "profit": 10.48999999999998,
+        "staked": 1320,
+        "avg_daily": 2.16
+      },
+      "leovegas": {
+        "bets": 126,
+        "wins": 52,
+        "losses": 74,
+        "profit": -22.530000000000015,
+        "staked": 1260,
+        "avg_daily": 2.07
+      },
+      "bwin": {
+        "bets": 80,
+        "wins": 37,
+        "losses": 43,
+        "profit": 64.63999999999999,
+        "staked": 800,
+        "avg_daily": 1.31
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "pinnacle_sharp",
+    "bets": 1054,
+    "roi": 10.830929791271341,
+    "profit": 1141.5799999999992,
+    "win_rate": 53.036053130929794,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 24.52,
+    "by_book": {
+      "betano": {
+        "bets": 49,
+        "wins": 20,
+        "losses": 29,
+        "profit": -40.199999999999996,
+        "staked": 490,
+        "avg_daily": 1.14
+      },
+      "betrivers": {
+        "bets": 200,
+        "wins": 128,
+        "losses": 72,
+        "profit": 714.8199999999998,
+        "staked": 2000,
+        "avg_daily": 4.65
+      },
+      "unibet": {
+        "bets": 239,
+        "wins": 108,
+        "losses": 131,
+        "profit": -175.69,
+        "staked": 2390,
+        "avg_daily": 5.56
+      },
+      "leovegas": {
+        "bets": 228,
+        "wins": 104,
+        "losses": 124,
+        "profit": -156.13999999999996,
+        "staked": 2280,
+        "avg_daily": 5.3
+      },
+      "betfair": {
+        "bets": 46,
+        "wins": 25,
+        "losses": 21,
+        "profit": 78.38,
+        "staked": 460,
+        "avg_daily": 1.07
+      },
+      "fanduel": {
+        "bets": 92,
+        "wins": 68,
+        "losses": 24,
+        "profit": 518.0,
+        "staked": 920,
+        "avg_daily": 2.14
+      },
+      "betmgm": {
+        "bets": 57,
+        "wins": 29,
+        "losses": 28,
+        "profit": -5.000000000000012,
+        "staked": 570,
+        "avg_daily": 1.33
+      },
+      "caesars": {
+        "bets": 46,
+        "wins": 32,
+        "losses": 14,
+        "profit": 257.58000000000004,
+        "staked": 460,
+        "avg_daily": 1.07
+      },
+      "bwin": {
+        "bets": 97,
+        "wins": 45,
+        "losses": 52,
+        "profit": -50.17,
+        "staked": 970,
+        "avg_daily": 2.26
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "weighted_sharp",
+    "bets": 966,
+    "roi": 24.76469979296067,
+    "profit": 2392.270000000001,
+    "win_rate": 55.79710144927537,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 17.56,
+    "by_book": {
+      "betano": {
+        "bets": 77,
+        "wins": 42,
+        "losses": 35,
+        "profit": 177.59999999999997,
+        "staked": 770,
+        "avg_daily": 1.4
+      },
+      "caesars": {
+        "bets": 55,
+        "wins": 44,
+        "losses": 11,
+        "profit": 472.67999999999995,
+        "staked": 550,
+        "avg_daily": 1.0
+      },
+      "betrivers": {
+        "bets": 187,
+        "wins": 120,
+        "losses": 67,
+        "profit": 857.9199999999997,
+        "staked": 1870,
+        "avg_daily": 3.4
+      },
+      "unibet": {
+        "bets": 195,
+        "wins": 90,
+        "losses": 105,
+        "profit": 25.58999999999999,
+        "staked": 1950,
+        "avg_daily": 3.55
+      },
+      "betfair": {
+        "bets": 42,
+        "wins": 23,
+        "losses": 19,
+        "profit": 76.87999999999998,
+        "staked": 420,
+        "avg_daily": 0.76
+      },
+      "fanduel": {
+        "bets": 107,
+        "wins": 75,
+        "losses": 32,
+        "profit": 628.27,
+        "staked": 1070,
+        "avg_daily": 1.95
+      },
+      "betmgm": {
+        "bets": 43,
+        "wins": 21,
+        "losses": 22,
+        "profit": 22.739999999999995,
+        "staked": 430,
+        "avg_daily": 0.78
+      },
+      "leovegas": {
+        "bets": 174,
+        "wins": 81,
+        "losses": 93,
+        "profit": 50.15999999999998,
+        "staked": 1740,
+        "avg_daily": 3.16
+      },
+      "bwin": {
+        "bets": 86,
+        "wins": 43,
+        "losses": 43,
+        "profit": 80.42999999999999,
+        "staked": 860,
+        "avg_daily": 1.56
+      }
+    }
+  },
+  {
+    "config": "Standard (5%+ edge)",
+    "method": "worst_case",
+    "bets": 1098,
+    "roi": 50.6367941712205,
+    "profit": 5559.920000000011,
+    "win_rate": 67.75956284153006,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 20.34,
+    "by_book": {
+      "fanduel": {
+        "bets": 134,
+        "wins": 108,
+        "losses": 26,
+        "profit": 1089.2299999999996,
+        "staked": 1340,
+        "avg_daily": 2.48
+      },
+      "caesars": {
+        "bets": 77,
+        "wins": 67,
+        "losses": 10,
+        "profit": 742.6400000000001,
+        "staked": 770,
+        "avg_daily": 1.43
+      },
+      "betrivers": {
+        "bets": 203,
+        "wins": 150,
+        "losses": 53,
+        "profit": 1330.62,
+        "staked": 2030,
+        "avg_daily": 3.76
+      },
+      "unibet": {
+        "bets": 208,
+        "wins": 125,
+        "losses": 83,
+        "profit": 666.3599999999998,
+        "staked": 2080,
+        "avg_daily": 3.85
+      },
+      "leovegas": {
+        "bets": 192,
+        "wins": 115,
+        "losses": 77,
+        "profit": 614.5299999999996,
+        "staked": 1920,
+        "avg_daily": 3.56
+      },
+      "betfair": {
+        "bets": 45,
+        "wins": 30,
+        "losses": 15,
+        "profit": 211.33999999999997,
+        "staked": 450,
+        "avg_daily": 0.83
+      },
+      "betmgm": {
+        "bets": 49,
+        "wins": 29,
+        "losses": 20,
+        "profit": 135.01999999999998,
+        "staked": 490,
+        "avg_daily": 0.91
+      },
+      "betano": {
+        "bets": 104,
+        "wins": 73,
+        "losses": 31,
+        "profit": 592.4000000000002,
+        "staked": 1040,
+        "avg_daily": 1.93
+      },
+      "bwin": {
+        "bets": 86,
+        "wins": 47,
+        "losses": 39,
+        "profit": 177.77999999999997,
+        "staked": 860,
+        "avg_daily": 1.59
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "multiplicative_best",
+    "bets": 837,
+    "roi": 11.885663082437267,
+    "profit": 994.8299999999992,
+    "win_rate": 54.121863799283155,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 25.37,
+    "by_book": {
+      "betano": {
+        "bets": 30,
+        "wins": 11,
+        "losses": 19,
+        "profit": -48.3,
+        "staked": 300,
+        "avg_daily": 0.91
+      },
+      "betrivers": {
+        "bets": 162,
+        "wins": 109,
+        "losses": 53,
+        "profit": 672.8499999999999,
+        "staked": 1620,
+        "avg_daily": 4.91
+      },
+      "unibet": {
+        "bets": 196,
+        "wins": 94,
+        "losses": 102,
+        "profit": -47.039999999999985,
+        "staked": 1960,
+        "avg_daily": 5.94
+      },
+      "betmgm": {
+        "bets": 50,
+        "wins": 26,
+        "losses": 24,
+        "profit": 0.4999999999999858,
+        "staked": 500,
+        "avg_daily": 1.52
+      },
+      "fanduel": {
+        "bets": 73,
+        "wins": 52,
+        "losses": 21,
+        "profit": 354.1199999999999,
+        "staked": 730,
+        "avg_daily": 2.21
+      },
+      "caesars": {
+        "bets": 33,
+        "wins": 25,
+        "losses": 8,
+        "profit": 234.58,
+        "staked": 330,
+        "avg_daily": 1.0
+      },
+      "leovegas": {
+        "bets": 185,
+        "wins": 86,
+        "losses": 99,
+        "profit": -112.09000000000002,
+        "staked": 1850,
+        "avg_daily": 5.61
+      },
+      "betfair": {
+        "bets": 27,
+        "wins": 12,
+        "losses": 15,
+        "profit": -21.42,
+        "staked": 270,
+        "avg_daily": 0.82
+      },
+      "bwin": {
+        "bets": 81,
+        "wins": 38,
+        "losses": 43,
+        "profit": -38.370000000000005,
+        "staked": 810,
+        "avg_daily": 2.45
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "additive_best",
+    "bets": 858,
+    "roi": 13.193939393939381,
+    "profit": 1132.0399999999988,
+    "win_rate": 53.14685314685315,
+    "books_5_daily": 3,
+    "books_3_daily": 3,
+    "total_daily": 25.23,
+    "by_book": {
+      "betano": {
+        "bets": 30,
+        "wins": 12,
+        "losses": 18,
+        "profit": -24.1,
+        "staked": 300,
+        "avg_daily": 0.88
+      },
+      "betrivers": {
+        "bets": 171,
+        "wins": 113,
+        "losses": 58,
+        "profit": 732.9799999999999,
+        "staked": 1710,
+        "avg_daily": 5.03
+      },
+      "unibet": {
+        "bets": 195,
+        "wins": 91,
+        "losses": 104,
+        "profit": -36.38999999999999,
+        "staked": 1950,
+        "avg_daily": 5.74
+      },
+      "betmgm": {
+        "bets": 48,
+        "wins": 26,
+        "losses": 22,
+        "profit": 36.07999999999999,
+        "staked": 480,
+        "avg_daily": 1.41
+      },
+      "fanduel": {
+        "bets": 80,
+        "wins": 56,
+        "losses": 24,
+        "profit": 394.8999999999999,
+        "staked": 800,
+        "avg_daily": 2.35
+      },
+      "betfair": {
+        "bets": 31,
+        "wins": 14,
+        "losses": 17,
+        "profit": -10.120000000000005,
+        "staked": 310,
+        "avg_daily": 0.91
+      },
+      "caesars": {
+        "bets": 38,
+        "wins": 26,
+        "losses": 12,
+        "profit": 210.98000000000002,
+        "staked": 380,
+        "avg_daily": 1.12
+      },
+      "leovegas": {
+        "bets": 184,
+        "wins": 80,
+        "losses": 104,
+        "profit": -152.49999999999997,
+        "staked": 1840,
+        "avg_daily": 5.41
+      },
+      "bwin": {
+        "bets": 81,
+        "wins": 38,
+        "losses": 43,
+        "profit": -19.79000000000002,
+        "staked": 810,
+        "avg_daily": 2.38
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "average_odds",
+    "bets": 741,
+    "roi": 28.706612685560046,
+    "profit": 2127.1599999999994,
+    "win_rate": 56.54520917678813,
+    "books_5_daily": 0,
+    "books_3_daily": 0,
+    "total_daily": 14.82,
+    "by_book": {
+      "caesars": {
+        "bets": 43,
+        "wins": 38,
+        "losses": 5,
+        "profit": 459.67999999999995,
+        "staked": 430,
+        "avg_daily": 0.86
+      },
+      "betrivers": {
+        "bets": 138,
+        "wins": 93,
+        "losses": 45,
+        "profit": 780.6800000000001,
+        "staked": 1380,
+        "avg_daily": 2.76
+      },
+      "betfair": {
+        "bets": 31,
+        "wins": 18,
+        "losses": 13,
+        "profit": 87.83999999999999,
+        "staked": 310,
+        "avg_daily": 0.62
+      },
+      "fanduel": {
+        "bets": 85,
+        "wins": 59,
+        "losses": 26,
+        "profit": 500.86,
+        "staked": 850,
+        "avg_daily": 1.7
+      },
+      "betmgm": {
+        "bets": 39,
+        "wins": 19,
+        "losses": 20,
+        "profit": 16.239999999999995,
+        "staked": 390,
+        "avg_daily": 0.78
+      },
+      "betano": {
+        "bets": 55,
+        "wins": 30,
+        "losses": 25,
+        "profit": 129.89999999999998,
+        "staked": 550,
+        "avg_daily": 1.1
+      },
+      "unibet": {
+        "bets": 146,
+        "wins": 68,
+        "losses": 78,
+        "profit": 74.57999999999996,
+        "staked": 1460,
+        "avg_daily": 2.92
+      },
+      "leovegas": {
+        "bets": 132,
+        "wins": 62,
+        "losses": 70,
+        "profit": 84.17999999999999,
+        "staked": 1320,
+        "avg_daily": 2.64
+      },
+      "bwin": {
+        "bets": 72,
+        "wins": 32,
+        "losses": 40,
+        "profit": -6.800000000000026,
+        "staked": 720,
+        "avg_daily": 1.44
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "median_odds",
+    "bets": 623,
+    "roi": 40.62985553772073,
+    "profit": 2531.2400000000016,
+    "win_rate": 59.3900481540931,
+    "books_5_daily": 0,
+    "books_3_daily": 0,
+    "total_daily": 11.12,
+    "by_book": {
+      "caesars": {
+        "bets": 46,
+        "wins": 46,
+        "losses": 0,
+        "profit": 611.5,
+        "staked": 460,
+        "avg_daily": 0.82
+      },
+      "betrivers": {
+        "bets": 113,
+        "wins": 82,
+        "losses": 31,
+        "profit": 835.9999999999995,
+        "staked": 1130,
+        "avg_daily": 2.02
+      },
+      "betfair": {
+        "bets": 33,
+        "wins": 16,
+        "losses": 17,
+        "profit": 50.3,
+        "staked": 330,
+        "avg_daily": 0.59
+      },
+      "fanduel": {
+        "bets": 79,
+        "wins": 55,
+        "losses": 24,
+        "profit": 514.4,
+        "staked": 790,
+        "avg_daily": 1.41
+      },
+      "betmgm": {
+        "bets": 18,
+        "wins": 9,
+        "losses": 9,
+        "profit": 34.8,
+        "staked": 180,
+        "avg_daily": 0.32
+      },
+      "unibet": {
+        "bets": 106,
+        "wins": 43,
+        "losses": 63,
+        "profit": -17.28000000000002,
+        "staked": 1060,
+        "avg_daily": 1.89
+      },
+      "leovegas": {
+        "bets": 100,
+        "wins": 42,
+        "losses": 58,
+        "profit": 21.89999999999999,
+        "staked": 1000,
+        "avg_daily": 1.79
+      },
+      "betano": {
+        "bets": 82,
+        "wins": 49,
+        "losses": 33,
+        "profit": 271.5199999999999,
+        "staked": 820,
+        "avg_daily": 1.46
+      },
+      "bwin": {
+        "bets": 46,
+        "wins": 28,
+        "losses": 18,
+        "profit": 208.1,
+        "staked": 460,
+        "avg_daily": 0.82
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "pinnacle_sharp",
+    "bets": 837,
+    "roi": 11.885663082437267,
+    "profit": 994.8299999999992,
+    "win_rate": 54.121863799283155,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 25.37,
+    "by_book": {
+      "betano": {
+        "bets": 30,
+        "wins": 11,
+        "losses": 19,
+        "profit": -48.3,
+        "staked": 300,
+        "avg_daily": 0.91
+      },
+      "betrivers": {
+        "bets": 162,
+        "wins": 109,
+        "losses": 53,
+        "profit": 672.8499999999999,
+        "staked": 1620,
+        "avg_daily": 4.91
+      },
+      "unibet": {
+        "bets": 196,
+        "wins": 94,
+        "losses": 102,
+        "profit": -47.039999999999985,
+        "staked": 1960,
+        "avg_daily": 5.94
+      },
+      "betmgm": {
+        "bets": 50,
+        "wins": 26,
+        "losses": 24,
+        "profit": 0.4999999999999858,
+        "staked": 500,
+        "avg_daily": 1.52
+      },
+      "fanduel": {
+        "bets": 73,
+        "wins": 52,
+        "losses": 21,
+        "profit": 354.1199999999999,
+        "staked": 730,
+        "avg_daily": 2.21
+      },
+      "caesars": {
+        "bets": 33,
+        "wins": 25,
+        "losses": 8,
+        "profit": 234.58,
+        "staked": 330,
+        "avg_daily": 1.0
+      },
+      "leovegas": {
+        "bets": 185,
+        "wins": 86,
+        "losses": 99,
+        "profit": -112.09000000000002,
+        "staked": 1850,
+        "avg_daily": 5.61
+      },
+      "betfair": {
+        "bets": 27,
+        "wins": 12,
+        "losses": 15,
+        "profit": -21.42,
+        "staked": 270,
+        "avg_daily": 0.82
+      },
+      "bwin": {
+        "bets": 81,
+        "wins": 38,
+        "losses": 43,
+        "profit": -38.370000000000005,
+        "staked": 810,
+        "avg_daily": 2.45
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "weighted_sharp",
+    "bets": 729,
+    "roi": 28.92400548696843,
+    "profit": 2108.5599999999986,
+    "win_rate": 56.65294924554184,
+    "books_5_daily": 0,
+    "books_3_daily": 1,
+    "total_daily": 14.879999999999999,
+    "by_book": {
+      "caesars": {
+        "bets": 43,
+        "wins": 38,
+        "losses": 5,
+        "profit": 459.67999999999995,
+        "staked": 430,
+        "avg_daily": 0.88
+      },
+      "betrivers": {
+        "bets": 139,
+        "wins": 93,
+        "losses": 46,
+        "profit": 770.6800000000001,
+        "staked": 1390,
+        "avg_daily": 2.84
+      },
+      "betfair": {
+        "bets": 24,
+        "wins": 14,
+        "losses": 10,
+        "profit": 71.33999999999999,
+        "staked": 240,
+        "avg_daily": 0.49
+      },
+      "fanduel": {
+        "bets": 80,
+        "wins": 58,
+        "losses": 22,
+        "profit": 528.86,
+        "staked": 800,
+        "avg_daily": 1.63
+      },
+      "betmgm": {
+        "bets": 39,
+        "wins": 19,
+        "losses": 20,
+        "profit": 16.239999999999995,
+        "staked": 390,
+        "avg_daily": 0.8
+      },
+      "betano": {
+        "bets": 54,
+        "wins": 29,
+        "losses": 25,
+        "profit": 116.19999999999999,
+        "staked": 540,
+        "avg_daily": 1.1
+      },
+      "unibet": {
+        "bets": 147,
+        "wins": 69,
+        "losses": 78,
+        "profit": 86.17999999999995,
+        "staked": 1470,
+        "avg_daily": 3.0
+      },
+      "leovegas": {
+        "bets": 131,
+        "wins": 61,
+        "losses": 70,
+        "profit": 66.17999999999998,
+        "staked": 1310,
+        "avg_daily": 2.67
+      },
+      "bwin": {
+        "bets": 72,
+        "wins": 32,
+        "losses": 40,
+        "profit": -6.800000000000026,
+        "staked": 720,
+        "avg_daily": 1.47
+      }
+    }
+  },
+  {
+    "config": "Moderate (7%+ edge)",
+    "method": "worst_case",
+    "bets": 815,
+    "roi": 52.937423312883546,
+    "profit": 4314.400000000009,
+    "win_rate": 67.73006134969324,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 17.33,
+    "by_book": {
+      "fanduel": {
+        "bets": 101,
+        "wins": 84,
+        "losses": 17,
+        "profit": 915.9999999999999,
+        "staked": 1010,
+        "avg_daily": 2.15
+      },
+      "caesars": {
+        "bets": 58,
+        "wins": 50,
+        "losses": 8,
+        "profit": 576.46,
+        "staked": 580,
+        "avg_daily": 1.23
+      },
+      "betrivers": {
+        "bets": 168,
+        "wins": 124,
+        "losses": 44,
+        "profit": 1131.8399999999995,
+        "staked": 1680,
+        "avg_daily": 3.57
+      },
+      "unibet": {
+        "bets": 159,
+        "wins": 94,
+        "losses": 65,
+        "profit": 498.31000000000023,
+        "staked": 1590,
+        "avg_daily": 3.38
+      },
+      "betmgm": {
+        "bets": 36,
+        "wins": 19,
+        "losses": 17,
+        "profit": 59.44,
+        "staked": 360,
+        "avg_daily": 0.77
+      },
+      "betano": {
+        "bets": 58,
+        "wins": 41,
+        "losses": 17,
+        "profit": 354.29999999999995,
+        "staked": 580,
+        "avg_daily": 1.23
+      },
+      "betfair": {
+        "bets": 24,
+        "wins": 15,
+        "losses": 9,
+        "profit": 102.83999999999999,
+        "staked": 240,
+        "avg_daily": 0.51
+      },
+      "leovegas": {
+        "bets": 148,
+        "wins": 89,
+        "losses": 59,
+        "profit": 498.01000000000005,
+        "staked": 1480,
+        "avg_daily": 3.15
+      },
+      "bwin": {
+        "bets": 63,
+        "wins": 36,
+        "losses": 27,
+        "profit": 177.2,
+        "staked": 630,
+        "avg_daily": 1.34
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "multiplicative_best",
+    "bets": 632,
+    "roi": 12.883860759493668,
+    "profit": 814.2599999999999,
+    "win_rate": 54.58860759493671,
+    "books_5_daily": 3,
+    "books_3_daily": 4,
+    "total_daily": 30.09,
+    "by_book": {
+      "betano": {
+        "bets": 14,
+        "wins": 4,
+        "losses": 10,
+        "profit": -43.9,
+        "staked": 140,
+        "avg_daily": 0.67
+      },
+      "betrivers": {
+        "bets": 124,
+        "wins": 79,
+        "losses": 45,
+        "profit": 425.61999999999995,
+        "staked": 1240,
+        "avg_daily": 5.9
+      },
+      "unibet": {
+        "bets": 152,
+        "wins": 76,
+        "losses": 76,
+        "profit": 32.489999999999995,
+        "staked": 1520,
+        "avg_daily": 7.24
+      },
+      "leovegas": {
+        "bets": 134,
+        "wins": 64,
+        "losses": 70,
+        "profit": -41.83999999999999,
+        "staked": 1340,
+        "avg_daily": 6.38
+      },
+      "bwin": {
+        "bets": 65,
+        "wins": 29,
+        "losses": 36,
+        "profit": -67.09,
+        "staked": 650,
+        "avg_daily": 3.1
+      },
+      "betfair": {
+        "bets": 19,
+        "wins": 9,
+        "losses": 10,
+        "profit": -5.920000000000002,
+        "staked": 190,
+        "avg_daily": 0.9
+      },
+      "fanduel": {
+        "bets": 59,
+        "wins": 44,
+        "losses": 15,
+        "profit": 323.81999999999994,
+        "staked": 590,
+        "avg_daily": 2.81
+      },
+      "caesars": {
+        "bets": 25,
+        "wins": 19,
+        "losses": 6,
+        "profit": 183.3,
+        "staked": 250,
+        "avg_daily": 1.19
+      },
+      "betmgm": {
+        "bets": 40,
+        "wins": 21,
+        "losses": 19,
+        "profit": 7.779999999999994,
+        "staked": 400,
+        "avg_daily": 1.9
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "additive_best",
+    "bets": 624,
+    "roi": 15.279647435897415,
+    "profit": 953.4499999999987,
+    "win_rate": 54.006410256410255,
+    "books_5_daily": 3,
+    "books_3_daily": 4,
+    "total_daily": 28.36,
+    "by_book": {
+      "betano": {
+        "bets": 13,
+        "wins": 4,
+        "losses": 9,
+        "profit": -33.9,
+        "staked": 130,
+        "avg_daily": 0.59
+      },
+      "betrivers": {
+        "bets": 118,
+        "wins": 73,
+        "losses": 45,
+        "profit": 410.12,
+        "staked": 1180,
+        "avg_daily": 5.36
+      },
+      "bwin": {
+        "bets": 69,
+        "wins": 31,
+        "losses": 38,
+        "profit": -33.09,
+        "staked": 690,
+        "avg_daily": 3.14
+      },
+      "unibet": {
+        "bets": 147,
+        "wins": 72,
+        "losses": 75,
+        "profit": 36.17,
+        "staked": 1470,
+        "avg_daily": 6.68
+      },
+      "leovegas": {
+        "bets": 130,
+        "wins": 64,
+        "losses": 66,
+        "profit": 43.34,
+        "staked": 1300,
+        "avg_daily": 5.91
+      },
+      "betfair": {
+        "bets": 18,
+        "wins": 9,
+        "losses": 9,
+        "profit": 4.079999999999998,
+        "staked": 180,
+        "avg_daily": 0.82
+      },
+      "fanduel": {
+        "bets": 60,
+        "wins": 42,
+        "losses": 18,
+        "profit": 307.72999999999996,
+        "staked": 600,
+        "avg_daily": 2.73
+      },
+      "caesars": {
+        "bets": 30,
+        "wins": 22,
+        "losses": 8,
+        "profit": 196.48000000000002,
+        "staked": 300,
+        "avg_daily": 1.36
+      },
+      "betmgm": {
+        "bets": 39,
+        "wins": 20,
+        "losses": 19,
+        "profit": 22.51999999999999,
+        "staked": 390,
+        "avg_daily": 1.77
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "average_odds",
+    "bets": 529,
+    "roi": 34.02344045368618,
+    "profit": 1799.8399999999988,
+    "win_rate": 57.655954631379956,
+    "books_5_daily": 0,
+    "books_3_daily": 2,
+    "total_daily": 15.129999999999999,
+    "by_book": {
+      "betrivers": {
+        "bets": 115,
+        "wins": 75,
+        "losses": 40,
+        "profit": 611.7999999999998,
+        "staked": 1150,
+        "avg_daily": 3.29
+      },
+      "betmgm": {
+        "bets": 27,
+        "wins": 14,
+        "losses": 13,
+        "profit": 39.94,
+        "staked": 270,
+        "avg_daily": 0.77
+      },
+      "fanduel": {
+        "bets": 54,
+        "wins": 42,
+        "losses": 12,
+        "profit": 448.84,
+        "staked": 540,
+        "avg_daily": 1.54
+      },
+      "betfair": {
+        "bets": 14,
+        "wins": 6,
+        "losses": 8,
+        "profit": 13.299999999999997,
+        "staked": 140,
+        "avg_daily": 0.4
+      },
+      "betano": {
+        "bets": 24,
+        "wins": 15,
+        "losses": 9,
+        "profit": 107.9,
+        "staked": 240,
+        "avg_daily": 0.69
+      },
+      "caesars": {
+        "bets": 31,
+        "wins": 27,
+        "losses": 4,
+        "profit": 323.67999999999995,
+        "staked": 310,
+        "avg_daily": 0.89
+      },
+      "unibet": {
+        "bets": 113,
+        "wins": 54,
+        "losses": 59,
+        "profit": 111.82,
+        "staked": 1130,
+        "avg_daily": 3.23
+      },
+      "leovegas": {
+        "bets": 100,
+        "wins": 47,
+        "losses": 53,
+        "profit": 80.15999999999998,
+        "staked": 1000,
+        "avg_daily": 2.86
+      },
+      "bwin": {
+        "bets": 51,
+        "wins": 25,
+        "losses": 26,
+        "profit": 62.39999999999998,
+        "staked": 510,
+        "avg_daily": 1.46
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "median_odds",
+    "bets": 451,
+    "roi": 51.789356984478964,
+    "profit": 2335.700000000001,
+    "win_rate": 62.97117516629712,
+    "books_5_daily": 0,
+    "books_3_daily": 0,
+    "total_daily": 9.81,
+    "by_book": {
+      "caesars": {
+        "bets": 36,
+        "wins": 36,
+        "losses": 0,
+        "profit": 495.0,
+        "staked": 360,
+        "avg_daily": 0.78
+      },
+      "betrivers": {
+        "bets": 88,
+        "wins": 68,
+        "losses": 20,
+        "profit": 778.9999999999998,
+        "staked": 880,
+        "avg_daily": 1.91
+      },
+      "betfair": {
+        "bets": 23,
+        "wins": 12,
+        "losses": 11,
+        "profit": 54.3,
+        "staked": 230,
+        "avg_daily": 0.5
+      },
+      "fanduel": {
+        "bets": 55,
+        "wins": 39,
+        "losses": 16,
+        "profit": 386.2,
+        "staked": 550,
+        "avg_daily": 1.2
+      },
+      "betmgm": {
+        "bets": 15,
+        "wins": 9,
+        "losses": 6,
+        "profit": 64.8,
+        "staked": 150,
+        "avg_daily": 0.33
+      },
+      "unibet": {
+        "bets": 80,
+        "wins": 35,
+        "losses": 45,
+        "profit": 67.49999999999999,
+        "staked": 800,
+        "avg_daily": 1.74
+      },
+      "leovegas": {
+        "bets": 75,
+        "wins": 36,
+        "losses": 39,
+        "profit": 139.7,
+        "staked": 750,
+        "avg_daily": 1.63
+      },
+      "betano": {
+        "bets": 46,
+        "wins": 26,
+        "losses": 20,
+        "profit": 126.1,
+        "staked": 460,
+        "avg_daily": 1.0
+      },
+      "bwin": {
+        "bets": 33,
+        "wins": 23,
+        "losses": 10,
+        "profit": 223.1,
+        "staked": 330,
+        "avg_daily": 0.72
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "pinnacle_sharp",
+    "bets": 632,
+    "roi": 12.883860759493668,
+    "profit": 814.2599999999999,
+    "win_rate": 54.58860759493671,
+    "books_5_daily": 3,
+    "books_3_daily": 4,
+    "total_daily": 30.09,
+    "by_book": {
+      "betano": {
+        "bets": 14,
+        "wins": 4,
+        "losses": 10,
+        "profit": -43.9,
+        "staked": 140,
+        "avg_daily": 0.67
+      },
+      "betrivers": {
+        "bets": 124,
+        "wins": 79,
+        "losses": 45,
+        "profit": 425.61999999999995,
+        "staked": 1240,
+        "avg_daily": 5.9
+      },
+      "unibet": {
+        "bets": 152,
+        "wins": 76,
+        "losses": 76,
+        "profit": 32.489999999999995,
+        "staked": 1520,
+        "avg_daily": 7.24
+      },
+      "leovegas": {
+        "bets": 134,
+        "wins": 64,
+        "losses": 70,
+        "profit": -41.83999999999999,
+        "staked": 1340,
+        "avg_daily": 6.38
+      },
+      "bwin": {
+        "bets": 65,
+        "wins": 29,
+        "losses": 36,
+        "profit": -67.09,
+        "staked": 650,
+        "avg_daily": 3.1
+      },
+      "betfair": {
+        "bets": 19,
+        "wins": 9,
+        "losses": 10,
+        "profit": -5.920000000000002,
+        "staked": 190,
+        "avg_daily": 0.9
+      },
+      "fanduel": {
+        "bets": 59,
+        "wins": 44,
+        "losses": 15,
+        "profit": 323.81999999999994,
+        "staked": 590,
+        "avg_daily": 2.81
+      },
+      "caesars": {
+        "bets": 25,
+        "wins": 19,
+        "losses": 6,
+        "profit": 183.3,
+        "staked": 250,
+        "avg_daily": 1.19
+      },
+      "betmgm": {
+        "bets": 40,
+        "wins": 21,
+        "losses": 19,
+        "profit": 7.779999999999994,
+        "staked": 400,
+        "avg_daily": 1.9
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "weighted_sharp",
+    "bets": 523,
+    "roi": 31.910898661567856,
+    "profit": 1668.9399999999987,
+    "win_rate": 56.97896749521989,
+    "books_5_daily": 0,
+    "books_3_daily": 2,
+    "total_daily": 15.370000000000001,
+    "by_book": {
+      "betrivers": {
+        "bets": 116,
+        "wins": 74,
+        "losses": 42,
+        "profit": 572.9999999999999,
+        "staked": 1160,
+        "avg_daily": 3.41
+      },
+      "fanduel": {
+        "bets": 52,
+        "wins": 42,
+        "losses": 10,
+        "profit": 455.04,
+        "staked": 520,
+        "avg_daily": 1.53
+      },
+      "betfair": {
+        "bets": 9,
+        "wins": 4,
+        "losses": 5,
+        "profit": 12.0,
+        "staked": 90,
+        "avg_daily": 0.26
+      },
+      "betano": {
+        "bets": 22,
+        "wins": 13,
+        "losses": 9,
+        "profit": 82.2,
+        "staked": 220,
+        "avg_daily": 0.65
+      },
+      "caesars": {
+        "bets": 31,
+        "wins": 27,
+        "losses": 4,
+        "profit": 323.67999999999995,
+        "staked": 310,
+        "avg_daily": 0.91
+      },
+      "unibet": {
+        "bets": 114,
+        "wins": 53,
+        "losses": 61,
+        "profit": 73.01999999999998,
+        "staked": 1140,
+        "avg_daily": 3.35
+      },
+      "leovegas": {
+        "bets": 101,
+        "wins": 47,
+        "losses": 54,
+        "profit": 70.15999999999998,
+        "staked": 1010,
+        "avg_daily": 2.97
+      },
+      "bwin": {
+        "bets": 52,
+        "wins": 24,
+        "losses": 28,
+        "profit": 29.899999999999977,
+        "staked": 520,
+        "avg_daily": 1.53
+      },
+      "betmgm": {
+        "bets": 26,
+        "wins": 14,
+        "losses": 12,
+        "profit": 49.94,
+        "staked": 260,
+        "avg_daily": 0.76
+      }
+    }
+  },
+  {
+    "config": "Conservative (10%+ edge)",
+    "method": "worst_case",
+    "bets": 547,
+    "roi": 54.01389396709325,
+    "profit": 2954.560000000001,
+    "win_rate": 66.36197440585009,
+    "books_5_daily": 0,
+    "books_3_daily": 1,
+    "total_daily": 14.790000000000001,
+    "by_book": {
+      "caesars": {
+        "bets": 47,
+        "wins": 43,
+        "losses": 4,
+        "profit": 528.9599999999999,
+        "staked": 470,
+        "avg_daily": 1.27
+      },
+      "betrivers": {
+        "bets": 128,
+        "wins": 95,
+        "losses": 33,
+        "profit": 936.0399999999997,
+        "staked": 1280,
+        "avg_daily": 3.46
+      },
+      "fanduel": {
+        "bets": 65,
+        "wins": 53,
+        "losses": 12,
+        "profit": 591.64,
+        "staked": 650,
+        "avg_daily": 1.76
+      },
+      "betano": {
+        "bets": 20,
+        "wins": 15,
+        "losses": 5,
+        "profit": 148.1,
+        "staked": 200,
+        "avg_daily": 0.54
+      },
+      "unibet": {
+        "bets": 109,
+        "wins": 59,
+        "losses": 50,
+        "profit": 273.0000000000001,
+        "staked": 1090,
+        "avg_daily": 2.95
+      },
+      "leovegas": {
+        "bets": 97,
+        "wins": 55,
+        "losses": 42,
+        "profit": 296.68,
+        "staked": 970,
+        "avg_daily": 2.62
+      },
+      "bwin": {
+        "bets": 48,
+        "wins": 25,
+        "losses": 23,
+        "profit": 87.4,
+        "staked": 480,
+        "avg_daily": 1.3
+      },
+      "betfair": {
+        "bets": 7,
+        "wins": 4,
+        "losses": 3,
+        "profit": 38.3,
+        "staked": 70,
+        "avg_daily": 0.19
+      },
+      "betmgm": {
+        "bets": 26,
+        "wins": 14,
+        "losses": 12,
+        "profit": 54.44,
+        "staked": 260,
+        "avg_daily": 0.7
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "multiplicative_best",
+    "bets": 1414,
+    "roi": 9.190169731258832,
+    "profit": 1299.4899999999989,
+    "win_rate": 52.192362093352195,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 26.69,
+    "by_book": {
+      "betano": {
+        "bets": 72,
+        "wins": 33,
+        "losses": 39,
+        "profit": 8.800000000000026,
+        "staked": 720,
+        "avg_daily": 1.36
+      },
+      "unibet": {
+        "bets": 321,
+        "wins": 142,
+        "losses": 179,
+        "profit": -310.10999999999984,
+        "staked": 3210,
+        "avg_daily": 6.06
+      },
+      "leovegas": {
+        "bets": 305,
+        "wins": 135,
+        "losses": 170,
+        "profit": -276.4399999999998,
+        "staked": 3050,
+        "avg_daily": 5.75
+      },
+      "betrivers": {
+        "bets": 258,
+        "wins": 160,
+        "losses": 98,
+        "profit": 804.1299999999999,
+        "staked": 2580,
+        "avg_daily": 4.87
+      },
+      "betfair": {
+        "bets": 60,
+        "wins": 32,
+        "losses": 28,
+        "profit": 84.41999999999999,
+        "staked": 600,
+        "avg_daily": 1.13
+      },
+      "fanduel": {
+        "bets": 132,
+        "wins": 92,
+        "losses": 40,
+        "profit": 638.9199999999998,
+        "staked": 1320,
+        "avg_daily": 2.49
+      },
+      "betmgm": {
+        "bets": 73,
+        "wins": 37,
+        "losses": 36,
+        "profit": 9.67999999999998,
+        "staked": 730,
+        "avg_daily": 1.38
+      },
+      "bwin": {
+        "bets": 128,
+        "wins": 60,
+        "losses": 68,
+        "profit": -51.669999999999916,
+        "staked": 1280,
+        "avg_daily": 2.42
+      },
+      "caesars": {
+        "bets": 65,
+        "wins": 47,
+        "losses": 18,
+        "profit": 391.7599999999999,
+        "staked": 650,
+        "avg_daily": 1.23
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "additive_best",
+    "bets": 1461,
+    "roi": 8.100821355236123,
+    "profit": 1183.5299999999975,
+    "win_rate": 51.19780971937029,
+    "books_5_daily": 3,
+    "books_3_daily": 3,
+    "total_daily": 27.57,
+    "by_book": {
+      "betano": {
+        "bets": 75,
+        "wins": 38,
+        "losses": 37,
+        "profit": 89.70000000000003,
+        "staked": 750,
+        "avg_daily": 1.42
+      },
+      "unibet": {
+        "bets": 326,
+        "wins": 140,
+        "losses": 186,
+        "profit": -360.58999999999975,
+        "staked": 3260,
+        "avg_daily": 6.15
+      },
+      "leovegas": {
+        "bets": 310,
+        "wins": 134,
+        "losses": 176,
+        "profit": -314.8999999999999,
+        "staked": 3100,
+        "avg_daily": 5.85
+      },
+      "betrivers": {
+        "bets": 267,
+        "wins": 160,
+        "losses": 107,
+        "profit": 745.23,
+        "staked": 2670,
+        "avg_daily": 5.04
+      },
+      "betfair": {
+        "bets": 62,
+        "wins": 33,
+        "losses": 29,
+        "profit": 86.92,
+        "staked": 620,
+        "avg_daily": 1.17
+      },
+      "fanduel": {
+        "bets": 138,
+        "wins": 93,
+        "losses": 45,
+        "profit": 607.6399999999999,
+        "staked": 1380,
+        "avg_daily": 2.6
+      },
+      "betmgm": {
+        "bets": 78,
+        "wins": 40,
+        "losses": 38,
+        "profit": 26.179999999999986,
+        "staked": 780,
+        "avg_daily": 1.47
+      },
+      "bwin": {
+        "bets": 134,
+        "wins": 61,
+        "losses": 73,
+        "profit": -66.58999999999989,
+        "staked": 1340,
+        "avg_daily": 2.53
+      },
+      "caesars": {
+        "bets": 71,
+        "wins": 49,
+        "losses": 22,
+        "profit": 369.9399999999998,
+        "staked": 710,
+        "avg_daily": 1.34
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "average_odds",
+    "bets": 1257,
+    "roi": 23.80167064439141,
+    "profit": 2991.8700000000003,
+    "win_rate": 56.16547334924423,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 20.95,
+    "by_book": {
+      "betano": {
+        "bets": 124,
+        "wins": 74,
+        "losses": 50,
+        "profit": 400.6199999999999,
+        "staked": 1240,
+        "avg_daily": 2.07
+      },
+      "caesars": {
+        "bets": 68,
+        "wins": 54,
+        "losses": 14,
+        "profit": 563.68,
+        "staked": 680,
+        "avg_daily": 1.13
+      },
+      "betrivers": {
+        "bets": 222,
+        "wins": 145,
+        "losses": 77,
+        "profit": 1009.8199999999997,
+        "staked": 2220,
+        "avg_daily": 3.7
+      },
+      "unibet": {
+        "bets": 238,
+        "wins": 112,
+        "losses": 126,
+        "profit": 36.84000000000003,
+        "staked": 2380,
+        "avg_daily": 3.97
+      },
+      "betfair": {
+        "bets": 62,
+        "wins": 34,
+        "losses": 28,
+        "profit": 114.87999999999998,
+        "staked": 620,
+        "avg_daily": 1.03
+      },
+      "fanduel": {
+        "bets": 147,
+        "wins": 102,
+        "losses": 45,
+        "profit": 802.9599999999999,
+        "staked": 1470,
+        "avg_daily": 2.45
+      },
+      "betmgm": {
+        "bets": 54,
+        "wins": 28,
+        "losses": 26,
+        "profit": 65.24,
+        "staked": 540,
+        "avg_daily": 0.9
+      },
+      "leovegas": {
+        "bets": 220,
+        "wins": 103,
+        "losses": 117,
+        "profit": 36.9,
+        "staked": 2200,
+        "avg_daily": 3.67
+      },
+      "bwin": {
+        "bets": 122,
+        "wins": 54,
+        "losses": 68,
+        "profit": -39.070000000000036,
+        "staked": 1220,
+        "avg_daily": 2.03
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "median_odds",
+    "bets": 1059,
+    "roi": 28.226062322946188,
+    "profit": 2989.1400000000012,
+    "win_rate": 55.996222851746936,
+    "books_5_daily": 0,
+    "books_3_daily": 0,
+    "total_daily": 16.56,
+    "by_book": {
+      "betano": {
+        "bets": 170,
+        "wins": 103,
+        "losses": 67,
+        "profit": 536.5300000000002,
+        "staked": 1700,
+        "avg_daily": 2.66
+      },
+      "fanduel": {
+        "bets": 125,
+        "wins": 86,
+        "losses": 39,
+        "profit": 733.8299999999998,
+        "staked": 1250,
+        "avg_daily": 1.95
+      },
+      "caesars": {
+        "bets": 71,
+        "wins": 64,
+        "losses": 7,
+        "profit": 761.52,
+        "staked": 710,
+        "avg_daily": 1.11
+      },
+      "betrivers": {
+        "bets": 163,
+        "wins": 111,
+        "losses": 52,
+        "profit": 958.1499999999996,
+        "staked": 1630,
+        "avg_daily": 2.55
+      },
+      "betfair": {
+        "bets": 58,
+        "wins": 32,
+        "losses": 26,
+        "profit": 149.8,
+        "staked": 580,
+        "avg_daily": 0.91
+      },
+      "betmgm": {
+        "bets": 39,
+        "wins": 16,
+        "losses": 23,
+        "profit": -20.16000000000001,
+        "staked": 390,
+        "avg_daily": 0.61
+      },
+      "unibet": {
+        "bets": 169,
+        "wins": 71,
+        "losses": 98,
+        "profit": -41.97000000000001,
+        "staked": 1690,
+        "avg_daily": 2.64
+      },
+      "leovegas": {
+        "bets": 158,
+        "wins": 68,
+        "losses": 90,
+        "profit": -2.0000000000000018,
+        "staked": 1580,
+        "avg_daily": 2.47
+      },
+      "bwin": {
+        "bets": 106,
+        "wins": 42,
+        "losses": 64,
+        "profit": -86.55999999999995,
+        "staked": 1060,
+        "avg_daily": 1.66
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "pinnacle_sharp",
+    "bets": 1414,
+    "roi": 9.190169731258832,
+    "profit": 1299.4899999999989,
+    "win_rate": 52.192362093352195,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 26.69,
+    "by_book": {
+      "betano": {
+        "bets": 72,
+        "wins": 33,
+        "losses": 39,
+        "profit": 8.800000000000026,
+        "staked": 720,
+        "avg_daily": 1.36
+      },
+      "unibet": {
+        "bets": 321,
+        "wins": 142,
+        "losses": 179,
+        "profit": -310.10999999999984,
+        "staked": 3210,
+        "avg_daily": 6.06
+      },
+      "leovegas": {
+        "bets": 305,
+        "wins": 135,
+        "losses": 170,
+        "profit": -276.4399999999998,
+        "staked": 3050,
+        "avg_daily": 5.75
+      },
+      "betrivers": {
+        "bets": 258,
+        "wins": 160,
+        "losses": 98,
+        "profit": 804.1299999999999,
+        "staked": 2580,
+        "avg_daily": 4.87
+      },
+      "betfair": {
+        "bets": 60,
+        "wins": 32,
+        "losses": 28,
+        "profit": 84.41999999999999,
+        "staked": 600,
+        "avg_daily": 1.13
+      },
+      "fanduel": {
+        "bets": 132,
+        "wins": 92,
+        "losses": 40,
+        "profit": 638.9199999999998,
+        "staked": 1320,
+        "avg_daily": 2.49
+      },
+      "betmgm": {
+        "bets": 73,
+        "wins": 37,
+        "losses": 36,
+        "profit": 9.67999999999998,
+        "staked": 730,
+        "avg_daily": 1.38
+      },
+      "bwin": {
+        "bets": 128,
+        "wins": 60,
+        "losses": 68,
+        "profit": -51.669999999999916,
+        "staked": 1280,
+        "avg_daily": 2.42
+      },
+      "caesars": {
+        "bets": 65,
+        "wins": 47,
+        "losses": 18,
+        "profit": 391.7599999999999,
+        "staked": 650,
+        "avg_daily": 1.23
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "weighted_sharp",
+    "bets": 1274,
+    "roi": 22.21562009419154,
+    "profit": 2830.270000000002,
+    "win_rate": 55.494505494505496,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 21.23,
+    "by_book": {
+      "betano": {
+        "bets": 124,
+        "wins": 74,
+        "losses": 50,
+        "profit": 404.1199999999999,
+        "staked": 1240,
+        "avg_daily": 2.07
+      },
+      "caesars": {
+        "bets": 71,
+        "wins": 56,
+        "losses": 15,
+        "profit": 576.1800000000001,
+        "staked": 710,
+        "avg_daily": 1.18
+      },
+      "betrivers": {
+        "bets": 228,
+        "wins": 147,
+        "losses": 81,
+        "profit": 992.8199999999996,
+        "staked": 2280,
+        "avg_daily": 3.8
+      },
+      "unibet": {
+        "bets": 245,
+        "wins": 113,
+        "losses": 132,
+        "profit": -20.959999999999994,
+        "staked": 2450,
+        "avg_daily": 4.08
+      },
+      "leovegas": {
+        "bets": 232,
+        "wins": 106,
+        "losses": 126,
+        "profit": -29.300000000000004,
+        "staked": 2320,
+        "avg_daily": 3.87
+      },
+      "betfair": {
+        "bets": 57,
+        "wins": 31,
+        "losses": 26,
+        "profit": 99.37999999999998,
+        "staked": 570,
+        "avg_daily": 0.95
+      },
+      "fanduel": {
+        "bets": 140,
+        "wins": 97,
+        "losses": 43,
+        "profit": 765.36,
+        "staked": 1400,
+        "avg_daily": 2.33
+      },
+      "betmgm": {
+        "bets": 54,
+        "wins": 28,
+        "losses": 26,
+        "profit": 65.24,
+        "staked": 540,
+        "avg_daily": 0.9
+      },
+      "bwin": {
+        "bets": 123,
+        "wins": 55,
+        "losses": 68,
+        "profit": -22.570000000000036,
+        "staked": 1230,
+        "avg_daily": 2.05
+      }
+    }
+  },
+  {
+    "config": "Aggressive (3%+ edge)",
+    "method": "worst_case",
+    "bets": 1488,
+    "roi": 42.2625000000001,
+    "profit": 6288.660000000015,
+    "win_rate": 64.98655913978494,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 25.64,
+    "by_book": {
+      "fanduel": {
+        "bets": 173,
+        "wins": 137,
+        "losses": 36,
+        "profit": 1308.7499999999995,
+        "staked": 1730,
+        "avg_daily": 2.98
+      },
+      "caesars": {
+        "bets": 107,
+        "wins": 92,
+        "losses": 15,
+        "profit": 974.48,
+        "staked": 1070,
+        "avg_daily": 1.84
+      },
+      "betrivers": {
+        "bets": 274,
+        "wins": 194,
+        "losses": 80,
+        "profit": 1528.6199999999994,
+        "staked": 2740,
+        "avg_daily": 4.72
+      },
+      "unibet": {
+        "bets": 285,
+        "wins": 161,
+        "losses": 124,
+        "profit": 614.3999999999999,
+        "staked": 2850,
+        "avg_daily": 4.91
+      },
+      "leovegas": {
+        "bets": 265,
+        "wins": 150,
+        "losses": 115,
+        "profit": 596.5899999999996,
+        "staked": 2650,
+        "avg_daily": 4.57
+      },
+      "betfair": {
+        "bets": 58,
+        "wins": 34,
+        "losses": 24,
+        "profit": 159.38,
+        "staked": 580,
+        "avg_daily": 1.0
+      },
+      "betmgm": {
+        "bets": 61,
+        "wins": 33,
+        "losses": 28,
+        "profit": 100.02,
+        "staked": 610,
+        "avg_daily": 1.05
+      },
+      "betano": {
+        "bets": 150,
+        "wins": 108,
+        "losses": 42,
+        "profit": 892.8200000000006,
+        "staked": 1500,
+        "avg_daily": 2.59
+      },
+      "bwin": {
+        "bets": 115,
+        "wins": 58,
+        "losses": 57,
+        "profit": 113.6,
+        "staked": 1150,
+        "avg_daily": 1.98
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "multiplicative_best",
+    "bets": 1479,
+    "roi": 8.561122379986461,
+    "profit": 1266.1899999999978,
+    "win_rate": 51.791751183231916,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 27.39,
+    "by_book": {
+      "betano": {
+        "bets": 76,
+        "wins": 35,
+        "losses": 41,
+        "profit": 11.800000000000026,
+        "staked": 760,
+        "avg_daily": 1.41
+      },
+      "unibet": {
+        "bets": 340,
+        "wins": 146,
+        "losses": 194,
+        "profit": -422.18999999999966,
+        "staked": 3400,
+        "avg_daily": 6.3
+      },
+      "leovegas": {
+        "bets": 325,
+        "wins": 139,
+        "losses": 186,
+        "profit": -398.3599999999997,
+        "staked": 3250,
+        "avg_daily": 6.02
+      },
+      "betrivers": {
+        "bets": 267,
+        "wins": 167,
+        "losses": 100,
+        "profit": 874.8299999999997,
+        "staked": 2670,
+        "avg_daily": 4.94
+      },
+      "betfair": {
+        "bets": 60,
+        "wins": 32,
+        "losses": 28,
+        "profit": 84.41999999999999,
+        "staked": 600,
+        "avg_daily": 1.11
+      },
+      "fanduel": {
+        "bets": 133,
+        "wins": 93,
+        "losses": 40,
+        "profit": 653.4199999999998,
+        "staked": 1330,
+        "avg_daily": 2.46
+      },
+      "betmgm": {
+        "bets": 73,
+        "wins": 37,
+        "losses": 36,
+        "profit": 9.67999999999998,
+        "staked": 730,
+        "avg_daily": 1.35
+      },
+      "bwin": {
+        "bets": 128,
+        "wins": 60,
+        "losses": 68,
+        "profit": -51.669999999999916,
+        "staked": 1280,
+        "avg_daily": 2.37
+      },
+      "caesars": {
+        "bets": 77,
+        "wins": 57,
+        "losses": 20,
+        "profit": 504.2599999999999,
+        "staked": 770,
+        "avg_daily": 1.43
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "additive_best",
+    "bets": 1527,
+    "roi": 7.663588736083805,
+    "profit": 1170.229999999997,
+    "win_rate": 50.884086444007856,
+    "books_5_daily": 3,
+    "books_3_daily": 3,
+    "total_daily": 28.27,
+    "by_book": {
+      "betano": {
+        "bets": 79,
+        "wins": 40,
+        "losses": 39,
+        "profit": 92.70000000000003,
+        "staked": 790,
+        "avg_daily": 1.46
+      },
+      "unibet": {
+        "bets": 345,
+        "wins": 144,
+        "losses": 201,
+        "profit": -472.6699999999996,
+        "staked": 3450,
+        "avg_daily": 6.39
+      },
+      "leovegas": {
+        "bets": 330,
+        "wins": 138,
+        "losses": 192,
+        "profit": -436.8199999999999,
+        "staked": 3300,
+        "avg_daily": 6.11
+      },
+      "betrivers": {
+        "bets": 276,
+        "wins": 167,
+        "losses": 109,
+        "profit": 815.9299999999998,
+        "staked": 2760,
+        "avg_daily": 5.11
+      },
+      "betfair": {
+        "bets": 62,
+        "wins": 33,
+        "losses": 29,
+        "profit": 86.92,
+        "staked": 620,
+        "avg_daily": 1.15
+      },
+      "fanduel": {
+        "bets": 139,
+        "wins": 94,
+        "losses": 45,
+        "profit": 622.1399999999999,
+        "staked": 1390,
+        "avg_daily": 2.57
+      },
+      "betmgm": {
+        "bets": 78,
+        "wins": 40,
+        "losses": 38,
+        "profit": 26.179999999999986,
+        "staked": 780,
+        "avg_daily": 1.44
+      },
+      "bwin": {
+        "bets": 134,
+        "wins": 61,
+        "losses": 73,
+        "profit": -66.58999999999989,
+        "staked": 1340,
+        "avg_daily": 2.48
+      },
+      "caesars": {
+        "bets": 84,
+        "wins": 60,
+        "losses": 24,
+        "profit": 502.4399999999998,
+        "staked": 840,
+        "avg_daily": 1.56
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "average_odds",
+    "bets": 1381,
+    "roi": 30.480593772628556,
+    "profit": 4209.3700000000035,
+    "win_rate": 59.08761766835626,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 22.65,
+    "by_book": {
+      "betano": {
+        "bets": 153,
+        "wins": 100,
+        "losses": 53,
+        "profit": 670.9200000000002,
+        "staked": 1530,
+        "avg_daily": 2.51
+      },
+      "caesars": {
+        "bets": 106,
+        "wins": 90,
+        "losses": 16,
+        "profit": 1000.6800000000001,
+        "staked": 1060,
+        "avg_daily": 1.74
+      },
+      "betrivers": {
+        "bets": 255,
+        "wins": 175,
+        "losses": 80,
+        "profit": 1346.3199999999993,
+        "staked": 2550,
+        "avg_daily": 4.18
+      },
+      "unibet": {
+        "bets": 240,
+        "wins": 114,
+        "losses": 126,
+        "profit": 65.84000000000003,
+        "staked": 2400,
+        "avg_daily": 3.93
+      },
+      "betfair": {
+        "bets": 62,
+        "wins": 34,
+        "losses": 28,
+        "profit": 114.87999999999998,
+        "staked": 620,
+        "avg_daily": 1.02
+      },
+      "fanduel": {
+        "bets": 167,
+        "wins": 116,
+        "losses": 51,
+        "profit": 918.66,
+        "staked": 1670,
+        "avg_daily": 2.74
+      },
+      "betmgm": {
+        "bets": 54,
+        "wins": 28,
+        "losses": 26,
+        "profit": 65.24,
+        "staked": 540,
+        "avg_daily": 0.89
+      },
+      "leovegas": {
+        "bets": 222,
+        "wins": 105,
+        "losses": 117,
+        "profit": 65.9,
+        "staked": 2220,
+        "avg_daily": 3.64
+      },
+      "bwin": {
+        "bets": 122,
+        "wins": 54,
+        "losses": 68,
+        "profit": -39.070000000000036,
+        "staked": 1220,
+        "avg_daily": 2.0
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "median_odds",
+    "bets": 1227,
+    "roi": 37.46756316218418,
+    "profit": 4597.269999999999,
+    "win_rate": 60.55419722901385,
+    "books_5_daily": 0,
+    "books_3_daily": 2,
+    "total_daily": 18.88,
+    "by_book": {
+      "betano": {
+        "bets": 226,
+        "wins": 155,
+        "losses": 71,
+        "profit": 1075.8500000000008,
+        "staked": 2260,
+        "avg_daily": 3.48
+      },
+      "fanduel": {
+        "bets": 149,
+        "wins": 104,
+        "losses": 45,
+        "profit": 898.0299999999999,
+        "staked": 1490,
+        "avg_daily": 2.29
+      },
+      "caesars": {
+        "bets": 117,
+        "wins": 107,
+        "losses": 10,
+        "profit": 1260.52,
+        "staked": 1170,
+        "avg_daily": 1.8
+      },
+      "betrivers": {
+        "bets": 199,
+        "wins": 144,
+        "losses": 55,
+        "profit": 1325.7599999999995,
+        "staked": 1990,
+        "avg_daily": 3.06
+      },
+      "betfair": {
+        "bets": 58,
+        "wins": 32,
+        "losses": 26,
+        "profit": 149.8,
+        "staked": 580,
+        "avg_daily": 0.89
+      },
+      "betmgm": {
+        "bets": 39,
+        "wins": 16,
+        "losses": 23,
+        "profit": -20.16000000000001,
+        "staked": 390,
+        "avg_daily": 0.6
+      },
+      "unibet": {
+        "bets": 172,
+        "wins": 73,
+        "losses": 99,
+        "profit": -22.970000000000006,
+        "staked": 1720,
+        "avg_daily": 2.65
+      },
+      "leovegas": {
+        "bets": 161,
+        "wins": 70,
+        "losses": 91,
+        "profit": 17.0,
+        "staked": 1610,
+        "avg_daily": 2.48
+      },
+      "bwin": {
+        "bets": 106,
+        "wins": 42,
+        "losses": 64,
+        "profit": -86.55999999999995,
+        "staked": 1060,
+        "avg_daily": 1.63
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "pinnacle_sharp",
+    "bets": 1479,
+    "roi": 8.561122379986461,
+    "profit": 1266.1899999999978,
+    "win_rate": 51.791751183231916,
+    "books_5_daily": 2,
+    "books_3_daily": 3,
+    "total_daily": 27.39,
+    "by_book": {
+      "betano": {
+        "bets": 76,
+        "wins": 35,
+        "losses": 41,
+        "profit": 11.800000000000026,
+        "staked": 760,
+        "avg_daily": 1.41
+      },
+      "unibet": {
+        "bets": 340,
+        "wins": 146,
+        "losses": 194,
+        "profit": -422.18999999999966,
+        "staked": 3400,
+        "avg_daily": 6.3
+      },
+      "leovegas": {
+        "bets": 325,
+        "wins": 139,
+        "losses": 186,
+        "profit": -398.3599999999997,
+        "staked": 3250,
+        "avg_daily": 6.02
+      },
+      "betrivers": {
+        "bets": 267,
+        "wins": 167,
+        "losses": 100,
+        "profit": 874.8299999999997,
+        "staked": 2670,
+        "avg_daily": 4.94
+      },
+      "betfair": {
+        "bets": 60,
+        "wins": 32,
+        "losses": 28,
+        "profit": 84.41999999999999,
+        "staked": 600,
+        "avg_daily": 1.11
+      },
+      "fanduel": {
+        "bets": 133,
+        "wins": 93,
+        "losses": 40,
+        "profit": 653.4199999999998,
+        "staked": 1330,
+        "avg_daily": 2.46
+      },
+      "betmgm": {
+        "bets": 73,
+        "wins": 37,
+        "losses": 36,
+        "profit": 9.67999999999998,
+        "staked": 730,
+        "avg_daily": 1.35
+      },
+      "bwin": {
+        "bets": 128,
+        "wins": 60,
+        "losses": 68,
+        "profit": -51.669999999999916,
+        "staked": 1280,
+        "avg_daily": 2.37
+      },
+      "caesars": {
+        "bets": 77,
+        "wins": 57,
+        "losses": 20,
+        "profit": 504.2599999999999,
+        "staked": 770,
+        "avg_daily": 1.43
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "weighted_sharp",
+    "bets": 1398,
+    "roi": 28.95400572246068,
+    "profit": 4047.7700000000027,
+    "win_rate": 58.44062947067239,
+    "books_5_daily": 0,
+    "books_3_daily": 3,
+    "total_daily": 22.93,
+    "by_book": {
+      "betano": {
+        "bets": 153,
+        "wins": 100,
+        "losses": 53,
+        "profit": 674.4200000000003,
+        "staked": 1530,
+        "avg_daily": 2.51
+      },
+      "caesars": {
+        "bets": 109,
+        "wins": 92,
+        "losses": 17,
+        "profit": 1013.1800000000001,
+        "staked": 1090,
+        "avg_daily": 1.79
+      },
+      "betrivers": {
+        "bets": 261,
+        "wins": 177,
+        "losses": 84,
+        "profit": 1329.3199999999993,
+        "staked": 2610,
+        "avg_daily": 4.28
+      },
+      "unibet": {
+        "bets": 247,
+        "wins": 115,
+        "losses": 132,
+        "profit": 8.040000000000006,
+        "staked": 2470,
+        "avg_daily": 4.05
+      },
+      "leovegas": {
+        "bets": 234,
+        "wins": 108,
+        "losses": 126,
+        "profit": -0.29999999999999005,
+        "staked": 2340,
+        "avg_daily": 3.84
+      },
+      "betfair": {
+        "bets": 57,
+        "wins": 31,
+        "losses": 26,
+        "profit": 99.37999999999998,
+        "staked": 570,
+        "avg_daily": 0.93
+      },
+      "fanduel": {
+        "bets": 160,
+        "wins": 111,
+        "losses": 49,
+        "profit": 881.0600000000001,
+        "staked": 1600,
+        "avg_daily": 2.62
+      },
+      "betmgm": {
+        "bets": 54,
+        "wins": 28,
+        "losses": 26,
+        "profit": 65.24,
+        "staked": 540,
+        "avg_daily": 0.89
+      },
+      "bwin": {
+        "bets": 123,
+        "wins": 55,
+        "losses": 68,
+        "profit": -22.570000000000036,
+        "staked": 1230,
+        "avg_daily": 2.02
+      }
+    }
+  },
+  {
+    "config": "High volume (3%+, 2 books)",
+    "method": "worst_case",
+    "bets": 1707,
+    "roi": 49.56291739894558,
+    "profit": 8460.39000000001,
+    "win_rate": 68.36555360281194,
+    "books_5_daily": 1,
+    "books_3_daily": 5,
+    "total_daily": 28.46,
+    "by_book": {
+      "fanduel": {
+        "bets": 201,
+        "wins": 159,
+        "losses": 42,
+        "profit": 1522.4499999999996,
+        "staked": 2010,
+        "avg_daily": 3.35
+      },
+      "caesars": {
+        "bets": 160,
+        "wins": 142,
+        "losses": 18,
+        "profit": 1559.9800000000002,
+        "staked": 1600,
+        "avg_daily": 2.67
+      },
+      "betrivers": {
+        "bets": 330,
+        "wins": 245,
+        "losses": 85,
+        "profit": 2076.489999999999,
+        "staked": 3300,
+        "avg_daily": 5.5
+      },
+      "unibet": {
+        "bets": 292,
+        "wins": 168,
+        "losses": 124,
+        "profit": 701.5699999999999,
+        "staked": 2920,
+        "avg_daily": 4.87
+      },
+      "leovegas": {
+        "bets": 272,
+        "wins": 157,
+        "losses": 115,
+        "profit": 682.7599999999995,
+        "staked": 2720,
+        "avg_daily": 4.53
+      },
+      "betfair": {
+        "bets": 58,
+        "wins": 34,
+        "losses": 24,
+        "profit": 159.38,
+        "staked": 580,
+        "avg_daily": 0.97
+      },
+      "betmgm": {
+        "bets": 61,
+        "wins": 33,
+        "losses": 28,
+        "profit": 100.02,
+        "staked": 610,
+        "avg_daily": 1.02
+      },
+      "betano": {
+        "bets": 218,
+        "wins": 171,
+        "losses": 47,
+        "profit": 1544.1400000000012,
+        "staked": 2180,
+        "avg_daily": 3.63
+      },
+      "bwin": {
+        "bets": 115,
+        "wins": 58,
+        "losses": 57,
+        "profit": 113.6,
+        "staked": 1150,
+        "avg_daily": 1.92
+      }
+    }
+  }
+]

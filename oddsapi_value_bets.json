@@ -1,0 +1,17 @@
+[
+  {
+    "fixture": "SD Huesca vs Cadiz CF",
+    "fixture_id": "61623550",
+    "league": "Spain - LaLiga 2",
+    "kickoff": null,
+    "market": "Corners Spread",
+    "selection": "SD Huesca -1",
+    "book": "DanskeSpil",
+    "odds": 2.15,
+    "american": null,
+    "fair": 2.013,
+    "edge": 6.786274159903556,
+    "betting_link": "https://danskespil.dk/oddset/sports/event/9390158",
+    "source": "oddsapi"
+  }
+]

@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any, Tuple
 import json
 
-from ..api import OpticOddsClient
+from ..api import OddsApiClient
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +88,7 @@ class Backtester:
     SPORTSBOOKS = ['Pinnacle', 'Betsson', 'Unibet', 'bet365', 'Betway', 'DraftKings', 'FanDuel']
     MARKETS = ['Total Corners', 'Total Shots', 'Total Shots On Target']
 
-    def __init__(self, api_client: OpticOddsClient):
+    def __init__(self, api_client: OddsApiClient):
         self.api = api_client
 
     async def run_backtest(
@@ -380,7 +380,7 @@ async def run_full_backtest(
 ) -> BacktestResults:
     """Run a full backtest on completed fixtures."""
 
-    client = OpticOddsClient(api_key)
+    client = OddsApiClient(api_key)
     backtester = Backtester(client)
 
     try:

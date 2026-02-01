@@ -1,0 +1,1465 @@
+======================================================================
+COMPREHENSIVE EV BACKTEST v2
+======================================================================
+Date Range: 2025-10-31 to 2026-01-29 (90 days)
+Leagues: 9
+Markets: Total Shots, Total Shots On Target, Total Corners
+Edge Filter: 5.0% - 25.0%
+Odds Filter: 1.5 - 3.0
+Min Books: 4
+======================================================================
+
+
+==================================================
+[LEAGUE] Premier League
+==================================================
+Found 100 completed fixtures
+
+[1/50] Crystal Palace FC vs Brentford FC (2025-11-01)
+  Stats: Shots=15.0, SOT=4.0, Corners=11.0
+
+[2/50] Fulham FC vs Wolverhampton Wanderers FC (2025-11-01)
+  Stats: Shots=24.0, SOT=8.0, Corners=11.0
+
+[3/50] Nottingham Forest FC vs Manchester United FC (2025-11-01)
+  Stats: Shots=35.0, SOT=10.0, Corners=13.0
+
+[4/50] Burnley FC vs Arsenal FC (2025-11-01)
+  Stats: Shots=15.0, SOT=8.0, Corners=7.0
+
+[5/50] Brighton & Hove Albion FC vs Leeds United FC (2025-11-01)
+  Stats: Shots=19.0, SOT=9.0, Corners=11.0
+
+[6/50] Tottenham Hotspur FC vs Chelsea FC (2025-11-01)
+  Stats: Shots=18.0, SOT=10.0, Corners=11.0
+
+[7/50] Liverpool FC vs Aston Villa FC (2025-11-01)
+  Stats: Shots=26.0, SOT=7.0, Corners=5.0
+
+[8/50] West Ham United FC vs Newcastle United FC (2025-11-02)
+  Stats: Shots=27.0, SOT=13.0, Corners=13.0
+
+[9/50] Manchester City FC vs AFC Bournemouth (2025-11-02)
+  Stats: Shots=23.0, SOT=13.0, Corners=14.0
+
+[10/50] Sunderland AFC vs Everton FC (2025-11-03)
+  Stats: Shots=25.0, SOT=5.0, Corners=5.0
+
+[11/50] Tottenham Hotspur FC vs Manchester United FC (2025-11-08)
+  Stats: Shots=15.0, SOT=6.0, Corners=8.0
+
+[12/50] Everton FC vs Fulham FC (2025-11-08)
+  Stats: Shots=22.0, SOT=9.0, Corners=12.0
+
+[13/50] West Ham United FC vs Burnley FC (2025-11-08)
+  Stats: Shots=31.0, SOT=13.0, Corners=11.0
+
+[14/50] Sunderland AFC vs Arsenal FC (2025-11-08)
+  Stats: Shots=23.0, SOT=9.0, Corners=4.0
+
+[15/50] Chelsea FC vs Wolverhampton Wanderers FC (2025-11-08)
+  Stats: Shots=23.0, SOT=8.0, Corners=11.0
+
+[16/50] Aston Villa FC vs AFC Bournemouth (2025-11-09)
+  Stats: Shots=28.0, SOT=11.0, Corners=15.0
+
+[17/50] Crystal Palace FC vs Brighton & Hove Albion FC (2025-11-09)
+  Stats: Shots=17.0, SOT=5.0, Corners=12.0
+
+[18/50] Nottingham Forest FC vs Leeds United FC (2025-11-09)
+  Stats: Shots=24.0, SOT=9.0, Corners=10.0
+
+[19/50] Brentford FC vs Newcastle United FC (2025-11-09)
+  Stats: Shots=20.0, SOT=8.0, Corners=8.0
+
+[20/50] Manchester City FC vs Liverpool FC (2025-11-09)
+  Stats: Shots=21.0, SOT=7.0, Corners=14.0
+
+[21/50] Burnley FC vs Chelsea FC (2025-11-22)
+  Stats: Shots=23.0, SOT=7.0, Corners=10.0
+
+[22/50] Fulham FC vs Sunderland AFC (2025-11-22)
+  Stats: Shots=28.0, SOT=8.0, Corners=11.0
+
+[23/50] AFC Bournemouth vs West Ham United FC (2025-11-22)
+  Stats: Shots=33.0, SOT=12.0, Corners=11.0
+
+[24/50] Liverpool FC vs Nottingham Forest FC (2025-11-22)
+  Stats: Shots=36.0, SOT=11.0, Corners=14.0
+
+[25/50] Brighton & Hove Albion FC vs Brentford FC (2025-11-22)
+  Stats: Shots=24.0, SOT=9.0, Corners=11.0
+
+[26/50] Wolverhampton Wanderers FC vs Crystal Palace FC (2025-11-22)
+  Stats: Shots=18.0, SOT=5.0, Corners=5.0
+
+[27/50] Newcastle United FC vs Manchester City FC (2025-11-22)
+  Stats: Shots=26.0, SOT=9.0, Corners=14.0
+
+[28/50] Leeds United FC vs Aston Villa FC (2025-11-23)
+  Stats: Shots=28.0, SOT=8.0, Corners=6.0
+
+[29/50] Arsenal FC vs Tottenham Hotspur FC (2025-11-23)
+  Stats: Shots=20.0, SOT=10.0, Corners=5.0
+
+[30/50] Manchester United FC vs Everton FC (2025-11-24)
+  Stats: Shots=28.0, SOT=7.0, Corners=10.0
+
+[31/50] Brentford FC vs Burnley FC (2025-11-29)
+  Stats: Shots=20.0, SOT=6.0, Corners=11.0
+
+[32/50] Sunderland AFC vs AFC Bournemouth (2025-11-29)
+  Stats: Shots=30.0, SOT=12.0, Corners=9.0
+
+[33/50] Manchester City FC vs Leeds United FC (2025-11-29)
+  Stats: Shots=27.0, SOT=13.0, Corners=9.0
+
+[34/50] Everton FC vs Newcastle United FC (2025-11-29)
+  Stats: Shots=23.0, SOT=10.0, Corners=15.0
+
+[35/50] Tottenham Hotspur FC vs Fulham FC (2025-11-29)
+  Stats: Shots=21.0, SOT=5.0, Corners=10.0
+
+[36/50] Crystal Palace FC vs Manchester United FC (2025-11-30)
+  Stats: Shots=28.0, SOT=9.0, Corners=8.0
+
+[37/50] Aston Villa FC vs Wolverhampton Wanderers FC (2025-11-30)
+  Stats: Shots=25.0, SOT=10.0, Corners=10.0
+
+[38/50] West Ham United FC vs Liverpool FC (2025-11-30)
+  Stats: Shots=16.0, SOT=5.0, Corners=9.0
+
+[39/50] Nottingham Forest FC vs Brighton & Hove Albion FC (2025-11-30)
+  Stats: Shots=36.0, SOT=9.0, Corners=11.0
+
+[40/50] Chelsea FC vs Arsenal FC (2025-11-30)
+  Stats: Shots=19.0, SOT=8.0, Corners=6.0
+
+[41/50] Fulham FC vs Manchester City FC (2025-12-02)
+  Stats: Shots=23.0, SOT=10.0, Corners=9.0
+
+[42/50] AFC Bournemouth vs Everton FC (2025-12-02)
+  Stats: Shots=18.0, SOT=5.0, Corners=7.0
+
+[43/50] Newcastle United FC vs Tottenham Hotspur FC (2025-12-02)
+  Stats: Shots=27.0, SOT=9.0, Corners=19.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 1.87 | Edge: 5.1% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.45 | Edge: 7.1% | Actual: 9.0
+
+[44/50] Brighton & Hove Albion FC vs Aston Villa FC (2025-12-03)
+  Stats: Shots=30.0, SOT=17.0, Corners=11.0
+
+[45/50] Burnley FC vs Crystal Palace FC (2025-12-03)
+  Stats: Shots=14.0, SOT=7.0, Corners=7.0
+  [LOSS] Total Shots | Over 24.5 @ leovegas | 2.10 | Edge: 5.5% | Actual: 14.0
+  [LOSS] Total Shots | Over 24.5 @ unibet | 2.10 | Edge: 5.5% | Actual: 14.0
+  [WIN] Total Shots | Under 24.5 @ betsson | 1.79 | Edge: 5.1% | Actual: 14.0
+  [WIN] Total Shots | Under 24.5 @ betano | 1.87 | Edge: 10.0% | Actual: 14.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.90 | Edge: 12.4% | Actual: 14.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.90 | Edge: 12.4% | Actual: 14.0
+  [WIN] Total Corners | Under 9.5 @ betano | 1.87 | Edge: 6.7% | Actual: 7.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.72 | Edge: 8.0% | Actual: 7.0
+
+[46/50] Wolverhampton Wanderers FC vs Nottingham Forest FC (2025-12-03)
+  Stats: Shots=15.0, SOT=4.0, Corners=12.0
+  [WIN] Total Corners | Over 9.5 @ betano | 2.07 | Edge: 5.1% | Actual: 12.0
+  [LOSS] Total Corners | Under 9.5 @ leovegas | 1.89 | Edge: 7.5% | Actual: 12.0
+  [LOSS] Total Corners | Under 9.5 @ unibet | 1.92 | Edge: 8.9% | Actual: 12.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.77 | Edge: 9.7% | Actual: 12.0
+  [LOSS] Total Corners | Under 8.5 @ leovegas | 2.50 | Edge: 9.1% | Actual: 12.0
+  [LOSS] Total Corners | Under 8.5 @ unibet | 2.50 | Edge: 9.1% | Actual: 12.0
+
+[47/50] Arsenal FC vs Brentford FC (2025-12-03)
+  Stats: Shots=21.0, SOT=8.0, Corners=12.0
+  [WIN] Total Shots On Target | Under 8.5 @ betsson | 2.08 | Edge: 14.1% | Actual: 8.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betano | 1.95 | Edge: 8.7% | Actual: 8.0
+  [LOSS] Total Shots On Target | Under 7.5 @ betsson | 2.84 | Edge: 17.9% | Actual: 8.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.57 | Edge: 8.1% | Actual: 8.0
+  [WIN] Total Corners | Over 9.5 @ betano | 1.85 | Edge: 5.7% | Actual: 12.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.35 | Edge: 8.0% | Actual: 12.0
+
+[48/50] Leeds United FC vs Chelsea FC (2025-12-03)
+  Stats: Shots=31.0, SOT=7.0, Corners=6.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betsson | 2.67 | Edge: 7.8% | Actual: 7.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.72 | Edge: 5.8% | Actual: 6.0
+
+[49/50] Liverpool FC vs Sunderland AFC (2025-12-03)
+  Stats: Shots=32.0, SOT=10.0, Corners=10.0
+
+[50/50] Manchester United FC vs West Ham United FC (2025-12-04)
+  Stats: Shots=28.0, SOT=7.0, Corners=12.0
+  [WIN] Total Corners | Over 11.5 @ betano | 2.55 | Edge: 5.0% | Actual: 12.0
+
+  [SUMMARY] 25 bets | 10W-15L | Profit: -23.3 DKK | ROI: -11.8%
+
+==================================================
+[LEAGUE] La Liga
+==================================================
+Found 100 completed fixtures
+
+[1/50] Getafe CF vs Girona FC (2025-10-31)
+  Stats: Shots=20.0, SOT=8.0, Corners=11.0
+
+[2/50] Villarreal CF vs Rayo Vallecano (2025-11-01)
+  Stats: Shots=29.0, SOT=10.0, Corners=8.0
+
+[3/50] Club Atlético de Madrid vs Sevilla FC (2025-11-01)
+  Stats: Shots=25.0, SOT=8.0, Corners=13.0
+
+[4/50] Real Sociedad de Fútbol vs Athletic Club Bilbao (2025-11-01)
+  Stats: Shots=20.0, SOT=9.0, Corners=8.0
+
+[5/50] Real Madrid CF vs Valencia CF (2025-11-01)
+  Stats: Shots=25.0, SOT=12.0, Corners=8.0
+
+[6/50] Levante UD vs Real Club Celta de Vigo (2025-11-02)
+  Stats: Shots=29.0, SOT=9.0, Corners=8.0
+
+[7/50] Deportivo Alavés vs Reial Club Deportiu Espanyol (2025-11-02)
+  Stats: Shots=31.0, SOT=6.0, Corners=7.0
+
+[8/50] FC Barcelona vs Elche CF (2025-11-02)
+  Stats: Shots=26.0, SOT=8.0, Corners=9.0
+
+[9/50] Real Betis Balompié vs Real Club Deportivo Mallorca (2025-11-02)
+  Stats: Shots=29.0, SOT=9.0, Corners=9.0
+
+[10/50] Real Oviedo vs CA Osasuna (2025-11-03)
+  Stats: Shots=19.0, SOT=7.0, Corners=6.0
+
+[11/50] Elche CF vs Real Sociedad de Fútbol (2025-11-07)
+  Stats: Shots=25.0, SOT=8.0, Corners=4.0
+
+[12/50] Girona FC vs Deportivo Alavés (2025-11-08)
+  Stats: Shots=24.0, SOT=7.0, Corners=7.0
+
+[13/50] Sevilla FC vs CA Osasuna (2025-11-08)
+  Stats: Shots=19.0, SOT=7.0, Corners=11.0
+
+[14/50] Club Atlético de Madrid vs Levante UD (2025-11-08)
+  Stats: Shots=31.0, SOT=13.0, Corners=25.0
+
+[15/50] Reial Club Deportiu Espanyol vs Villarreal CF (2025-11-08)
+  Stats: Shots=23.0, SOT=6.0, Corners=6.0
+
+[16/50] Athletic Club Bilbao vs Real Oviedo (2025-11-09)
+  Stats: Shots=25.0, SOT=9.0, Corners=11.0
+
+[17/50] Rayo Vallecano vs Real Madrid CF (2025-11-09)
+  Stats: Shots=34.0, SOT=7.0, Corners=13.0
+
+[18/50] Valencia CF vs Real Betis Balompié (2025-11-09)
+  Stats: Shots=26.0, SOT=6.0, Corners=9.0
+
+[19/50] Real Club Deportivo Mallorca vs Getafe CF (2025-11-09)
+  Stats: Shots=20.0, SOT=7.0, Corners=15.0
+
+[20/50] Real Club Celta de Vigo vs FC Barcelona (2025-11-09)
+  Stats: Shots=26.0, SOT=12.0, Corners=7.0
+
+[21/50] Valencia CF vs Levante UD (2025-11-21)
+  Stats: Shots=21.0, SOT=3.0, Corners=7.0
+
+[22/50] Deportivo Alavés vs Real Club Celta de Vigo (2025-11-22)
+  Stats: Shots=12.0, SOT=6.0, Corners=6.0
+
+[23/50] FC Barcelona vs Athletic Club Bilbao (2025-11-22)
+  Stats: Shots=32.0, SOT=9.0, Corners=12.0
+
+[24/50] CA Osasuna vs Real Sociedad de Fútbol (2025-11-22)
+  Stats: Shots=33.0, SOT=13.0, Corners=6.0
+
+[25/50] Villarreal CF vs Real Club Deportivo Mallorca (2025-11-22)
+  Stats: Shots=23.0, SOT=10.0, Corners=4.0
+
+[26/50] Real Oviedo vs Rayo Vallecano (2025-11-23)
+  Stats: Shots=19.0, SOT=6.0, Corners=11.0
+
+[27/50] Real Betis Balompié vs Girona FC (2025-11-23)
+  Stats: Shots=34.0, SOT=11.0, Corners=8.0
+
+[28/50] Getafe CF vs Club Atlético de Madrid (2025-11-23)
+  Stats: Shots=22.0, SOT=7.0, Corners=13.0
+
+[29/50] Elche CF vs Real Madrid CF (2025-11-23)
+  Stats: Shots=35.0, SOT=13.0, Corners=10.0
+
+[30/50] Reial Club Deportiu Espanyol vs Sevilla FC (2025-11-24)
+  Stats: Shots=30.0, SOT=11.0, Corners=17.0
+
+[31/50] Getafe CF vs Elche CF (2025-11-28)
+  Stats: Shots=24.0, SOT=10.0, Corners=8.0
+
+[32/50] Real Club Deportivo Mallorca vs CA Osasuna (2025-11-29)
+  Stats: Shots=21.0, SOT=6.0, Corners=10.0
+
+[33/50] FC Barcelona vs Deportivo Alavés (2025-11-29)
+  Stats: Shots=27.0, SOT=9.0, Corners=9.0
+
+[34/50] Levante UD vs Athletic Club Bilbao (2025-11-29)
+  Stats: Shots=25.0, SOT=8.0, Corners=6.0
+
+[35/50] Club Atlético de Madrid vs Real Oviedo (2025-11-29)
+  Stats: Shots=26.0, SOT=9.0, Corners=9.0
+
+[36/50] Real Sociedad de Fútbol vs Villarreal CF (2025-11-30)
+  Stats: Shots=28.0, SOT=12.0, Corners=10.0
+
+[37/50] Sevilla FC vs Real Betis Balompié (2025-11-30)
+  Stats: Shots=18.0, SOT=7.0, Corners=10.0
+
+[38/50] Real Club Celta de Vigo vs Reial Club Deportiu Espanyol (2025-11-30)
+  Stats: Shots=20.0, SOT=6.0, Corners=7.0
+
+[39/50] Girona FC vs Real Madrid CF (2025-11-30)
+  Stats: Shots=35.0, SOT=8.0, Corners=7.0
+
+[40/50] Rayo Vallecano vs Valencia CF (2025-12-01)
+  Stats: Shots=29.0, SOT=9.0, Corners=16.0
+
+[41/50] FC Barcelona vs Club Atlético de Madrid (2025-12-02)
+  Stats: Shots=26.0, SOT=8.0, Corners=9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 1.85 | Edge: 9.0% | Actual: 8.0
+  [WIN] Total Shots On Target | Under 9.5 @ betsson | 2.08 | Edge: 6.0% | Actual: 8.0
+  [LOSS] Total Shots On Target | Over 11.5 @ leovegas | 3.00 | Edge: 8.3% | Actual: 8.0
+  [LOSS] Total Shots On Target | Over 11.5 @ unibet | 3.00 | Edge: 8.3% | Actual: 8.0
+  [WIN] Total Shots On Target | Under 8.5 @ betsson | 2.79 | Edge: 8.2% | Actual: 8.0
+  [LOSS] Total Shots On Target | Over 10.5 @ betano | 2.40 | Edge: 8.2% | Actual: 8.0
+
+[42/50] Athletic Club Bilbao vs Real Madrid CF (2025-12-03)
+  Stats: Shots=22.0, SOT=12.0, Corners=12.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.35 | Edge: 15.6% | Actual: 22.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.35 | Edge: 15.6% | Actual: 22.0
+
+[43/50] Real Oviedo vs Real Club Deportivo Mallorca (2025-12-05)
+  Stats: Shots=28.0, SOT=9.0, Corners=13.0
+
+[44/50] Villarreal CF vs Getafe CF (2025-12-06)
+  Stats: Shots=16.0, SOT=5.0, Corners=8.0
+  [LOSS] Total Shots | Over 26.5 @ betsson | 2.79 | Edge: 16.3% | Actual: 16.0
+
+[45/50] Deportivo Alavés vs Real Sociedad de Fútbol (2025-12-06)
+  Stats: Shots=24.0, SOT=4.0, Corners=14.0
+  [WIN] Total Shots | Over 23.5 @ leovegas | 2.04 | Edge: 9.5% | Actual: 24.0
+  [WIN] Total Shots | Over 23.5 @ unibet | 2.04 | Edge: 9.5% | Actual: 24.0
+  [LOSS] Total Shots | Under 23.5 @ betsson | 1.90 | Edge: 7.6% | Actual: 24.0
+  [LOSS] Total Shots | Under 23.5 @ betano | 1.90 | Edge: 7.6% | Actual: 24.0
+
+[46/50] Real Betis Balompié vs FC Barcelona (2025-12-06)
+  Stats: Shots=33.0, SOT=13.0, Corners=14.0
+  [WIN] Total Corners | Over 10.5 @ betsson | 2.32 | Edge: 5.6% | Actual: 14.0
+
+[47/50] Athletic Club Bilbao vs Club Atlético de Madrid (2025-12-06)
+  Stats: Shots=21.0, SOT=6.0, Corners=11.0
+  [WIN] Total Shots | Under 23.5 @ betano | 1.88 | Edge: 8.4% | Actual: 21.0
+
+[48/50] Elche CF vs Girona FC (2025-12-07)
+  Stats: Shots=19.0, SOT=10.0, Corners=4.0
+
+[49/50] Valencia CF vs Sevilla FC (2025-12-07)
+  Stats: Shots=15.0, SOT=4.0, Corners=4.0
+  [WIN] Total Corners | Under 8.5 @ betsson | 2.55 | Edge: 6.8% | Actual: 4.0
+
+[50/50] Reial Club Deportiu Espanyol vs Rayo Vallecano (2025-12-07)
+  Stats: Shots=15.0, SOT=4.0, Corners=8.0
+  [WIN] Total Shots On Target | Under 6.5 @ betsson | 2.99 | Edge: 10.0% | Actual: 4.0
+  [LOSS] Total Shots On Target | Over 8.5 @ leovegas | 2.25 | Edge: 5.5% | Actual: 4.0
+  [LOSS] Total Shots On Target | Over 8.5 @ unibet | 2.25 | Edge: 5.5% | Actual: 4.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betano | 2.25 | Edge: 5.5% | Actual: 4.0
+
+  [SUMMARY] 20 bets | 8W-12L | Profit: -17.1 DKK | ROI: -11.6%
+
+==================================================
+[LEAGUE] Bundesliga
+==================================================
+Found 98 completed fixtures
+
+[1/50] FC Augsburg vs BV Borussia 09 Dortmund (2025-10-31)
+  Stats: Shots=14.0, SOT=2.0, Corners=7.0
+
+[2/50] FC St. Pauli vs Borussia VfL Mönchengladbach (2025-11-01)
+  Stats: Shots=31.0, SOT=15.0, Corners=9.0
+
+[3/50] RasenBallsport Leipzig vs VfB Stuttgart 1893 (2025-11-01)
+  Stats: Shots=30.0, SOT=13.0, Corners=10.0
+
+[4/50] 1. FC Union Berlin vs SC Freiburg (2025-11-01)
+  Stats: Shots=24.0, SOT=6.0, Corners=10.0
+
+[5/50] 1. FSV Mainz 05 vs SV Werder Bremen (2025-11-01)
+  Stats: Shots=15.0, SOT=8.0, Corners=2.0
+
+[6/50] 1. FC Heidenheim 1846 vs Eintracht Frankfurt (2025-11-01)
+  Stats: Shots=25.0, SOT=7.0, Corners=10.0
+
+[7/50] FC Bayern München vs Bayer 04 Leverkusen (2025-11-01)
+  Stats: Shots=25.0, SOT=5.0, Corners=14.0
+
+[8/50] 1. FC Köln vs Hamburger SV (2025-11-02)
+  Stats: Shots=34.0, SOT=15.0, Corners=5.0
+
+[9/50] VfL Wolfsburg vs TSG 1899 Hoffenheim (2025-11-02)
+  Stats: Shots=22.0, SOT=10.0, Corners=4.0
+
+[10/50] SV Werder Bremen vs VfL Wolfsburg (2025-11-07)
+  Stats: Shots=27.0, SOT=11.0, Corners=16.0
+
+[11/50] Bayer 04 Leverkusen vs 1. FC Heidenheim 1846 (2025-11-08)
+  Stats: Shots=26.0, SOT=10.0, Corners=12.0
+
+[12/50] TSG 1899 Hoffenheim vs RasenBallsport Leipzig (2025-11-08)
+  Stats: Shots=29.0, SOT=9.0, Corners=10.0
+
+[13/50] 1. FC Union Berlin vs FC Bayern München (2025-11-08)
+  Stats: Shots=24.0, SOT=8.0, Corners=11.0
+
+[14/50] Hamburger SV vs BV Borussia 09 Dortmund (2025-11-08)
+  Stats: Shots=26.0, SOT=4.0, Corners=8.0
+
+[15/50] Borussia VfL Mönchengladbach vs 1. FC Köln (2025-11-08)
+  Stats: Shots=28.0, SOT=9.0, Corners=8.0
+
+[16/50] SC Freiburg vs FC St. Pauli (2025-11-09)
+  Stats: Shots=15.0, SOT=6.0, Corners=12.0
+
+[17/50] VfB Stuttgart 1893 vs FC Augsburg (2025-11-09)
+  Stats: Shots=34.0, SOT=12.0, Corners=8.0
+
+[18/50] Eintracht Frankfurt vs 1. FSV Mainz 05 (2025-11-09)
+  Stats: Shots=17.0, SOT=4.0, Corners=7.0
+
+[19/50] 1. FSV Mainz 05 vs TSG 1899 Hoffenheim (2025-11-21)
+  Stats: Shots=36.0, SOT=8.0, Corners=11.0
+
+[20/50] 1. FC Heidenheim 1846 vs Borussia VfL Mönchengladbach (2025-11-22)
+  Stats: Shots=23.0, SOT=6.0, Corners=9.0
+
+[21/50] BV Borussia 09 Dortmund vs VfB Stuttgart 1893 (2025-11-22)
+  Stats: Shots=30.0, SOT=12.0, Corners=6.0
+
+[22/50] VfL Wolfsburg vs Bayer 04 Leverkusen (2025-11-22)
+  Stats: Shots=28.0, SOT=13.0, Corners=10.0
+
+[23/50] FC Augsburg vs Hamburger SV (2025-11-22)
+  Stats: Shots=28.0, SOT=12.0, Corners=7.0
+
+[24/50] FC Bayern München vs SC Freiburg (2025-11-22)
+  Stats: Shots=30.0, SOT=10.0, Corners=8.0
+
+[25/50] 1. FC Köln vs Eintracht Frankfurt (2025-11-22)
+  Stats: Shots=22.0, SOT=12.0, Corners=6.0
+
+[26/50] RasenBallsport Leipzig vs SV Werder Bremen (2025-11-23)
+  Stats: Shots=37.0, SOT=19.0, Corners=20.0
+
+[27/50] FC St. Pauli vs 1. FC Union Berlin (2025-11-23)
+  Stats: Shots=19.0, SOT=6.0, Corners=10.0
+
+[28/50] Borussia VfL Mönchengladbach vs RasenBallsport Leipzig (2025-11-28)
+  Stats: Shots=27.0, SOT=4.0, Corners=11.0
+
+[29/50] 1. FC Union Berlin vs 1. FC Heidenheim 1846 (2025-11-29)
+  Stats: Shots=19.0, SOT=4.0, Corners=10.0
+
+[30/50] FC Bayern München vs FC St. Pauli (2025-11-29)
+  Stats: Shots=29.0, SOT=5.0, Corners=12.0
+
+[31/50] TSG 1899 Hoffenheim vs FC Augsburg (2025-11-29)
+  Stats: Shots=31.0, SOT=7.0, Corners=9.0
+
+[32/50] SV Werder Bremen vs 1. FC Köln (2025-11-29)
+  Stats: Shots=27.0, SOT=6.0, Corners=4.0
+
+[33/50] Bayer 04 Leverkusen vs BV Borussia 09 Dortmund (2025-11-29)
+  Stats: Shots=21.0, SOT=8.0, Corners=13.0
+
+[34/50] Hamburger SV vs VfB Stuttgart 1893 (2025-11-30)
+  Stats: Shots=23.0, SOT=5.0, Corners=10.0
+
+[35/50] Eintracht Frankfurt vs VfL Wolfsburg (2025-11-30)
+  Stats: Shots=25.0, SOT=6.0, Corners=15.0
+
+[36/50] SC Freiburg vs 1. FSV Mainz 05 (2025-11-30)
+  Stats: Shots=24.0, SOT=11.0, Corners=8.0
+
+[37/50] 1. FSV Mainz 05 vs Borussia VfL Mönchengladbach (2025-12-05)
+  Stats: Shots=22.0, SOT=7.0, Corners=14.0
+  [WIN] Total Shots On Target | Under 8.5 @ leovegas | 2.48 | Edge: 10.7% | Actual: 7.0
+  [WIN] Total Shots On Target | Under 8.5 @ unibet | 2.48 | Edge: 10.7% | Actual: 7.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.22 | Edge: 22.7% | Actual: 7.0
+
+[38/50] 1. FC Heidenheim 1846 vs SC Freiburg (2025-12-06)
+  Stats: Shots=31.0, SOT=5.0, Corners=14.0
+  [WIN] Total Shots | Over 26.5 @ leovegas | 2.70 | Edge: 12.5% | Actual: 31.0
+  [WIN] Total Shots | Over 26.5 @ unibet | 2.70 | Edge: 12.5% | Actual: 31.0
+
+[39/50] FC Augsburg vs Bayer 04 Leverkusen (2025-12-06)
+  Stats: Shots=33.0, SOT=8.0, Corners=12.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.55 | Edge: 5.5% | Actual: 12.0
+
+[40/50] VfB Stuttgart 1893 vs FC Bayern München (2025-12-06)
+  Stats: Shots=32.0, SOT=12.0, Corners=7.0
+  [WIN] Total Shots | Over 28.5 @ leovegas | 2.25 | Edge: 7.7% | Actual: 32.0
+  [WIN] Total Shots | Over 28.5 @ unibet | 2.25 | Edge: 7.7% | Actual: 32.0
+  [LOSS] Total Shots | Under 28.5 @ betsson | 1.80 | Edge: 9.4% | Actual: 32.0
+  [LOSS] Total Shots | Under 28.5 @ betano | 1.78 | Edge: 8.3% | Actual: 32.0
+  [LOSS] Total Shots | Under 25.5 @ betsson | 2.99 | Edge: 22.2% | Actual: 32.0
+  [LOSS] Total Shots | Under 27.5 @ betsson | 1.96 | Edge: 10.9% | Actual: 32.0
+  [WIN] Total Shots | Over 29.5 @ leovegas | 2.65 | Edge: 7.2% | Actual: 32.0
+  [WIN] Total Shots | Over 29.5 @ unibet | 2.65 | Edge: 7.2% | Actual: 32.0
+  [WIN] Total Shots | Over 29.5 @ betano | 2.72 | Edge: 10.0% | Actual: 32.0
+  [WIN] Total Shots On Target | Over 10.5 @ betsson | 1.95 | Edge: 5.4% | Actual: 12.0
+
+[41/50] VfL Wolfsburg vs 1. FC Union Berlin (2025-12-06)
+  Stats: Shots=25.0, SOT=9.0, Corners=11.0
+  [LOSS] Total Shots | Under 23.5 @ betsson | 2.84 | Edge: 7.6% | Actual: 25.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.04 | Edge: 5.6% | Actual: 25.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.04 | Edge: 5.6% | Actual: 25.0
+  [WIN] Total Shots On Target | Over 8.5 @ leovegas | 2.08 | Edge: 6.0% | Actual: 9.0
+  [WIN] Total Shots On Target | Over 8.5 @ unibet | 2.08 | Edge: 6.0% | Actual: 9.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 2.12 | Edge: 8.1% | Actual: 9.0
+  [LOSS] Total Shots On Target | Under 8.5 @ betsson | 1.85 | Edge: 10.4% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ leovegas | 2.80 | Edge: 7.1% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ unibet | 2.80 | Edge: 7.1% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.85 | Edge: 9.0% | Actual: 9.0
+
+[42/50] 1. FC Köln vs FC St. Pauli (2025-12-06)
+  Stats: Shots=16.0, SOT=9.0, Corners=9.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.40 | Edge: 9.5% | Actual: 16.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.38 | Edge: 8.6% | Actual: 16.0
+  [LOSS] Total Shots | Over 26.5 @ betano | 2.57 | Edge: 17.3% | Actual: 16.0
+  [WIN] Total Shots | Under 23.5 @ betsson | 2.84 | Edge: 19.3% | Actual: 16.0
+  [WIN] Total Shots | Under 23.5 @ betano | 2.50 | Edge: 5.0% | Actual: 16.0
+  [WIN] Total Shots | Under 25.5 @ betano | 1.83 | Edge: 7.5% | Actual: 16.0
+  [LOSS] Total Shots On Target | Over 9.5 @ leovegas | 2.38 | Edge: 14.8% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ unibet | 2.38 | Edge: 14.8% | Actual: 9.0
+
+[43/50] RasenBallsport Leipzig vs Eintracht Frankfurt (2025-12-06)
+  Stats: Shots=24.0, SOT=9.0, Corners=4.0
+  [LOSS] Total Shots | Over 28.5 @ betano | 2.00 | Edge: 12.0% | Actual: 24.0
+  [LOSS] Total Shots | Over 29.5 @ betano | 2.40 | Edge: 22.7% | Actual: 24.0
+  [LOSS] Total Shots On Target | Over 10.5 @ betano | 2.15 | Edge: 8.8% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 1.70 | Edge: 5.8% | Actual: 9.0
+
+[44/50] Hamburger SV vs SV Werder Bremen (2025-12-07)
+  Stats: Shots=22.0, SOT=9.0, Corners=8.0
+  [LOSS] Total Shots On Target | Under 8.5 @ betsson | 2.02 | Edge: 10.7% | Actual: 9.0
+  [LOSS] Total Shots On Target | Under 8.5 @ betano | 1.98 | Edge: 8.6% | Actual: 9.0
+  [WIN] Total Shots On Target | Over 8.5 @ leovegas | 2.00 | Edge: 10.9% | Actual: 9.0
+  [WIN] Total Shots On Target | Over 8.5 @ unibet | 2.00 | Edge: 10.9% | Actual: 9.0
+  [LOSS] Total Shots On Target | Under 7.5 @ betsson | 2.76 | Edge: 14.6% | Actual: 9.0
+  [LOSS] Total Shots On Target | Under 7.5 @ betano | 2.65 | Edge: 10.0% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ leovegas | 2.70 | Edge: 12.8% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ unibet | 2.70 | Edge: 12.8% | Actual: 9.0
+
+[45/50] BV Borussia 09 Dortmund vs TSG 1899 Hoffenheim (2025-12-07)
+  Stats: Shots=19.0, SOT=7.0, Corners=12.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 1.96 | Edge: 10.0% | Actual: 19.0
+
+[46/50] 1. FC Union Berlin vs RasenBallsport Leipzig (2025-12-12)
+  Stats: Shots=21.0, SOT=9.0, Corners=10.0
+  [WIN] Total Shots | Under 26.5 @ betsson | 1.90 | Edge: 5.2% | Actual: 21.0
+  [LOSS] Total Shots | Over 29.5 @ leovegas | 3.00 | Edge: 5.7% | Actual: 21.0
+  [LOSS] Total Shots | Over 27.5 @ betano | 2.60 | Edge: 16.8% | Actual: 21.0
+  [WIN] Total Shots | Under 24.5 @ betsson | 2.84 | Edge: 13.9% | Actual: 21.0
+  [LOSS] Total Corners | Over 11.5 @ betano | 3.00 | Edge: 5.8% | Actual: 10.0
+
+[47/50] Borussia VfL Mönchengladbach vs VfL Wolfsburg (2025-12-13)
+  Stats: Shots=25.0, SOT=10.0, Corners=9.0
+  [LOSS] Total Shots | Under 24.5 @ betsson | 2.90 | Edge: 7.4% | Actual: 25.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.22 | Edge: 8.4% | Actual: 10.0
+  [LOSS] Total Corners | Over 11.5 @ betano | 2.80 | Edge: 6.4% | Actual: 9.0
+
+[48/50] FC St. Pauli vs 1. FC Heidenheim 1846 (2025-12-13)
+  Stats: Shots=28.0, SOT=12.0, Corners=15.0
+  [WIN] Total Shots | Over 26.5 @ betano | 2.85 | Edge: 5.6% | Actual: 28.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 1.98 | Edge: 10.2% | Actual: 12.0
+  [LOSS] Total Shots On Target | Under 7.5 @ betsson | 2.61 | Edge: 6.3% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.62 | Edge: 12.4% | Actual: 12.0
+
+[49/50] TSG 1899 Hoffenheim vs Hamburger SV (2025-12-13)
+  Stats: Shots=24.0, SOT=11.0, Corners=6.0
+  [WIN] Total Shots | Under 27.5 @ betsson | 1.88 | Edge: 9.9% | Actual: 24.0
+  [WIN] Total Shots On Target | Over 9.5 @ betsson | 1.99 | Edge: 7.3% | Actual: 11.0
+
+[50/50] Eintracht Frankfurt vs FC Augsburg (2025-12-13)
+  Stats: Shots=23.0, SOT=5.0, Corners=8.0
+
+  [SUMMARY] 61 bets | 27W-34L | Profit: +25.9 DKK | ROI: +5.6%
+
+==================================================
+[LEAGUE] Serie A
+==================================================
+Found 100 completed fixtures
+
+[1/50] Udinese Calcio vs Atalanta Bergamasca Calcio (2025-11-01)
+  Stats: Shots=16.0, SOT=5.0, Corners=9.0
+
+[2/50] SSC Napoli vs Calcio Como 1907 (2025-11-01)
+  Stats: Shots=26.0, SOT=10.0, Corners=6.0
+
+[3/50] US Cremonese vs Juventus FC (2025-11-01)
+  Stats: Shots=24.0, SOT=7.0, Corners=5.0
+
+[4/50] Hellas Verona FC vs FC Internazionale Milano (2025-11-02)
+  Stats: Shots=29.0, SOT=8.0, Corners=12.0
+
+[5/50] Torino FC vs Pisa Sporting Club (2025-11-02)
+  Stats: Shots=26.0, SOT=6.0, Corners=6.0
+
+[6/50] ACF Fiorentina vs US Lecce (2025-11-02)
+  Stats: Shots=26.0, SOT=8.0, Corners=8.0
+
+[7/50] Parma Calcio 1913 vs Bologna FC 1909 (2025-11-02)
+  Stats: Shots=29.0, SOT=7.0, Corners=6.0
+
+[8/50] AC Milan vs AS Roma (2025-11-02)
+  Stats: Shots=37.0, SOT=14.0, Corners=15.0
+
+[9/50] US Sassuolo Calcio vs Genoa CFC (2025-11-03)
+  Stats: Shots=29.0, SOT=9.0, Corners=10.0
+
+[10/50] SS Lazio vs Cagliari Calcio (2025-11-03)
+  Stats: Shots=25.0, SOT=8.0, Corners=12.0
+
+[11/50] Pisa Sporting Club vs US Cremonese (2025-11-07)
+  Stats: Shots=26.0, SOT=9.0, Corners=9.0
+
+[12/50] Calcio Como 1907 vs Cagliari Calcio (2025-11-08)
+  Stats: Shots=14.0, SOT=8.0, Corners=10.0
+
+[13/50] US Lecce vs Hellas Verona FC (2025-11-08)
+  Stats: Shots=16.0, SOT=8.0, Corners=10.0
+
+[14/50] Juventus FC vs Torino FC (2025-11-08)
+  Stats: Shots=30.0, SOT=9.0, Corners=8.0
+
+[15/50] Parma Calcio 1913 vs AC Milan (2025-11-08)
+  Stats: Shots=23.0, SOT=9.0, Corners=7.0
+
+[16/50] Atalanta Bergamasca Calcio vs US Sassuolo Calcio (2025-11-09)
+  Stats: Shots=22.0, SOT=6.0, Corners=5.0
+
+[17/50] Genoa CFC vs ACF Fiorentina (2025-11-09)
+  Stats: Shots=17.0, SOT=9.0, Corners=10.0
+
+[18/50] Bologna FC 1909 vs SSC Napoli (2025-11-09)
+  Stats: Shots=15.0, SOT=5.0, Corners=9.0
+
+[19/50] AS Roma vs Udinese Calcio (2025-11-09)
+  Stats: Shots=23.0, SOT=8.0, Corners=7.0
+
+[20/50] FC Internazionale Milano vs SS Lazio (2025-11-09)
+  Stats: Shots=16.0, SOT=8.0, Corners=4.0
+
+[21/50] Cagliari Calcio vs Genoa CFC (2025-11-22)
+  Stats: Shots=24.0, SOT=13.0, Corners=8.0
+
+[22/50] Udinese Calcio vs Bologna FC 1909 (2025-11-22)
+  Stats: Shots=22.0, SOT=8.0, Corners=10.0
+
+[23/50] ACF Fiorentina vs Juventus FC (2025-11-22)
+  Stats: Shots=28.0, SOT=6.0, Corners=10.0
+
+[24/50] SSC Napoli vs Atalanta Bergamasca Calcio (2025-11-22)
+  Stats: Shots=25.0, SOT=9.0, Corners=8.0
+
+[25/50] Hellas Verona FC vs Parma Calcio 1913 (2025-11-23)
+  Stats: Shots=25.0, SOT=9.0, Corners=8.0
+
+[26/50] US Cremonese vs AS Roma (2025-11-23)
+  Stats: Shots=21.0, SOT=10.0, Corners=8.0
+
+[27/50] SS Lazio vs US Lecce (2025-11-23)
+  Stats: Shots=24.0, SOT=10.0, Corners=10.0
+
+[28/50] FC Internazionale Milano vs AC Milan (2025-11-23)
+  Stats: Shots=27.0, SOT=9.0, Corners=10.0
+
+[29/50] Torino FC vs Calcio Como 1907 (2025-11-24)
+  Stats: Shots=25.0, SOT=9.0, Corners=7.0
+
+[30/50] US Sassuolo Calcio vs Pisa Sporting Club (2025-11-24)
+  Stats: Shots=32.0, SOT=10.0, Corners=7.0
+
+[31/50] Calcio Como 1907 vs US Sassuolo Calcio (2025-11-28)
+  Stats: Shots=30.0, SOT=18.0, Corners=8.0
+
+[32/50] Genoa CFC vs Hellas Verona FC (2025-11-29)
+  Stats: Shots=28.0, SOT=9.0, Corners=5.0
+
+[33/50] Parma Calcio 1913 vs Udinese Calcio (2025-11-29)
+  Stats: Shots=31.0, SOT=7.0, Corners=14.0
+
+[34/50] Juventus FC vs Cagliari Calcio (2025-11-29)
+  Stats: Shots=19.0, SOT=9.0, Corners=7.0
+
+[35/50] AC Milan vs SS Lazio (2025-11-29)
+  Stats: Shots=25.0, SOT=8.0, Corners=5.0
+
+[36/50] US Lecce vs Torino FC (2025-11-30)
+  Stats: Shots=25.0, SOT=8.0, Corners=12.0
+
+[37/50] Pisa Sporting Club vs FC Internazionale Milano (2025-11-30)
+  Stats: Shots=24.0, SOT=5.0, Corners=10.0
+
+[38/50] Atalanta Bergamasca Calcio vs ACF Fiorentina (2025-11-30)
+  Stats: Shots=36.0, SOT=12.0, Corners=9.0
+
+[39/50] AS Roma vs SSC Napoli (2025-11-30)
+  Stats: Shots=15.0, SOT=7.0, Corners=6.0
+
+[40/50] Bologna FC 1909 vs US Cremonese (2025-12-01)
+  Stats: Shots=39.0, SOT=12.0, Corners=21.0
+  [WIN] Total Shots | Over 24.5 @ betsson | 1.89 | Edge: 9.7% | Actual: 39.0
+  [WIN] Total Shots | Over 26.5 @ betano | 2.40 | Edge: 12.3% | Actual: 39.0
+
+[41/50] US Sassuolo Calcio vs ACF Fiorentina (2025-12-06)
+  Stats: Shots=22.0, SOT=6.0, Corners=8.0
+  [WIN] Total Shots | Under 24.5 @ betsson | 1.86 | Edge: 6.3% | Actual: 22.0
+  [LOSS] Total Shots | Over 23.5 @ leovegas | 1.71 | Edge: 6.7% | Actual: 22.0
+  [LOSS] Total Shots | Over 23.5 @ unibet | 1.70 | Edge: 6.1% | Actual: 22.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.65 | Edge: 6.3% | Actual: 22.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.65 | Edge: 6.3% | Actual: 22.0
+  [LOSS] Total Shots | Over 26.5 @ betano | 2.67 | Edge: 7.1% | Actual: 22.0
+  [WIN] Total Shots On Target | Under 8.5 @ betsson | 1.75 | Edge: 7.9% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 9.5 @ leovegas | 2.95 | Edge: 6.3% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 9.5 @ unibet | 2.95 | Edge: 6.3% | Actual: 6.0
+
+[42/50] FC Internazionale Milano vs Calcio Como 1907 (2025-12-06)
+  Stats: Shots=26.0, SOT=10.0, Corners=11.0
+  [LOSS] Total Shots | Over 27.5 @ betano | 1.91 | Edge: 9.9% | Actual: 26.0
+  [LOSS] Total Shots | Over 30.5 @ betsson | 2.87 | Edge: 12.3% | Actual: 26.0
+  [LOSS] Total Shots | Under 25.5 @ betsson | 2.90 | Edge: 6.9% | Actual: 26.0
+  [LOSS] Total Shots | Over 29.5 @ betano | 2.62 | Edge: 24.1% | Actual: 26.0
+  [LOSS] Total Shots On Target | Under 8.5 @ leovegas | 2.45 | Edge: 7.0% | Actual: 10.0
+  [WIN] Total Corners | Over 9.0 @ betsson | 2.12 | Edge: 5.9% | Actual: 11.0
+  [LOSS] Total Corners | Under 7.5 @ betsson | 2.78 | Edge: 7.1% | Actual: 11.0
+  [LOSS] Total Corners | Under 7.5 @ betano | 2.80 | Edge: 7.9% | Actual: 11.0
+
+[43/50] Hellas Verona FC vs Atalanta Bergamasca Calcio (2025-12-06)
+  Stats: Shots=24.0, SOT=12.0, Corners=10.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.05 | Edge: 5.9% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 10.5 @ betano | 2.67 | Edge: 6.6% | Actual: 12.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.88 | Edge: 5.5% | Actual: 10.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.92 | Edge: 7.0% | Actual: 10.0
+
+[44/50] US Cremonese vs US Lecce (2025-12-07)
+  Stats: Shots=20.0, SOT=5.0, Corners=10.0
+  [LOSS] Total Shots On Target | Over 7.5 @ betano | 1.90 | Edge: 6.0% | Actual: 5.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betano | 2.55 | Edge: 7.4% | Actual: 5.0
+  [WIN] Total Corners | Over 9.5 @ betsson | 2.10 | Edge: 6.4% | Actual: 10.0
+  [WIN] Total Corners | Over 9.5 @ betano | 2.15 | Edge: 8.9% | Actual: 10.0
+  [WIN] Total Corners | Over 9.0 @ betano | 1.95 | Edge: 7.2% | Actual: 10.0
+  [WIN] Total Corners | Over 8.5 @ betano | 1.70 | Edge: 7.1% | Actual: 10.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.82 | Edge: 11.1% | Actual: 10.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.92 | Edge: 15.0% | Actual: 10.0
+  [LOSS] Total Corners | Under 8.5 @ leovegas | 2.38 | Edge: 5.9% | Actual: 10.0
+  [LOSS] Total Corners | Under 8.5 @ unibet | 2.38 | Edge: 5.9% | Actual: 10.0
+
+[45/50] Cagliari Calcio vs AS Roma (2025-12-07)
+  Stats: Shots=21.0, SOT=10.0, Corners=5.0
+  [WIN] Total Shots | Under 23.5 @ betano | 2.75 | Edge: 18.6% | Actual: 21.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.82 | Edge: 5.7% | Actual: 5.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.85 | Edge: 6.8% | Actual: 5.0
+
+[46/50] SS Lazio vs Bologna FC 1909 (2025-12-07)
+  Stats: Shots=29.0, SOT=15.0, Corners=11.0
+  [LOSS] Total Shots | Under 22.5 @ unibet | 2.18 | Edge: 7.9% | Actual: 29.0
+  [WIN] Total Shots | Over 23.5 @ betano | 1.91 | Edge: 7.0% | Actual: 29.0
+  [WIN] Total Shots On Target | Over 7.5 @ betsson | 1.73 | Edge: 6.1% | Actual: 15.0
+  [WIN] Total Shots On Target | Over 7.5 @ betano | 1.72 | Edge: 5.5% | Actual: 15.0
+  [LOSS] Total Shots On Target | Under 7.5 @ leovegas | 2.48 | Edge: 10.6% | Actual: 15.0
+  [LOSS] Total Shots On Target | Under 7.5 @ unibet | 2.48 | Edge: 10.6% | Actual: 15.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 2.25 | Edge: 12.6% | Actual: 15.0
+
+[47/50] SSC Napoli vs Juventus FC (2025-12-07)
+  Stats: Shots=14.0, SOT=6.0, Corners=9.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betsson | 2.70 | Edge: 5.7% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 8.5 @ leovegas | 2.80 | Edge: 9.6% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 8.5 @ unibet | 2.80 | Edge: 9.6% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 7.5 @ leovegas | 2.07 | Edge: 8.5% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 7.5 @ unibet | 2.07 | Edge: 8.5% | Actual: 6.0
+
+[48/50] Pisa Sporting Club vs Parma Calcio 1913 (2025-12-08)
+  Stats: Shots=23.0, SOT=4.0, Corners=6.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betano | 2.92 | Edge: 8.0% | Actual: 4.0
+
+[49/50] Udinese Calcio vs Genoa CFC (2025-12-08)
+  Stats: Shots=35.0, SOT=12.0, Corners=8.0
+  [WIN] Total Shots On Target | Over 7.5 @ unibet | 1.85 | Edge: 5.5% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 8.5 @ unibet | 2.43 | Edge: 6.8% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 2.40 | Edge: 5.5% | Actual: 12.0
+  [LOSS] Total Corners | Under 7.5 @ betsson | 3.00 | Edge: 5.6% | Actual: 8.0
+  [LOSS] Total Corners | Under 7.5 @ betano | 3.00 | Edge: 5.6% | Actual: 8.0
+
+[50/50] Torino FC vs AC Milan (2025-12-08)
+  Stats: Shots=25.0, SOT=10.0, Corners=6.0
+  [WIN] Total Shots | Under 25.5 @ betano | 1.88 | Edge: 6.3% | Actual: 25.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.16 | Edge: 7.5% | Actual: 25.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.16 | Edge: 7.5% | Actual: 25.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.85 | Edge: 6.0% | Actual: 6.0
+
+  [SUMMARY] 58 bets | 20W-38L | Profit: -67.7 DKK | ROI: -15.9%
+
+==================================================
+[LEAGUE] Ligue 1
+==================================================
+Found 81 completed fixtures
+
+[1/50] Paris Saint-Germain FC vs OGC Nice Côte d'Azur (2025-11-01)
+  Stats: Shots=33.0, SOT=10.0, Corners=12.0
+
+[2/50] AS Monaco FC vs Paris FC (2025-11-01)
+  Stats: Shots=19.0, SOT=2.0, Corners=5.0
+
+[3/50] Association Jeunesse Auxerroise vs Olympique de Marseille (2025-11-01)
+  Stats: Shots=15.0, SOT=6.0, Corners=6.0
+
+[4/50] Stade Rennais FC vs RC Strasbourg Alsace (2025-11-02)
+  Stats: Shots=33.0, SOT=8.0, Corners=11.0
+
+[5/50] Racing Club de Lens vs FC Lorient (2025-11-02)
+  Stats: Shots=21.0, SOT=9.0, Corners=13.0
+
+[6/50] FC Nantes vs FC Metz (2025-11-02)
+  Stats: Shots=30.0, SOT=11.0, Corners=13.0
+
+[7/50] Lille OSC vs Angers Sporting Club de l'Ouest (2025-11-02)
+  Stats: Shots=21.0, SOT=5.0, Corners=11.0
+
+[8/50] Toulouse FC vs Le Havre AC (2025-11-02)
+  Stats: Shots=27.0, SOT=5.0, Corners=12.0
+
+[9/50] Stade Brestois 29 vs Olympique Lyonnais (2025-11-02)
+  Stats: Shots=17.0, SOT=5.0, Corners=14.0
+
+[10/50] Paris FC vs Stade Rennais FC (2025-11-07)
+  Stats: Shots=30.0, SOT=7.0, Corners=17.0
+
+[11/50] Olympique de Marseille vs Stade Brestois 29 (2025-11-08)
+  Stats: Shots=23.0, SOT=9.0, Corners=8.0
+
+[12/50] Le Havre AC vs FC Nantes (2025-11-08)
+  Stats: Shots=22.0, SOT=6.0, Corners=11.0
+
+[13/50] AS Monaco FC vs Racing Club de Lens (2025-11-08)
+  Stats: Shots=36.0, SOT=18.0, Corners=9.0
+
+[14/50] FC Lorient vs Toulouse FC (2025-11-09)
+  Stats: Shots=16.0, SOT=4.0, Corners=10.0
+
+[15/50] FC Metz vs OGC Nice Côte d'Azur (2025-11-09)
+  Stats: Shots=20.0, SOT=6.0, Corners=9.0
+
+[16/50] RC Strasbourg Alsace vs Lille OSC (2025-11-09)
+  Stats: Shots=11.0, SOT=6.0, Corners=5.0
+
+[17/50] Angers Sporting Club de l'Ouest vs Association Jeunesse Auxerroise (2025-11-09)
+  Stats: Shots=21.0, SOT=10.0, Corners=6.0
+
+[18/50] Olympique Lyonnais vs Paris Saint-Germain FC (2025-11-09)
+  Stats: Shots=18.0, SOT=6.0, Corners=10.0
+
+[19/50] OGC Nice Côte d'Azur vs Olympique de Marseille (2025-11-21)
+  Stats: Shots=28.0, SOT=18.0, Corners=14.0
+
+[20/50] Racing Club de Lens vs RC Strasbourg Alsace (2025-11-22)
+  Stats: Shots=20.0, SOT=6.0, Corners=4.0
+
+[21/50] Stade Rennais FC vs AS Monaco FC (2025-11-22)
+  Stats: Shots=30.0, SOT=12.0, Corners=10.0
+
+[22/50] Paris Saint-Germain FC vs Le Havre AC (2025-11-22)
+  Stats: Shots=43.0, SOT=15.0, Corners=10.0
+
+[23/50] Association Jeunesse Auxerroise vs Olympique Lyonnais (2025-11-23)
+  Stats: Shots=28.0, SOT=12.0, Corners=18.0
+
+[24/50] Toulouse FC vs Angers Sporting Club de l'Ouest (2025-11-23)
+  Stats: Shots=31.0, SOT=8.0, Corners=12.0
+
+[25/50] FC Nantes vs FC Lorient (2025-11-23)
+  Stats: Shots=16.0, SOT=2.0, Corners=2.0
+
+[26/50] Stade Brestois 29 vs FC Metz (2025-11-23)
+  Stats: Shots=27.0, SOT=10.0, Corners=8.0
+
+[27/50] Lille OSC vs Paris FC (2025-11-23)
+  Stats: Shots=23.0, SOT=13.0, Corners=13.0
+
+[28/50] FC Metz vs Stade Rennais FC (2025-11-28)
+  Stats: Shots=25.0, SOT=7.0, Corners=9.0
+
+[29/50] AS Monaco FC vs Paris Saint-Germain FC (2025-11-29)
+  Stats: Shots=27.0, SOT=9.0, Corners=8.0
+
+[30/50] Paris FC vs Association Jeunesse Auxerroise (2025-11-29)
+  Stats: Shots=22.0, SOT=5.0, Corners=7.0
+
+[31/50] Olympique de Marseille vs Toulouse FC (2025-11-29)
+  Stats: Shots=26.0, SOT=9.0, Corners=10.0
+
+[32/50] RC Strasbourg Alsace vs Stade Brestois 29 (2025-11-30)
+  Stats: Shots=21.0, SOT=10.0, Corners=5.0
+
+[33/50] FC Lorient vs OGC Nice Côte d'Azur (2025-11-30)
+  Stats: Shots=27.0, SOT=9.0, Corners=10.0
+
+[34/50] Angers Sporting Club de l'Ouest vs Racing Club de Lens (2025-11-30)
+  Stats: Shots=24.0, SOT=11.0, Corners=10.0
+
+[35/50] Le Havre AC vs Lille OSC (2025-11-30)
+  Stats: Shots=22.0, SOT=9.0, Corners=8.0
+
+[36/50] Olympique Lyonnais vs FC Nantes (2025-11-30)
+  Stats: Shots=26.0, SOT=10.0, Corners=7.0
+
+[37/50] Stade Brestois 29 vs AS Monaco FC (2025-12-05)
+  Stats: Shots=22.0, SOT=6.0, Corners=5.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.16 | Edge: 8.0% | Actual: 22.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.16 | Edge: 8.0% | Actual: 22.0
+  [WIN] Total Shots | Under 26.5 @ betsson | 1.78 | Edge: 7.3% | Actual: 22.0
+  [WIN] Total Shots | Under 26.5 @ betano | 1.78 | Edge: 7.3% | Actual: 22.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.07 | Edge: 9.2% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 10.5 @ betano | 2.75 | Edge: 7.7% | Actual: 6.0
+  [WIN] Total Shots On Target | Under 8.5 @ leovegas | 2.32 | Edge: 5.3% | Actual: 6.0
+  [WIN] Total Shots On Target | Under 8.5 @ unibet | 2.32 | Edge: 5.3% | Actual: 6.0
+  [WIN] Total Corners | Under 9.5 @ betano | 2.10 | Edge: 15.0% | Actual: 5.0
+  [LOSS] Total Corners | Over 9.5 @ betsson | 2.00 | Edge: 5.6% | Actual: 5.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.65 | Edge: 8.1% | Actual: 5.0
+  [LOSS] Total Corners | Over 9.0 @ betsson | 2.00 | Edge: 9.1% | Actual: 5.0
+  [WIN] Total Corners | Under 10.0 @ betano | 1.90 | Edge: 14.7% | Actual: 5.0
+  [WIN] Total Corners | Under 8.5 @ betano | 2.80 | Edge: 20.8% | Actual: 5.0
+  [WIN] Total Corners | Under 10.5 @ betano | 1.67 | Edge: 8.3% | Actual: 5.0
+
+[38/50] Lille OSC vs Olympique de Marseille (2025-12-05)
+  Stats: Shots=11.0, SOT=4.0, Corners=7.0
+
+[39/50] FC Nantes vs Racing Club de Lens (2025-12-06)
+  Stats: Shots=30.0, SOT=10.0, Corners=13.0
+  [WIN] Total Shots | Over 26.5 @ leovegas | 2.23 | Edge: 5.2% | Actual: 30.0
+  [WIN] Total Shots | Over 26.5 @ betano | 2.45 | Edge: 15.6% | Actual: 30.0
+  [LOSS] Total Shots | Under 26.5 @ betsson | 1.72 | Edge: 9.8% | Actual: 30.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 1.85 | Edge: 7.2% | Actual: 10.0
+  [LOSS] Total Shots On Target | Over 10.5 @ leovegas | 2.95 | Edge: 5.4% | Actual: 10.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.42 | Edge: 11.2% | Actual: 10.0
+
+[40/50] Toulouse FC vs RC Strasbourg Alsace (2025-12-06)
+  Stats: Shots=9.0, SOT=3.0, Corners=3.0
+  [LOSS] Total Shots | Over 26.5 @ betsson | 2.90 | Edge: 12.2% | Actual: 9.0
+  [LOSS] Total Shots | Over 26.5 @ betano | 2.85 | Edge: 10.3% | Actual: 9.0
+  [LOSS] Total Shots On Target | Over 9.5 @ leovegas | 2.65 | Edge: 5.2% | Actual: 3.0
+  [LOSS] Total Shots On Target | Over 9.5 @ unibet | 2.65 | Edge: 5.2% | Actual: 3.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.67 | Edge: 6.0% | Actual: 3.0
+  [WIN] Total Corners | Under 8.5 @ leovegas | 2.12 | Edge: 5.4% | Actual: 3.0
+  [WIN] Total Corners | Under 8.5 @ unibet | 2.12 | Edge: 5.4% | Actual: 3.0
+  [LOSS] Total Corners | Over 9.5 @ betano | 2.30 | Edge: 5.2% | Actual: 3.0
+  [WIN] Total Corners | Under 7.5 @ leovegas | 2.88 | Edge: 6.6% | Actual: 3.0
+  [WIN] Total Corners | Under 7.5 @ unibet | 2.85 | Edge: 5.5% | Actual: 3.0
+
+[41/50] Paris Saint-Germain FC vs Stade Rennais FC (2025-12-06)
+  Stats: Shots=26.0, SOT=11.0, Corners=14.0
+  [WIN] Total Shots On Target | Over 10.5 @ betano | 2.00 | Edge: 10.1% | Actual: 11.0
+  [LOSS] Total Shots On Target | Under 10.5 @ leovegas | 2.00 | Edge: 6.8% | Actual: 11.0
+  [LOSS] Total Shots On Target | Under 10.5 @ unibet | 2.02 | Edge: 7.9% | Actual: 11.0
+  [LOSS] Total Shots On Target | Over 11.5 @ betano | 2.57 | Edge: 16.4% | Actual: 11.0
+  [LOSS] Total Shots On Target | Under 9.5 @ leovegas | 2.60 | Edge: 7.1% | Actual: 11.0
+  [LOSS] Total Shots On Target | Under 9.5 @ unibet | 2.65 | Edge: 9.2% | Actual: 11.0
+
+[42/50] OGC Nice Côte d'Azur vs Angers Sporting Club de l'Ouest (2025-12-07)
+  Stats: Shots=21.0, SOT=7.0, Corners=5.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.14 | Edge: 7.5% | Actual: 21.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.12 | Edge: 6.5% | Actual: 21.0
+  [LOSS] Total Shots On Target | Over 10.5 @ betsson | 2.99 | Edge: 7.5% | Actual: 7.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 2.22 | Edge: 5.6% | Actual: 7.0
+
+[43/50] Association Jeunesse Auxerroise vs FC Metz (2025-12-07)
+  Stats: Shots=19.0, SOT=10.0, Corners=8.0
+  [WIN] Total Shots | Under 24.5 @ betsson | 1.88 | Edge: 10.4% | Actual: 19.0
+
+[44/50] Le Havre AC vs Paris FC (2025-12-07)
+  Stats: Shots=26.0, SOT=4.0, Corners=9.0
+
+[45/50] FC Lorient vs Olympique Lyonnais (2025-12-07)
+  Stats: Shots=21.0, SOT=10.0, Corners=8.0
+
+[46/50] Angers Sporting Club de l'Ouest vs FC Nantes (2025-12-12)
+  Stats: Shots=27.0, SOT=13.0, Corners=9.0
+
+[47/50] Stade Rennais FC vs Stade Brestois 29 (2025-12-13)
+  Stats: Shots=23.0, SOT=12.0, Corners=12.0
+  [LOSS] Total Shots | Over 25.5 @ betano | 2.00 | Edge: 6.5% | Actual: 23.0
+  [LOSS] Total Shots | Over 26.5 @ leovegas | 2.14 | Edge: 5.1% | Actual: 23.0
+  [LOSS] Total Shots | Over 26.5 @ unibet | 2.14 | Edge: 5.1% | Actual: 23.0
+  [WIN] Total Shots On Target | Over 8.5 @ betsson | 1.72 | Edge: 6.8% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 8.5 @ betano | 1.78 | Edge: 10.6% | Actual: 12.0
+  [LOSS] Total Shots On Target | Under 8.5 @ leovegas | 2.20 | Edge: 5.5% | Actual: 12.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.30 | Edge: 15.2% | Actual: 12.0
+
+[48/50] FC Metz vs Paris Saint-Germain FC (2025-12-13)
+  Stats: Shots=23.0, SOT=14.0, Corners=8.0
+  [LOSS] Total Shots | Over 25.5 @ betsson | 1.75 | Edge: 7.9% | Actual: 23.0
+  [WIN] Total Shots | Under 25.5 @ betano | 2.40 | Edge: 13.8% | Actual: 23.0
+  [WIN] Total Shots On Target | Over 9.5 @ leovegas | 1.88 | Edge: 6.8% | Actual: 14.0
+  [LOSS] Total Shots On Target | Under 9.5 @ betsson | 2.00 | Edge: 7.4% | Actual: 14.0
+  [WIN] Total Shots On Target | Over 10.5 @ leovegas | 2.28 | Edge: 5.3% | Actual: 14.0
+  [WIN] Total Shots On Target | Over 10.5 @ unibet | 2.28 | Edge: 5.3% | Actual: 14.0
+  [LOSS] Total Shots On Target | Under 8.5 @ betsson | 2.67 | Edge: 7.8% | Actual: 14.0
+  [LOSS] Total Corners | Over 9.5 @ betano | 1.98 | Edge: 5.1% | Actual: 8.0
+
+[49/50] Paris FC vs Toulouse FC (2025-12-13)
+  Stats: Shots=16.0, SOT=6.0, Corners=11.0
+  [WIN] Total Shots On Target | Under 7.5 @ leovegas | 2.18 | Edge: 6.8% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 7.5 @ betsson | 1.77 | Edge: 7.7% | Actual: 6.0
+  [LOSS] Total Shots On Target | Over 8.5 @ betano | 2.25 | Edge: 8.6% | Actual: 6.0
+  [WIN] Total Corners | Over 10.5 @ betsson | 2.92 | Edge: 7.6% | Actual: 11.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.95 | Edge: 8.7% | Actual: 11.0
+
+[50/50] Olympique Lyonnais vs Le Havre AC (2025-12-14)
+  Stats: Shots=28.0, SOT=8.0, Corners=9.0
+  [WIN] Total Shots | Over 24.5 @ betsson | 1.95 | Edge: 10.7% | Actual: 28.0
+  [WIN] Total Shots | Over 26.5 @ betano | 2.47 | Edge: 12.1% | Actual: 28.0
+
+  [SUMMARY] 64 bets | 30W-34L | Profit: +6.4 DKK | ROI: +1.3%
+
+==================================================
+[LEAGUE] Eredivisie
+==================================================
+Found 88 completed fixtures
+
+[1/50] PSV Eindhoven vs Fortuna Sittard (2025-10-31)
+  Stats: Shots=31.0, SOT=10.0, Corners=11.0
+
+[2/50] AFC Ajax vs SC Heerenveen (2025-11-01)
+  Stats: Shots=26.0, SOT=9.0, Corners=9.0
+
+[3/50] NAC Breda vs Go Ahead Eagles (2025-11-01)
+  Stats: Shots=15.0, SOT=4.0, Corners=4.0
+
+[4/50] Feyenoord Rotterdam vs FC Volendam (2025-11-01)
+  Stats: Shots=46.0, SOT=10.0, Corners=11.0
+
+[5/50] SC Telstar vs SBV Excelsior (2025-11-01)
+  Stats: Shots=38.0, SOT=16.0, Corners=8.0
+
+[6/50] Heracles Almelo vs PEC Zwolle (2025-11-02)
+  Stats: Shots=31.0, SOT=15.0, Corners=6.0
+
+[7/50] FC Groningen vs FC Twente (2025-11-02)
+  Stats: Shots=28.0, SOT=11.0, Corners=10.0
+
+[8/50] Sparta Rotterdam vs Alkmaar Zaanstreek (2025-11-02)
+  Stats: Shots=30.0, SOT=17.0, Corners=15.0
+
+[9/50] FC Utrecht vs Nijmegen Eendracht Combinatie (2025-11-02)
+  Stats: Shots=27.0, SOT=9.0, Corners=4.0
+
+[10/50] FC Twente vs SC Telstar (2025-11-07)
+  Stats: Shots=33.0, SOT=7.0, Corners=12.0
+
+[11/50] SBV Excelsior vs Heracles Almelo (2025-11-08)
+  Stats: Shots=22.0, SOT=10.0, Corners=19.0
+
+[12/50] FC Volendam vs NAC Breda (2025-11-08)
+  Stats: Shots=24.0, SOT=7.0, Corners=14.0
+
+[13/50] Fortuna Sittard vs SC Heerenveen (2025-11-08)
+  Stats: Shots=28.0, SOT=13.0, Corners=9.0
+
+[14/50] PEC Zwolle vs Sparta Rotterdam (2025-11-08)
+  Stats: Shots=25.0, SOT=4.0, Corners=9.0
+
+[15/50] FC Utrecht vs AFC Ajax (2025-11-09)
+  Stats: Shots=26.0, SOT=10.0, Corners=10.0
+
+[16/50] Nijmegen Eendracht Combinatie vs FC Groningen (2025-11-09)
+  Stats: Shots=23.0, SOT=9.0, Corners=12.0
+
+[17/50] Alkmaar Zaanstreek vs PSV Eindhoven (2025-11-09)
+  Stats: Shots=23.0, SOT=9.0, Corners=10.0
+
+[18/50] Go Ahead Eagles vs Feyenoord Rotterdam (2025-11-09)
+  Stats: Shots=29.0, SOT=11.0, Corners=11.0
+
+[19/50] NAC Breda vs PSV Eindhoven (2025-11-22)
+  Stats: Shots=25.0, SOT=7.0, Corners=11.0
+
+[20/50] AFC Ajax vs SBV Excelsior (2025-11-22)
+  Stats: Shots=23.0, SOT=9.0, Corners=11.0
+
+[21/50] FC Volendam vs FC Twente (2025-11-22)
+  Stats: Shots=29.0, SOT=10.0, Corners=8.0
+
+[22/50] Sparta Rotterdam vs Fortuna Sittard (2025-11-22)
+  Stats: Shots=25.0, SOT=11.0, Corners=12.0
+
+[23/50] Heracles Almelo vs Go Ahead Eagles (2025-11-22)
+  Stats: Shots=28.0, SOT=16.0, Corners=9.0
+
+[24/50] SC Heerenveen vs Alkmaar Zaanstreek (2025-11-23)
+  Stats: Shots=30.0, SOT=14.0, Corners=13.0
+
+[25/50] SC Telstar vs FC Utrecht (2025-11-23)
+  Stats: Shots=27.0, SOT=6.0, Corners=10.0
+
+[26/50] Feyenoord Rotterdam vs Nijmegen Eendracht Combinatie (2025-11-23)
+  Stats: Shots=41.0, SOT=17.0, Corners=13.0
+
+[27/50] FC Groningen vs PEC Zwolle (2025-11-23)
+  Stats: Shots=44.0, SOT=16.0, Corners=13.0
+
+[28/50] PEC Zwolle vs SC Heerenveen (2025-11-28)
+  Stats: Shots=30.0, SOT=11.0, Corners=12.0
+
+[29/50] SBV Excelsior vs NAC Breda (2025-11-29)
+  Stats: Shots=27.0, SOT=5.0, Corners=7.0
+
+[30/50] Fortuna Sittard vs Heracles Almelo (2025-11-29)
+  Stats: Shots=29.0, SOT=8.0, Corners=14.0
+
+[31/50] Nijmegen Eendracht Combinatie vs Sparta Rotterdam (2025-11-29)
+  Stats: Shots=32.0, SOT=12.0, Corners=13.0
+
+[32/50] PSV Eindhoven vs FC Volendam (2025-11-30)
+  Stats: Shots=29.0, SOT=10.0, Corners=7.0
+
+[33/50] Go Ahead Eagles vs FC Utrecht (2025-11-30)
+  Stats: Shots=28.0, SOT=14.0, Corners=7.0
+
+[34/50] SC Telstar vs Feyenoord Rotterdam (2025-11-30)
+  Stats: Shots=23.0, SOT=9.0, Corners=9.0
+
+[35/50] FC Twente vs Alkmaar Zaanstreek (2025-11-30)
+  Stats: Shots=14.0, SOT=3.0, Corners=5.0
+
+[36/50] AFC Ajax vs FC Groningen (2025-12-02)
+  Stats: Shots=30.0, SOT=13.0, Corners=8.0
+
+[37/50] SBV Excelsior vs FC Groningen (2025-12-05)
+  Stats: Shots=36.0, SOT=14.0, Corners=11.0
+  [LOSS] Total Shots | Under 25.5 @ leovegas | 2.08 | Edge: 6.5% | Actual: 36.0
+  [LOSS] Total Shots | Under 25.5 @ unibet | 2.08 | Edge: 6.5% | Actual: 36.0
+  [WIN] Total Shots | Over 25.5 @ betano | 2.00 | Edge: 15.5% | Actual: 36.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 2.07 | Edge: 9.1% | Actual: 14.0
+  [LOSS] Total Shots On Target | Under 9.5 @ betsson | 1.90 | Edge: 5.4% | Actual: 14.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.45 | Edge: 5.7% | Actual: 11.0
+  [LOSS] Total Corners | Under 8.5 @ betsson | 2.55 | Edge: 5.2% | Actual: 11.0
+
+[38/50] SC Heerenveen vs PSV Eindhoven (2025-12-06)
+  Stats: Shots=23.0, SOT=10.0, Corners=10.0
+  [WIN] Total Shots | Under 25.5 @ betsson | 2.99 | Edge: 6.7% | Actual: 23.0
+
+[39/50] Fortuna Sittard vs AFC Ajax (2025-12-06)
+  Stats: Shots=38.0, SOT=11.0, Corners=8.0
+
+[40/50] Heracles Almelo vs SC Telstar (2025-12-06)
+  Stats: Shots=26.0, SOT=8.0, Corners=12.0
+  [LOSS] Total Shots | Under 25.5 @ leovegas | 2.95 | Edge: 6.1% | Actual: 26.0
+
+[41/50] Feyenoord Rotterdam vs PEC Zwolle (2025-12-06)
+  Stats: Shots=32.0, SOT=16.0, Corners=12.0
+  [WIN] Total Corners | Over 9.5 @ betano | 1.82 | Edge: 6.2% | Actual: 12.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.37 | Edge: 10.0% | Actual: 12.0
+  [LOSS] Total Corners | Under 8.5 @ betsson | 2.75 | Edge: 5.8% | Actual: 12.0
+
+[42/50] FC Utrecht vs FC Twente (2025-12-07)
+  Stats: Shots=34.0, SOT=10.0, Corners=14.0
+
+[43/50] FC Volendam vs Nijmegen Eendracht Combinatie (2025-12-07)
+  Stats: Shots=29.0, SOT=12.0, Corners=12.0
+  [WIN] Total Corners | Over 10.5 @ leovegas | 2.18 | Edge: 5.0% | Actual: 12.0
+  [WIN] Total Corners | Over 10.5 @ unibet | 2.18 | Edge: 5.0% | Actual: 12.0
+  [WIN] Total Corners | Over 11.5 @ leovegas | 2.85 | Edge: 5.2% | Actual: 12.0
+  [WIN] Total Corners | Over 11.5 @ unibet | 2.85 | Edge: 5.2% | Actual: 12.0
+
+[44/50] Alkmaar Zaanstreek vs Go Ahead Eagles (2025-12-07)
+  Stats: Shots=34.0, SOT=14.0, Corners=15.0
+  [LOSS] Total Shots | Under 25.5 @ betsson | 2.99 | Edge: 18.3% | Actual: 34.0
+  [LOSS] Total Shots | Under 25.5 @ betano | 2.72 | Edge: 7.6% | Actual: 34.0
+  [LOSS] Total Shots On Target | Under 10.5 @ betsson | 1.77 | Edge: 8.3% | Actual: 14.0
+
+[45/50] Sparta Rotterdam vs NAC Breda (2025-12-07)
+  Stats: Shots=34.0, SOT=15.0, Corners=15.0
+  [WIN] Total Shots On Target | Over 9.5 @ leovegas | 2.50 | Edge: 6.2% | Actual: 15.0
+  [WIN] Total Shots On Target | Over 9.5 @ unibet | 2.50 | Edge: 6.2% | Actual: 15.0
+
+[46/50] SC Telstar vs Nijmegen Eendracht Combinatie (2025-12-13)
+  Stats: Shots=26.0, SOT=12.0, Corners=12.0
+  [LOSS] Total Shots | Over 27.5 @ betano | 1.98 | Edge: 13.0% | Actual: 26.0
+  [WIN] Total Shots On Target | Over 9.5 @ betano | 1.75 | Edge: 5.6% | Actual: 12.0
+
+[47/50] FC Groningen vs FC Volendam (2025-12-13)
+  Stats: Shots=30.0, SOT=8.0, Corners=19.0
+  [LOSS] Total Shots | Under 27.5 @ leovegas | 1.82 | Edge: 5.3% | Actual: 30.0
+  [LOSS] Total Shots | Under 27.5 @ unibet | 1.83 | Edge: 6.1% | Actual: 30.0
+  [WIN] Total Shots | Over 27.5 @ betano | 2.40 | Edge: 21.6% | Actual: 30.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 1.95 | Edge: 12.3% | Actual: 8.0
+  [WIN] Total Shots On Target | Under 8.5 @ betsson | 2.76 | Edge: 5.8% | Actual: 8.0
+
+[48/50] PSV Eindhoven vs Heracles Almelo (2025-12-13)
+  Stats: Shots=32.0, SOT=13.0, Corners=14.0
+  [WIN] Total Shots | Over 29.5 @ betano | 1.91 | Edge: 9.1% | Actual: 32.0
+  [LOSS] Total Corners | Under 9.5 @ betano | 2.82 | Edge: 6.5% | Actual: 14.0
+
+[49/50] PEC Zwolle vs Fortuna Sittard (2025-12-13)
+  Stats: Shots=19.0, SOT=6.0, Corners=14.0
+
+[50/50] Sparta Rotterdam vs SC Heerenveen (2025-12-14)
+  Stats: Shots=31.0, SOT=8.0, Corners=15.0
+  [LOSS] Total Shots On Target | Over 9.5 @ betano | 1.95 | Edge: 6.7% | Actual: 8.0
+
+  [SUMMARY] 31 bets | 16W-15L | Profit: +29.4 DKK | ROI: +12.1%
+
+==================================================
+[LEAGUE] Primeira Liga
+==================================================
+Found 90 completed fixtures
+
+[1/50] Sporting Clube de Portugal vs Alverca (2025-10-31)
+  Stats: Shots=35.0, SOT=8.0, Corners=10.0
+
+[2/50] CD Nacional vs FC Famalicão (2025-11-01)
+  Stats: Shots=28.0, SOT=7.0, Corners=13.0
+
+[3/50] Casa Pia AC vs Club Foot Estrela (2025-11-01)
+  Stats: Shots=22.0, SOT=10.0, Corners=7.0
+
+[4/50] Rio Ave FC vs GD Estoril Praia (2025-11-01)
+  Stats: Shots=26.0, SOT=6.0, Corners=6.0
+
+[5/50] Vitória SC Guimarães vs SL Benfica (2025-11-01)
+  Stats: Shots=34.0, SOT=13.0, Corners=9.0
+
+[6/50] AVS Futebol vs CD Tondela (2025-11-02)
+  Stats: Shots=25.0, SOT=8.0, Corners=8.0
+
+[7/50] FC Arouca vs Moreirense FC (2025-11-02)
+  Stats: Shots=18.0, SOT=7.0, Corners=7.0
+
+[8/50] FC Porto vs Sporting Braga (2025-11-02)
+  Stats: Shots=19.0, SOT=7.0, Corners=5.0
+
+[9/50] Gil Vicente FC vs CD Santa Clara (2025-11-03)
+  Stats: Shots=24.0, SOT=7.0, Corners=2.0
+
+[10/50] GD Estoril Praia vs FC Arouca (2025-11-07)
+  Stats: Shots=29.0, SOT=11.0, Corners=12.0
+
+[11/50] Alverca vs Rio Ave FC (2025-11-08)
+  Stats: Shots=26.0, SOT=9.0, Corners=12.0
+
+[12/50] CD Tondela vs Vitória SC Guimarães (2025-11-08)
+  Stats: Shots=26.0, SOT=6.0, Corners=7.0
+
+[13/50] CD Santa Clara vs Sporting Clube de Portugal (2025-11-08)
+  Stats: Shots=26.0, SOT=9.0, Corners=14.0
+
+[14/50] Club Foot Estrela vs CD Nacional (2025-11-09)
+  Stats: Shots=31.0, SOT=8.0, Corners=8.0
+
+[15/50] AVS Futebol vs Gil Vicente FC (2025-11-09)
+  Stats: Shots=28.0, SOT=13.0, Corners=5.0
+
+[16/50] FC Famalicão vs FC Porto (2025-11-09)
+  Stats: Shots=27.0, SOT=6.0, Corners=6.0
+
+[17/50] SL Benfica vs Casa Pia AC (2025-11-09)
+  Stats: Shots=26.0, SOT=10.0, Corners=8.0
+
+[18/50] Sporting Braga vs Moreirense FC (2025-11-09)
+  Stats: Shots=22.0, SOT=4.0, Corners=8.0
+
+[19/50] Vitória SC Guimarães vs AVS Futebol (2025-11-28)
+  Stats: Shots=20.0, SOT=5.0, Corners=10.0
+
+[20/50] Casa Pia AC vs Alverca (2025-11-29)
+  Stats: Shots=15.0, SOT=5.0, Corners=11.0
+
+[21/50] Moreirense FC vs FC Famalicão (2025-11-29)
+  Stats: Shots=28.0, SOT=14.0, Corners=9.0
+
+[22/50] CD Nacional vs SL Benfica (2025-11-29)
+  Stats: Shots=37.0, SOT=10.0, Corners=13.0
+
+[23/50] Gil Vicente FC vs CD Tondela (2025-11-29)
+  Stats: Shots=20.0, SOT=4.0, Corners=15.0
+
+[24/50] Rio Ave FC vs CD Santa Clara (2025-11-30)
+  Stats: Shots=18.0, SOT=7.0, Corners=6.0
+
+[25/50] Sporting Clube de Portugal vs Club Foot Estrela (2025-11-30)
+  Stats: Shots=24.0, SOT=9.0, Corners=6.0
+
+[26/50] FC Porto vs GD Estoril Praia (2025-11-30)
+  Stats: Shots=23.0, SOT=8.0, Corners=10.0
+
+[27/50] FC Arouca vs Sporting Braga (2025-12-01)
+  Stats: Shots=21.0, SOT=7.0, Corners=6.0
+
+[28/50] SL Benfica vs Sporting Clube de Portugal (2025-12-05)
+  Stats: Shots=15.0, SOT=6.0, Corners=5.0
+  [WIN] Total Corners | Under 7.5 @ betsson | 2.82 | Edge: 14.8% | Actual: 5.0
+  [WIN] Total Corners | Under 7.5 @ betano | 2.95 | Edge: 20.1% | Actual: 5.0
+
+[29/50] CD Santa Clara vs Casa Pia AC (2025-12-06)
+  Stats: Shots=16.0, SOT=5.0, Corners=15.0
+
+[30/50] AVS Futebol vs Rio Ave FC (2025-12-06)
+  Stats: Shots=26.0, SOT=13.0, Corners=14.0
+
+[31/50] FC Famalicão vs Sporting Braga (2025-12-06)
+  Stats: Shots=28.0, SOT=10.0, Corners=12.0
+  [WIN] Total Corners | Over 9.5 @ leovegas | 2.14 | Edge: 6.0% | Actual: 12.0
+  [LOSS] Total Corners | Under 9.5 @ betano | 1.82 | Edge: 5.6% | Actual: 12.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.85 | Edge: 6.3% | Actual: 12.0
+  [WIN] Total Corners | Over 8.5 @ leovegas | 1.71 | Edge: 5.6% | Actual: 12.0
+  [LOSS] Total Corners | Under 8.5 @ betano | 2.35 | Edge: 9.4% | Actual: 12.0
+
+[32/50] GD Estoril Praia vs Moreirense FC (2025-12-07)
+  Stats: Shots=17.0, SOT=10.0, Corners=6.0
+  [WIN] Total Corners | Under 7.5 @ betano | 2.87 | Edge: 5.2% | Actual: 6.0
+
+[33/50] Club Foot Estrela vs FC Arouca (2025-12-07)
+  Stats: Shots=33.0, SOT=11.0, Corners=8.0
+  [LOSS] Total Corners | Over 8.5 @ betano | 1.72 | Edge: 6.3% | Actual: 8.0
+  [WIN] Total Corners | Under 8.5 @ leovegas | 2.33 | Edge: 7.6% | Actual: 8.0
+  [WIN] Total Corners | Under 8.5 @ unibet | 2.33 | Edge: 7.6% | Actual: 8.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.85 | Edge: 10.4% | Actual: 8.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.95 | Edge: 14.3% | Actual: 8.0
+  [LOSS] Total Corners | Over 9.5 @ betano | 2.20 | Edge: 8.7% | Actual: 8.0
+  [WIN] Total Corners | Under 9.5 @ leovegas | 1.83 | Edge: 7.3% | Actual: 8.0
+  [WIN] Total Corners | Under 9.5 @ unibet | 1.83 | Edge: 7.3% | Actual: 8.0
+
+[34/50] Alverca vs CD Nacional (2025-12-07)
+  Stats: Shots=27.0, SOT=7.0, Corners=4.0
+  [WIN] Total Corners | Under 10.0 @ betano | 1.85 | Edge: 9.8% | Actual: 4.0
+  [LOSS] Total Corners | Over 10.5 @ betsson | 2.85 | Edge: 9.4% | Actual: 4.0
+  [LOSS] Total Corners | Over 9.5 @ betsson | 2.12 | Edge: 7.6% | Actual: 4.0
+
+[35/50] CD Tondela vs FC Porto (2025-12-07)
+  Stats: Shots=22.0, SOT=8.0, Corners=6.0
+
+[36/50] Vitória SC Guimarães vs Gil Vicente FC (2025-12-08)
+  Stats: Shots=16.0, SOT=4.0, Corners=12.0
+  [WIN] Total Corners | Over 9.5 @ betano | 2.32 | Edge: 10.0% | Actual: 12.0
+  [WIN] Total Corners | Over 8.5 @ betano | 1.78 | Edge: 7.1% | Actual: 12.0
+  [LOSS] Total Corners | Under 7.5 @ leovegas | 2.95 | Edge: 5.2% | Actual: 12.0
+  [LOSS] Total Corners | Under 7.5 @ unibet | 2.95 | Edge: 5.2% | Actual: 12.0
+
+[37/50] Casa Pia AC vs Gil Vicente FC (2025-12-13)
+  Stats: Shots=14.0, SOT=3.0, Corners=9.0
+
+[38/50] Rio Ave FC vs Vitória SC Guimarães (2025-12-13)
+  Stats: Shots=24.0, SOT=5.0, Corners=12.0
+
+[39/50] Sporting Clube de Portugal vs AVS Futebol (2025-12-13)
+  Stats: Shots=31.0, SOT=17.0, Corners=9.0
+  [LOSS] Total Corners | Over 9.5 @ leovegas | 1.93 | Edge: 8.3% | Actual: 9.0
+  [LOSS] Total Corners | Over 9.5 @ unibet | 1.93 | Edge: 8.3% | Actual: 9.0
+  [LOSS] Total Corners | Over 10.5 @ leovegas | 2.38 | Edge: 5.9% | Actual: 9.0
+  [LOSS] Total Corners | Over 10.5 @ unibet | 2.48 | Edge: 10.4% | Actual: 9.0
+  [WIN] Total Corners | Under 9.5 @ betano | 2.05 | Edge: 6.9% | Actual: 9.0
+  [LOSS] Total Corners | Under 8.5 @ betano | 2.70 | Edge: 9.3% | Actual: 9.0
+
+[40/50] FC Famalicão vs GD Estoril Praia (2025-12-14)
+  Stats: Shots=30.0, SOT=16.0, Corners=13.0
+
+[41/50] Moreirense FC vs SL Benfica (2025-12-14)
+  Stats: Shots=20.0, SOT=7.0, Corners=8.0
+
+[42/50] FC Arouca vs Alverca (2025-12-14)
+  Stats: Shots=23.0, SOT=5.0, Corners=13.0
+
+[43/50] CD Nacional vs CD Tondela (2025-12-15)
+  Stats: Shots=29.0, SOT=9.0, Corners=13.0
+
+[44/50] Sporting Braga vs CD Santa Clara (2025-12-15)
+  Stats: Shots=11.0, SOT=5.0, Corners=6.0
+  [WIN] Total Corners | Under 7.5 @ betano | 2.72 | Edge: 5.3% | Actual: 6.0
+
+[45/50] FC Porto vs Club Foot Estrela (2025-12-15)
+  Stats: Shots=26.0, SOT=7.0, Corners=4.0
+  [LOSS] Total Corners | Over 9.5 @ betano | 2.07 | Edge: 7.1% | Actual: 4.0
+  [LOSS] Total Corners | Over 10.5 @ betano | 2.80 | Edge: 14.7% | Actual: 4.0
+
+[46/50] GD Estoril Praia vs Sporting Braga (2025-12-19)
+  Stats: Shots=25.0, SOT=12.0, Corners=14.0
+  [WIN] Total Corners | Over 9.0 @ betsson | 2.10 | Edge: 6.5% | Actual: 14.0
+  [WIN] Total Corners | Over 9.5 @ betsson | 2.32 | Edge: 6.5% | Actual: 14.0
+
+[47/50] Gil Vicente FC vs Rio Ave FC (2025-12-20)
+  Stats: Shots=26.0, SOT=7.0, Corners=11.0
+  [WIN] Total Corners | Over 9.5 @ betano | 2.10 | Edge: 8.1% | Actual: 11.0
+  [WIN] Total Corners | Over 9.0 @ betsson | 1.96 | Edge: 8.8% | Actual: 11.0
+  [WIN] Total Corners | Over 8.5 @ betano | 1.67 | Edge: 6.7% | Actual: 11.0
+  [WIN] Total Corners | Over 10.5 @ betano | 2.82 | Edge: 11.5% | Actual: 11.0
+
+[48/50] Club Foot Estrela vs Moreirense FC (2025-12-20)
+  Stats: Shots=29.0, SOT=10.0, Corners=10.0
+  [WIN] Total Corners | Over 9.5 @ betano | 2.55 | Edge: 8.1% | Actual: 10.0
+
+[49/50] AVS Futebol vs CD Nacional (2025-12-21)
+  Stats: Shots=35.0, SOT=9.0, Corners=11.0
+  [LOSS] Total Corners | Under 7.5 @ betsson | 2.82 | Edge: 5.1% | Actual: 11.0
+  [LOSS] Total Corners | Under 7.5 @ betano | 2.85 | Edge: 6.2% | Actual: 11.0
+
+[50/50] CD Tondela vs Casa Pia AC (2025-12-21)
+  Stats: Shots=23.0, SOT=9.0, Corners=10.0
+
+  [SUMMARY] 41 bets | 22W-19L | Profit: +67.5 DKK | ROI: +22.3%
+
+==================================================
+[LEAGUE] Champions League
+==================================================
+Found 90 completed fixtures
+
+[1/50] SSC Napoli vs Eintracht Frankfurt (2025-11-04)
+  Stats: Shots=25.0, SOT=6.0, Corners=8.0
+
+[2/50] SK Slavia Praha vs Arsenal FC (2025-11-04)
+  Stats: Shots=23.0, SOT=9.0, Corners=11.0
+
+[3/50] Paris Saint-Germain FC vs FC Bayern München (2025-11-04)
+  Stats: Shots=34.0, SOT=14.0, Corners=10.0
+
+[4/50] FK Bodø / Glimt vs AS Monaco FC (2025-11-04)
+  Stats: Shots=26.0, SOT=6.0, Corners=8.0
+
+[5/50] Liverpool FC vs Real Madrid CF (2025-11-04)
+  Stats: Shots=25.0, SOT=11.0, Corners=6.0
+
+[6/50] Juventus FC vs Sporting Clube de Portugal (2025-11-04)
+  Stats: Shots=22.0, SOT=10.0, Corners=6.0
+
+[7/50] Olympiakos CFP vs PSV Eindhoven (2025-11-04)
+  Stats: Shots=28.0, SOT=6.0, Corners=9.0
+
+[8/50] Tottenham Hotspur FC vs FC København (2025-11-04)
+  Stats: Shots=26.0, SOT=10.0, Corners=9.0
+
+[9/50] Club Atlético de Madrid vs Royale Union Saint-Gilloise (2025-11-04)
+  Stats: Shots=22.0, SOT=9.0, Corners=10.0
+
+[10/50] Pafos FC vs Villarreal CF (2025-11-05)
+  Stats: Shots=23.0, SOT=7.0, Corners=5.0
+Traceback (most recent call last):
+  File "C:\Users\chrni\Desktop\projects\claude\soccer-props-value\run_backtest_v2.py", line 508, in <module>
+    asyncio.run(run_backtest())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\chrni\Desktop\projects\claude\soccer-props-value\run_backtest_v2.py", line 357, in run_backtest
+    print(f"\n[{i+1}/{min(len(fixtures), 50)}] {fixture_name} ({date})")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u011f' in position 16: character maps to <undefined>

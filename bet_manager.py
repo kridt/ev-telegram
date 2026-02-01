@@ -40,17 +40,18 @@ except Exception as e:
     print(f"[WARNING] Could not load market translations: {e}")
     MARKET_TRANSLATIONS = {"markets": {}, "selections": {}}
 
+# Chat ID from environment (keep secret)
+THREAD_CHAT_ID = os.environ.get("TELEGRAM_THREAD_CHAT_ID", "")
+
 # Load bookmaker thread config (for Telegram topics)
 THREADS_FILE = os.path.join(SCRIPT_DIR, "config", "bookmaker_threads.json")
 try:
     with open(THREADS_FILE, "r", encoding="utf-8") as f:
         BOOKMAKER_THREADS = json.load(f)
-    THREAD_CHAT_ID = BOOKMAKER_THREADS.get("chat_id", "")
     BOOKMAKER_THREAD_IDS = BOOKMAKER_THREADS.get("bookmakers", {})
     print(f"[OK] Loaded {len(BOOKMAKER_THREAD_IDS)} bookmaker threads")
 except Exception as e:
     print(f"[WARNING] Could not load bookmaker threads: {e}")
-    THREAD_CHAT_ID = ""
     BOOKMAKER_THREAD_IDS = {}
 
 
