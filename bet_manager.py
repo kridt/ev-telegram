@@ -730,11 +730,8 @@ Indsats: <s>{units:.2f} units</s>
 
             created_at = bet.get("created_at", "")
 
-            # Check if bet should be expired (15 min old or match started)
+            # Check if bet should be expired (only when match starts)
             try:
-                created = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                age_minutes = (now - created).total_seconds() / 60
-
                 # Check if match has started
                 kickoff_str = bet.get("kickoff", "")
                 if kickoff_str:
@@ -743,13 +740,12 @@ Indsats: <s>{units:.2f} units</s>
                 else:
                     match_started = False
 
-                # Expire if too old or match started
-                if age_minutes > 15 or match_started:
-                    # Mark as expired with delay to avoid rate limit
-                    await self.expire_bet(bet_key, bet, reason="timeout" if age_minutes > 15 else "match_started")
+                # Only expire when match starts
+                if match_started:
+                    await self.expire_bet(bet_key, bet, reason="match_started")
                     expired_count += 1
                     processed += 1
-                    await asyncio.sleep(1.5)  # Wait 1.5 seconds between edits
+                    await asyncio.sleep(1.5)
                     continue
 
             except Exception as e:
