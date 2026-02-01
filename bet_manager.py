@@ -40,6 +40,31 @@ except Exception as e:
     print(f"[WARNING] Could not load market translations: {e}")
     MARKET_TRANSLATIONS = {"markets": {}, "selections": {}}
 
+# Load bookmaker thread config (for Telegram topics)
+THREADS_FILE = os.path.join(SCRIPT_DIR, "config", "bookmaker_threads.json")
+try:
+    with open(THREADS_FILE, "r", encoding="utf-8") as f:
+        BOOKMAKER_THREADS = json.load(f)
+    THREAD_CHAT_ID = BOOKMAKER_THREADS.get("chat_id", "")
+    BOOKMAKER_THREAD_IDS = BOOKMAKER_THREADS.get("bookmakers", {})
+    print(f"[OK] Loaded {len(BOOKMAKER_THREAD_IDS)} bookmaker threads")
+except Exception as e:
+    print(f"[WARNING] Could not load bookmaker threads: {e}")
+    THREAD_CHAT_ID = ""
+    BOOKMAKER_THREAD_IDS = {}
+
+
+def get_thread_id(bookmaker: str) -> Optional[int]:
+    """Get thread ID for a bookmaker. Returns None if not configured."""
+    # Try exact match first
+    if bookmaker in BOOKMAKER_THREAD_IDS:
+        return BOOKMAKER_THREAD_IDS[bookmaker]
+    # Try case-insensitive match
+    for name, thread_id in BOOKMAKER_THREAD_IDS.items():
+        if name.lower() == bookmaker.lower():
+            return thread_id
+    return None
+
 
 def get_translated_market(market_name: str, bookmaker: str) -> str:
     """Translate API market name to Danish bookmaker-specific name."""
@@ -145,8 +170,15 @@ class TelegramManager:
         self.bot_token = bot_token
         self.api_url = f"https://api.telegram.org/bot{bot_token}"
 
-    async def send_bet_alert(self, chat_id: str, message: str, bet_key: str) -> Optional[int]:
-        """Send bet alert with action buttons. Returns message_id."""
+    async def send_bet_alert(self, chat_id: str, message: str, bet_key: str, thread_id: int = None) -> Optional[int]:
+        """Send bet alert with action buttons. Returns message_id.
+
+        Args:
+            chat_id: Telegram chat ID
+            message: Message text
+            bet_key: Bet key for callback buttons
+            thread_id: Optional thread/topic ID for supergroups with topics
+        """
         keyboard = {
             "inline_keyboard": [
                 [
@@ -156,19 +188,24 @@ class TelegramManager:
             ]
         }
 
+        payload = {
+            "chat_id": chat_id,
+            "text": message,
+            "parse_mode": "HTML",
+            "reply_markup": keyboard,
+            "disable_web_page_preview": True
+        }
+
+        # Add thread_id for topic-based supergroups
+        if thread_id is not None:
+            payload["message_thread_id"] = thread_id
+
         async with httpx.AsyncClient(timeout=10) as client:
-            r = await client.post(
-                f"{self.api_url}/sendMessage",
-                json={
-                    "chat_id": chat_id,
-                    "text": message,
-                    "parse_mode": "HTML",
-                    "reply_markup": keyboard,
-                    "disable_web_page_preview": True
-                }
-            )
+            r = await client.post(f"{self.api_url}/sendMessage", json=payload)
             if r.status_code == 200:
                 return r.json().get("result", {}).get("message_id")
+            else:
+                print(f"[TELEGRAM] Error sending: {r.status_code} - {r.text[:200]}")
         return None
 
     async def delete_message(self, chat_id: str, message_id: int) -> bool:
@@ -243,13 +280,26 @@ class BetManager:
     async def create_bet(self, bet_data: dict, chat_id: str) -> Optional[str]:
         """
         Create a new active bet.
-        1. Save to Realtime DB
-        2. Send Telegram message
-        3. Store message_id for later management
+        1. Check if bookmaker has a thread ID configured
+        2. Save to Realtime DB
+        3. Send Telegram message to bookmaker's thread
+        4. Store message_id for later management
 
-        Returns None if bet is invalid (will be skipped).
+        Returns None if bet is invalid or bookmaker not configured.
         """
         now = datetime.now(timezone.utc)
+
+        # Get bookmaker and check for thread ID
+        bookmaker = bet_data.get("book", "")
+        thread_id = get_thread_id(bookmaker)
+
+        # SKIP if bookmaker doesn't have a thread ID configured
+        if thread_id is None:
+            print(f"[SKIP] No thread ID for bookmaker: {bookmaker}")
+            return None
+
+        # Use thread chat ID if configured
+        actual_chat_id = THREAD_CHAT_ID if THREAD_CHAT_ID else chat_id
 
         # STRICT VALIDATION: Require valid selection
         selection = (bet_data.get("selection") or "").strip()
@@ -277,14 +327,15 @@ class BetManager:
             "kickoff": bet_data.get("kickoff"),
             "market": bet_data.get("market"),
             "selection": bet_data.get("selection"),
-            "bookmaker": bet_data.get("book"),
+            "bookmaker": bookmaker,
             "odds": odds,
             "fair_odds": round(bet_data.get("fair", 0), 3),
             "edge": round(bet_data.get("edge", 0), 2),
             "stake": stake,
             "status": "pending",
             "created_at": now.isoformat(),
-            "chat_id": chat_id,
+            "chat_id": actual_chat_id,
+            "thread_id": thread_id,
             "message_id": None,
             "user_action": None,
             "user_action_at": None,
@@ -297,15 +348,15 @@ class BetManager:
         if not bet_key:
             return None
 
-        # Format and send Telegram message
+        # Format and send Telegram message to bookmaker's thread
         message = self._format_bet_message(bet_data)
-        message_id = await self.telegram.send_bet_alert(chat_id, message, bet_key)
+        message_id = await self.telegram.send_bet_alert(actual_chat_id, message, bet_key, thread_id)
 
         if message_id:
             # Update with message_id
             await self.rtdb.update(f"active_bets/{bet_key}", {"message_id": message_id})
 
-        print(f"[BET] Created {bet_key} | {bet_data.get('selection')} @ {bet_data.get('book')}")
+        print(f"[BET] Created {bet_key} | {bet_data.get('selection')} @ {bookmaker} (thread {thread_id})")
         return bet_key
 
     async def mark_played(self, bet_key: str, user_id: str = None, username: str = None, first_name: str = None) -> bool:
