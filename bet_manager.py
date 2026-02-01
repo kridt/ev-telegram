@@ -588,7 +588,7 @@ class BetManager:
         bookmaker = bet.get('book', '')
         market_dk = get_translated_market(market_raw, bookmaker)
 
-        return f"""{icon} <b>{bookmaker.upper()}</b> - {edge:.1f}%
+        return f"""{icon} <b>{bookmaker.upper()}</b> + {edge:.1f}%
 
 ⚽ {bet.get('fixture', '')}
 🏆 {bet.get('league', '')} | {time_display}
@@ -596,7 +596,7 @@ class BetManager:
 Marked: <b>{market_dk}</b>
 Spil: {arrow} <b>{selection}</b>
 Odds: <b>{odds:.2f}</b>
-💰 Indsats: <b>{units:.2f} units</b>"""
+Indsats: <b>{units:.2f} units</b>"""
 
     def _format_bet_message_with_timer(self, bet: dict, created_at: str) -> str:
         """Format bet for Telegram message with eligibility status."""
@@ -639,7 +639,7 @@ Odds: <b>{odds:.2f}</b>
         market_raw = bet.get('market', '')
         market_dk = get_translated_market(market_raw, bookmaker)
 
-        return f"""{icon} <b>{bookmaker.upper()}</b> - {edge:.1f}%
+        return f"""{icon} <b>{bookmaker.upper()}</b> + {edge:.1f}%
 
 ⚽ {bet.get('fixture', '')}
 🏆 {bet.get('league', '')} | {time_display}
@@ -647,7 +647,7 @@ Odds: <b>{odds:.2f}</b>
 Marked: <b>{market_dk}</b>
 Spil: {arrow} <b>{selection}</b>
 Odds: <b>{odds:.2f}</b>
-💰 Indsats: <b>{units:.2f} units</b>
+Indsats: <b>{units:.2f} units</b>
 
 ✅ <b>Spilbar</b>"""
 
@@ -688,7 +688,7 @@ Odds: <b>{odds:.2f}</b>
         stake = calculate_stake(odds)
         units = stake / BASE_UNIT
 
-        return f"""{icon} <s>{bookmaker.upper()} - {edge:.1f}%</s>
+        return f"""{icon} <s>{bookmaker.upper()} + {edge:.1f}%</s>
 
 ⚽ {bet.get('fixture', '')}
 🏆 {bet.get('league', '')} | {time_display}
@@ -696,7 +696,7 @@ Odds: <b>{odds:.2f}</b>
 Marked: <s>{market_dk}</s>
 Spil: {arrow} <s>{selection}</s>
 Odds: <s>{odds:.2f}</s>
-💰 Indsats: <s>{units:.2f} units</s>
+Indsats: <s>{units:.2f} units</s>
 
 ❌ <b>Ikke spilbar længere</b>"""
 
