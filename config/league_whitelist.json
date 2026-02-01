@@ -1,0 +1,29 @@
+{
+  "enabled": false,
+  "description": "Set enabled to true to filter bets to only these leagues",
+  "leagues": [
+    "england-premier-league",
+    "england-championship",
+    "england-league-one",
+    "england-league-two",
+    "germany-bundesliga",
+    "germany-2-bundesliga",
+    "italy-serie-a",
+    "italy-serie-b",
+    "france-ligue-1",
+    "france-ligue-2",
+    "netherlands-eredivisie",
+    "netherlands-eerste-divisie",
+    "portugal-liga-portugal",
+    "belgium-pro-league",
+    "scotland-premiership",
+    "austria-bundesliga",
+    "switzerland-super-league",
+    "greece-super-league",
+    "denmark-superliga",
+    "denmark-1-division",
+    "norway-eliteserien",
+    "international-clubs-uefa-europa-league",
+    "international-clubs-uefa-conference-league"
+  ]
+}

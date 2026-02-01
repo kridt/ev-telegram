@@ -760,25 +760,15 @@ async def process_queue(
         if alert_key in sent_alerts:
             continue
 
-        # Create bet in Firebase if available
+        # Create bet in Firebase and send to Telegram thread
         bet_key = None
         if bet_manager:
             bet_key = await bet_manager.create_bet(bet, CHAT_ID)
 
+        # Skip if no thread ID configured for this bookmaker (no fallback)
         if bet_key is None:
-            # Fallback: send directly to Telegram
-            if raw_bet:
-                message = format_telegram_alert(raw_bet)
-            else:
-                # Basic format if no raw bet
-                message = f"""<b>EV Bet Found</b>
-{bet['fixture']}
-{bet['market']}: {bet['selection']}
-Odds: {bet['odds']:.2f} @ {bet['book']}
-EV: {bet['edge']:.1f}%"""
-
-            send_telegram(CHAT_ID, message)
-            bet_key = "direct_" + str(int(time.time()))
+            logger.info(f"  [SKIP] No thread for {bet['book']} - {bet['selection']}")
+            continue
 
         sent_alerts[alert_key] = datetime.now(timezone.utc).isoformat()
         save_sent_alerts(sent_alerts)
