@@ -205,7 +205,7 @@ def save_pending_queue(queue: List[Dict]) -> None:
 
 
 def send_telegram(chat_id: str, message: str, bet_id: Optional[str] = None) -> bool:
-    """Send message to Telegram with optional action buttons."""
+    """Send message to Telegram."""
     try:
         payload = {
             "chat_id": chat_id,
@@ -213,17 +213,6 @@ def send_telegram(chat_id: str, message: str, bet_id: Optional[str] = None) -> b
             "parse_mode": "HTML",
             "disable_web_page_preview": True,
         }
-
-        # Add action buttons if bet_id provided
-        if bet_id is not None:
-            payload["reply_markup"] = {
-                "inline_keyboard": [
-                    [
-                        {"text": "Spillet", "callback_data": f"played_{bet_id}"},
-                        {"text": "Droppet", "callback_data": f"skipped_{bet_id}"},
-                    ]
-                ]
-            }
 
         response = httpx.post(
             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",

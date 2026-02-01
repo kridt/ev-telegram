@@ -210,26 +210,13 @@ class TelegramManager:
 
     async def update_message(self, chat_id: str, message_id: int, text: str,
                             show_buttons: bool = False, bet_key: str = None) -> bool:
-        """Update a message, optionally with buttons."""
+        """Update a message."""
         payload = {
             "chat_id": chat_id,
             "message_id": message_id,
             "text": text,
             "parse_mode": "HTML"
         }
-
-        if show_buttons and bet_key:
-            payload["reply_markup"] = {
-                "inline_keyboard": [
-                    [
-                        {"text": "Spillet", "callback_data": f"placed_{bet_key}"},
-                        {"text": "Droppet", "callback_data": f"skipped_{bet_key}"}
-                    ]
-                ]
-            }
-        else:
-            # Remove buttons
-            payload["reply_markup"] = {"inline_keyboard": []}
 
         async with httpx.AsyncClient(timeout=10) as client:
             r = await client.post(f"{self.api_url}/editMessageText", json=payload)
