@@ -172,28 +172,18 @@ class TelegramManager:
         self.api_url = f"https://api.telegram.org/bot{bot_token}"
 
     async def send_bet_alert(self, chat_id: str, message: str, bet_key: str, thread_id: int = None) -> Optional[int]:
-        """Send bet alert with action buttons. Returns message_id.
+        """Send bet alert. Returns message_id.
 
         Args:
             chat_id: Telegram chat ID
             message: Message text
-            bet_key: Bet key for callback buttons
+            bet_key: Bet key (for tracking)
             thread_id: Optional thread/topic ID for supergroups with topics
         """
-        keyboard = {
-            "inline_keyboard": [
-                [
-                    {"text": "Spillet", "callback_data": f"placed_{bet_key}"},
-                    {"text": "Droppet", "callback_data": f"skipped_{bet_key}"}
-                ]
-            ]
-        }
-
         payload = {
             "chat_id": chat_id,
             "text": message,
             "parse_mode": "HTML",
-            "reply_markup": keyboard,
             "disable_web_page_preview": True
         }
 
