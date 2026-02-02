@@ -656,7 +656,7 @@ Indsats: <b>{units:.2f} units</b>
 ✅ <b>Spilbar</b>"""
 
     def _format_expired_message(self, bet: dict) -> str:
-        """Format expired bet message."""
+        """Format expired bet message - same as active but with different status."""
         kickoff_str = bet.get("kickoff", "")
         try:
             kickoff = datetime.fromisoformat(kickoff_str.replace('Z', '+00:00'))
@@ -666,8 +666,6 @@ Indsats: <b>{units:.2f} units</b>
             time_display = "TBD"
 
         edge = bet.get('edge', 0)
-        filled = min(10, int(edge / 2))
-        bar = "░" * 10  # Empty bar for expired
 
         book_icons = {
             "betsson": "🔷", "leovegas": "🟡",
@@ -692,15 +690,15 @@ Indsats: <b>{units:.2f} units</b>
         stake = calculate_stake(odds)
         units = stake / BASE_UNIT
 
-        return f"""{icon} <s>{bookmaker.upper()} + {edge:.1f}%</s>
+        return f"""{icon} <b>{bookmaker.upper()}</b> + {edge:.1f}%
 
 ⚽ {bet.get('fixture', '')}
 🏆 {bet.get('league', '')} | {time_display}
 
-Marked: <s>{market_dk}</s>
-Spil: {arrow} <s>{selection}</s>
-Odds: <s>{odds:.2f}</s>
-Indsats: <s>{units:.2f} units</s>
+Marked: <b>{market_dk}</b>
+Spil: {arrow} <b>{selection}</b>
+Odds: <b>{odds:.2f}</b>
+Indsats: <b>{units:.2f} units</b>
 
 ❌ <b>Ikke spilbar længere</b>"""
 

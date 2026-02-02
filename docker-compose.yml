@@ -9,7 +9,7 @@ services:
     volumes:
       - ./config:/app/config
     environment:
-      - OPTICODDS_API_KEY=${OPTICODDS_API_KEY}
+      - ODDSAPI_API_KEY=${ODDSAPI_API_KEY}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
     restart: unless-stopped

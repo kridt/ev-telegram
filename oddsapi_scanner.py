@@ -123,6 +123,33 @@ SENT_ALERTS_FILE = os.path.join(SCRIPT_DIR, "oddsapi_sent_alerts.json")
 PENDING_QUEUE_FILE = os.path.join(SCRIPT_DIR, "oddsapi_pending_queue.json")
 VALUE_BETS_FILE = os.path.join(SCRIPT_DIR, "oddsapi_value_bets.json")
 TRANSLATIONS_FILE = os.path.join(SCRIPT_DIR, "config", "market_translations.json")
+LEAGUE_WHITELIST_FILE = os.path.join(SCRIPT_DIR, "config", "league_whitelist.json")
+SETTINGS_FILE = os.path.join(SCRIPT_DIR, "config", "settings.json")
+
+# Load league whitelist
+LEAGUE_WHITELIST_ENABLED = False
+LEAGUE_WHITELIST = []
+try:
+    with open(LEAGUE_WHITELIST_FILE, "r", encoding="utf-8") as f:
+        whitelist_data = json.load(f)
+        LEAGUE_WHITELIST_ENABLED = whitelist_data.get("enabled", False)
+        LEAGUE_WHITELIST = [l.lower() for l in whitelist_data.get("leagues", [])]
+        if LEAGUE_WHITELIST_ENABLED:
+            logger.info(f"[OK] League whitelist enabled with {len(LEAGUE_WHITELIST)} leagues")
+        else:
+            logger.info("[INFO] League whitelist disabled - all leagues allowed")
+except Exception as e:
+    logger.warning(f"Failed to load league whitelist: {e}")
+
+# Load settings for hours_ahead
+HOURS_AHEAD = 6  # Default: only bets for matches within 6 hours
+try:
+    with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+        settings_data = json.load(f)
+        HOURS_AHEAD = settings_data.get("hours_ahead", 6)
+        logger.info(f"[OK] Hours ahead filter: {HOURS_AHEAD} hours")
+except Exception as e:
+    logger.warning(f"Failed to load settings: {e} - using default {HOURS_AHEAD} hours")
 
 # Load market translations
 try:
@@ -673,6 +700,39 @@ async def run_scan(client: OddsApiClient) -> List[Dict]:
             # Remove non-football bets
             all_value_bets = [b for b in all_value_bets if not b.get("_skip")]
 
+        # Filter by league whitelist
+        if LEAGUE_WHITELIST_ENABLED and LEAGUE_WHITELIST:
+            before_count = len(all_value_bets)
+            filtered_bets = []
+            for bet_dict in all_value_bets:
+                league = bet_dict.get("league", "").lower()
+                # Check if league slug matches any whitelist entry
+                league_matched = any(wl in league or league in wl for wl in LEAGUE_WHITELIST)
+                if league_matched:
+                    filtered_bets.append(bet_dict)
+                else:
+                    logger.debug(f"  [SKIP] League not in whitelist: {bet_dict.get('league')}")
+            all_value_bets = filtered_bets
+            logger.info(f"League whitelist filter: {before_count} -> {len(all_value_bets)} bets")
+
+        # Filter by time (only matches starting within HOURS_AHEAD)
+        now_utc = datetime.now(timezone.utc)
+        max_start_time = now_utc + timedelta(hours=HOURS_AHEAD)
+        before_count = len(all_value_bets)
+        time_filtered_bets = []
+        for bet_dict in all_value_bets:
+            raw_bet = bet_dict.get("_raw_bet")
+            if raw_bet and raw_bet.start_time:
+                if raw_bet.start_time <= max_start_time:
+                    time_filtered_bets.append(bet_dict)
+                else:
+                    logger.debug(f"  [SKIP] Match too far in future: {raw_bet.start_time}")
+            else:
+                # If no start time, include it (safer)
+                time_filtered_bets.append(bet_dict)
+        all_value_bets = time_filtered_bets
+        logger.info(f"Time filter ({HOURS_AHEAD}h): {before_count} -> {len(all_value_bets)} bets")
+
     except Exception as e:
         logger.error(f"Scan error: {e}")
         return []
@@ -778,6 +838,8 @@ async def main():
     logger.info(f"Send {BETS_PER_BATCH} bets every {BATCH_INTERVAL_SEC // 60}min")
     logger.info(f"EV range: {MIN_EV_PERCENT}% - {MAX_EV_PERCENT}%")
     logger.info(f"Odds range: {MIN_ODDS} - {MAX_ODDS}")
+    logger.info(f"Time filter: matches within {HOURS_AHEAD} hours only")
+    logger.info(f"League whitelist: {'ENABLED' if LEAGUE_WHITELIST_ENABLED else 'DISABLED'} ({len(LEAGUE_WHITELIST)} leagues)")
     logger.info("=" * 60)
 
     if not validate_env():
