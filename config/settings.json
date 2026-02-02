@@ -1,0 +1,64 @@
+{
+  "telegram": {
+    "bot_token": "",
+    "chat_id": ""
+  },
+  "sportsbooks": [
+    "Bet365",
+    "DanskeSpil",
+    "Unibet DK",
+    "Coolbet",
+    "Betano DK",
+    "NordicBet DK",
+    "Betsson",
+    "LeoVegas",
+    "Betinia DK",
+    "Campobet DK"
+  ],
+  "leagues": [
+    "england-premier-league",
+    "england-championship",
+    "england-league-one",
+    "england-league-two",
+    "england-fa-cup",
+    "germany-bundesliga",
+    "france-ligue-1",
+    "italy-serie-a",
+    "italy-coppa-italia",
+    "brazil-brasileiro-serie-a",
+    "argentina-liga-profesional",
+    "denmark-superliga",
+    "denmark-1-division",
+    "denmark-dbu-pokalen",
+    "spain-laliga",
+    "spain-laliga-2",
+    "spain-copa-del-rey",
+    "mexico-liga-mx-clausura",
+    "international-world-cup",
+    "international-clubs-uefa-champions-league",
+    "international-clubs-uefa-europa-league",
+    "international-clubs-uefa-conference-league"
+  ],
+  "target_markets": [
+    "Corners",
+    "Corner Handicap",
+    "Cards",
+    "Bookings"
+  ],
+  "min_edge_percent": 5.0,
+  "max_edge_percent": 25.0,
+  "min_odds": 1.5,
+  "max_odds": 3.0,
+  "min_books": 2,
+  "refresh_interval_minutes": 5,
+  "hours_ahead": 6,
+  "oddsapi": {
+    "api_key": "",
+    "enabled": true,
+    "min_ev_percent": 5.0,
+    "max_ev_percent": 25.0,
+    "bookmakers": ["Bet365", "DanskeSpil", "Unibet DK", "Coolbet"],
+    "prop_markets_only": true,
+    "refresh_interval_minutes": 5
+  }
+}

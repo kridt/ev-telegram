@@ -38,8 +38,8 @@ env/
 .env.local
 .env.*.local
 
-# Config with secrets (use settings.example.json as template)
-config/settings.json
+# Config templates
+# config/settings.json is now tracked (no secrets, uses env vars)
 
 # Data files (contain bet history)
 bet_history.json
