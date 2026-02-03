@@ -715,23 +715,40 @@ async def run_scan(client: OddsApiClient) -> List[Dict]:
             all_value_bets = filtered_bets
             logger.info(f"League whitelist filter: {before_count} -> {len(all_value_bets)} bets")
 
-        # Filter by time (only matches starting within HOURS_AHEAD)
-        now_utc = datetime.now(timezone.utc)
-        max_start_time = now_utc + timedelta(hours=HOURS_AHEAD)
+        # Filter by time (only matches starting within HOURS_AHEAD from Copenhagen time)
+        # Copenhagen is UTC+1 (CET) in winter, UTC+2 (CEST) in summer
+        try:
+            from zoneinfo import ZoneInfo
+            cph_tz = ZoneInfo("Europe/Copenhagen")
+        except ImportError:
+            # Fallback for older Python - use UTC+1 (CET)
+            cph_tz = timezone(timedelta(hours=1))
+
+        now_cph = datetime.now(cph_tz)
+        max_start_time_cph = now_cph + timedelta(hours=HOURS_AHEAD)
+        # Convert to UTC for comparison with match times
+        max_start_time = max_start_time_cph.astimezone(timezone.utc)
+
         before_count = len(all_value_bets)
         time_filtered_bets = []
         for bet_dict in all_value_bets:
             raw_bet = bet_dict.get("_raw_bet")
             if raw_bet and raw_bet.start_time:
-                if raw_bet.start_time <= max_start_time:
+                # Ensure start_time is timezone-aware (UTC)
+                start_time = raw_bet.start_time
+                if start_time.tzinfo is None:
+                    start_time = start_time.replace(tzinfo=timezone.utc)
+
+                if start_time <= max_start_time:
                     time_filtered_bets.append(bet_dict)
                 else:
-                    logger.debug(f"  [SKIP] Match too far in future: {raw_bet.start_time}")
+                    start_cph = start_time.astimezone(cph_tz)
+                    logger.debug(f"  [SKIP] Match too far: {start_cph.strftime('%d/%m %H:%M')} CPH")
             else:
                 # If no start time, include it (safer)
                 time_filtered_bets.append(bet_dict)
         all_value_bets = time_filtered_bets
-        logger.info(f"Time filter ({HOURS_AHEAD}h): {before_count} -> {len(all_value_bets)} bets")
+        logger.info(f"Time filter ({HOURS_AHEAD}h CPH): {before_count} -> {len(all_value_bets)} bets (now: {now_cph.strftime('%H:%M')} CPH)")
 
     except Exception as e:
         logger.error(f"Scan error: {e}")
