@@ -706,10 +706,19 @@ async def run_scan(client: OddsApiClient) -> List[Dict]:
             filtered_bets = []
             for bet_dict in all_value_bets:
                 league = bet_dict.get("league", "").lower()
-                # Check if league slug matches any whitelist entry
-                league_matched = any(wl in league or league in wl for wl in LEAGUE_WHITELIST)
+                # Normalize league name to slug format for comparison
+                # "England - Championship" -> "england-championship"
+                league_slug = league.replace(" - ", "-").replace(" ", "-")
+
+                # Check if league matches any whitelist entry
+                league_matched = any(
+                    wl in league_slug or league_slug in wl or
+                    wl in league or league in wl
+                    for wl in LEAGUE_WHITELIST
+                )
                 if league_matched:
                     filtered_bets.append(bet_dict)
+                    logger.debug(f"  [OK] League matched: {league} -> {league_slug}")
                 else:
                     logger.debug(f"  [SKIP] League not in whitelist: {bet_dict.get('league')}")
             all_value_bets = filtered_bets
