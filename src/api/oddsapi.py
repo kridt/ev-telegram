@@ -142,7 +142,7 @@ class OddsApiValueBet:
             return False
         now = datetime.now(timezone.utc)
         age = (now - self.last_update).total_seconds()
-        return age < 300  # 5 minutes
+        return age < 600  # 10 minutes
 
     @property
     def age_seconds(self) -> Optional[float]:

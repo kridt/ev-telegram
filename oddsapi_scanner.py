@@ -109,7 +109,7 @@ MIN_EV_PERCENT = 5.0      # Minimum expected value
 MAX_EV_PERCENT = 25.0     # Maximum EV (filter outliers)
 MIN_ODDS = 1.50           # Minimum decimal odds
 MAX_ODDS = 3.00           # Maximum decimal odds
-MAX_ODDS_AGE_SECONDS = 300  # Only use odds updated in last 5 minutes
+MAX_ODDS_AGE_SECONDS = 600  # Only use odds updated in last 10 minutes
 
 # Rate limiting
 SCAN_INTERVAL_SEC = 300   # 5 minutes between scans
