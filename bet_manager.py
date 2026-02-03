@@ -262,17 +262,46 @@ class BetManager:
     async def create_bet(self, bet_data: dict, chat_id: str) -> Optional[str]:
         """
         Create a new active bet.
-        1. Check if bookmaker has a thread ID configured
-        2. Save to Realtime DB
-        3. Send Telegram message to bookmaker's thread
-        4. Store message_id for later management
+        1. Check for duplicate in Firebase (same fixture/market/selection/bookmaker)
+        2. Check if bookmaker has a thread ID configured
+        3. Save to Realtime DB
+        4. Send Telegram message to bookmaker's thread
+        5. Store message_id for later management
 
-        Returns None if bet is invalid or bookmaker not configured.
+        Returns None if bet is invalid, duplicate, or bookmaker not configured.
         """
         now = datetime.now(timezone.utc)
 
         # Get bookmaker and check for thread ID
         bookmaker = bet_data.get("book", "")
+        fixture = bet_data.get("fixture", "")
+        market = bet_data.get("market", "")
+        selection = bet_data.get("selection", "")
+
+        # CHECK FOR DUPLICATE in Firebase before creating
+        existing_bets = await self.rtdb.get("active_bets")
+        if existing_bets:
+            cutoff = now - timedelta(hours=24)
+            for bet_key, bet in existing_bets.items():
+                if not isinstance(bet, dict):
+                    continue
+                # Check if same fixture/market/selection/bookmaker
+                if (bet.get("fixture") == fixture and
+                    bet.get("market") == market and
+                    bet.get("selection") == selection and
+                    bet.get("bookmaker") == bookmaker):
+                    # Check if created in last 24 hours
+                    try:
+                        created_str = bet.get("created_at", "")
+                        created = datetime.fromisoformat(created_str.replace('Z', '+00:00'))
+                        if created > cutoff:
+                            print(f"[DUPLICATE] Bet already exists: {fixture} | {selection} @ {bookmaker}")
+                            return None
+                    except:
+                        # If can't parse date, assume it's recent and skip
+                        print(f"[DUPLICATE] Bet already exists (no date): {fixture} | {selection} @ {bookmaker}")
+                        return None
+
         thread_id = get_thread_id(bookmaker)
 
         # SKIP if bookmaker doesn't have a thread ID configured
